@@ -16,6 +16,7 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
+
     buildTypes {
         release {
             minifyEnabled false
@@ -23,12 +24,15 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
     }
     kotlinOptions {
         //jvmTarget = '1.8'
         jvmTarget = '11'
+    }
+    buildFeatures {
+        viewBinding true
     }
 }
 
@@ -49,4 +53,6 @@ dependencies {
     annotationProcessor "androidx.room:room-compiler:2.4.2"
     //VIEW MODEL & LIVE DATA
     implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
+    // Material design
+    implementation 'com.google.android.material:material:1.6.0-beta01'
 }

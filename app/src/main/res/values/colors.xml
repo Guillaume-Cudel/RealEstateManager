@@ -8,4 +8,19 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="grey">#6B6A6A</color>
+
+
+    <!--<color name="overlay_light_primary">#A6F44336</color>-->
+    <color name="overlay_light_primary">#C9CA1204</color>
+    <color name="overlay_light_onPrimary">#FFFFFF</color>
+    <color name= "overlay_light_primaryContainer">#FFDADB</color>
+    <color name="overlay_light_onPrimaryContainer">#400008</color>
+    <color name="little_grey">#BEC7C5C5</color>
+    <color name="little_grey_bold">#D0999898</color>
+
+    <!--<color name="overlay_light_primary">#FFEB8D03</color>
+    <color name="overlay_light_onPrimary">#FFFFFF</color>
+    <color name= "overlay_light_primaryContainer">#F2F8D057</color>
+    <color name="overlay_light_onPrimaryContainer">#FFA73A18</color>-->
+
 </resources>

@@ -1,9 +1,310 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView
+ xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".view.AddPropertyActivity">
+    android:fillViewport="true">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:context=".view.AddPropertyActivity">
+
+
+
+        <TextView
+            android:id="@+id/add_property_kind"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginVertical="@dimen/margin_10_dp"
+            android:layout_marginHorizontal="@dimen/margin_20_dp"
+            android:text="@string/property_kind"/>
+
+        <ImageView
+            android:id="@+id/add_property_kind_house"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="@id/add_property_kind"
+            app:layout_constraintTop_toBottomOf="@id/add_property_kind"
+            android:layout_marginTop="@dimen/margin_5_dp"
+            android:src="@drawable/outline_house_black_48"
+            android:background="@drawable/round"
+            app:tint="@color/little_grey_bold"
+            android:clickable="true"
+            android:focusable="true" />
+
+        <TextView
+            android:id="@+id/add_property_kind_house_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="@id/add_property_kind_house"
+            app:layout_constraintEnd_toEndOf="@id/add_property_kind_house"
+            app:layout_constraintTop_toBottomOf="@id/add_property_kind_house"
+            android:text="@string/house"/>
+
+        <ImageView
+            android:id="@+id/add_property_kind_ground"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toEndOf="@id/add_property_kind_house"
+            app:layout_constraintTop_toTopOf="@id/add_property_kind_house"
+            android:layout_marginStart="@dimen/margin_20_dp"
+            android:src="@drawable/outline_grass_black_48"
+            android:background="@drawable/round"
+            app:tint="@color/little_grey_bold"
+            android:clickable="true"
+            android:focusable="true" />
+
+        <TextView
+            android:id="@+id/add_property_kind_ground_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="@id/add_property_kind_ground"
+            app:layout_constraintEnd_toEndOf="@id/add_property_kind_ground"
+            app:layout_constraintTop_toBottomOf="@id/add_property_kind_ground"
+            android:text="@string/ground"/>
+
+
+        <ImageView
+            android:id="@+id/add_property_kind_apartment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toEndOf="@id/add_property_kind_ground"
+            app:layout_constraintTop_toTopOf="@id/add_property_kind_house"
+            android:layout_marginStart="@dimen/margin_20_dp"
+            android:src="@drawable/outline_business_black_48"
+            android:background="@drawable/round"
+            app:tint="@color/little_grey_bold"
+            android:clickable="true"
+            android:focusable="true" />
+
+        <TextView
+            android:id="@+id/add_property_kind_apartment_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="@id/add_property_kind_apartment"
+            app:layout_constraintEnd_toEndOf="@id/add_property_kind_apartment"
+            app:layout_constraintTop_toBottomOf="@id/add_property_kind_apartment"
+            android:text="@string/apartment"/>
+
+        <ImageView
+            android:id="@+id/add_property_kind_parking"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toEndOf="@id/add_property_kind_apartment"
+            app:layout_constraintTop_toTopOf="@id/add_property_kind_house"
+            android:layout_marginStart="@dimen/margin_20_dp"
+            android:src="@drawable/outline_garage_black_48"
+            android:background="@drawable/round"
+            app:tint="@color/little_grey_bold"
+            android:clickable="true"
+            android:focusable="true" />
+
+        <TextView
+            android:id="@+id/add_property_kind_parking_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="@id/add_property_kind_parking"
+            app:layout_constraintEnd_toEndOf="@id/add_property_kind_parking"
+            app:layout_constraintTop_toBottomOf="@id/add_property_kind_parking"
+            android:text="@string/parking"/>
+
+        <ImageView
+            android:id="@+id/add_property_kind_other"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toEndOf="@id/add_property_kind_parking"
+            app:layout_constraintTop_toTopOf="@id/add_property_kind_house"
+            android:layout_marginStart="@dimen/margin_20_dp"
+            android:src="@drawable/outline_other_houses_black_48"
+            android:background="@drawable/round"
+            app:tint="@color/little_grey_bold"
+            android:clickable="true"
+            android:focusable="true" />
+
+        <TextView
+            android:id="@+id/add_property_kind_other_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="@id/add_property_kind_other"
+            app:layout_constraintEnd_toEndOf="@id/add_property_kind_other"
+            app:layout_constraintTop_toBottomOf="@id/add_property_kind_other"
+            android:text="@string/other"/>
+
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/add_property_price"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="@id/add_property_kind"
+            app:layout_constraintTop_toBottomOf="@id/add_property_kind_house_text"
+            app:endIconMode="clear_text"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_marginVertical="@dimen/margin_10_dp"
+            android:layout_marginHorizontal="@dimen/margin_20_dp"
+            android:theme="@style/AppTheme.Overlay"
+            android:hint="@string/price">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="number"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/add_property_surface"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="@id/add_property_kind"
+            app:layout_constraintTop_toBottomOf="@id/add_property_price"
+            app:endIconMode="clear_text"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_marginVertical="@dimen/margin_10_dp"
+            android:layout_marginHorizontal="@dimen/margin_20_dp"
+            android:theme="@style/AppTheme.Overlay"
+            android:hint="@string/surface"
+            app:counterEnabled="true"
+            app:counterMaxLength="4"
+            app:helperText="@string/surface_measurement">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="number" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/add_property_rooms"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="@id/add_property_kind"
+            app:layout_constraintTop_toBottomOf="@id/add_property_surface"
+            app:endIconMode="clear_text"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_marginVertical="@dimen/margin_10_dp"
+            android:layout_marginHorizontal="@dimen/margin_20_dp"
+            android:theme="@style/AppTheme.Overlay"
+            app:counterEnabled="true"
+            app:counterMaxLength="2"
+            android:hint="@string/number_of_rooms">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="number"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/add_property_address"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="@id/add_property_kind"
+            app:layout_constraintTop_toBottomOf="@id/add_property_rooms"
+            app:endIconMode="clear_text"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_marginVertical="@dimen/margin_10_dp"
+            android:layout_marginHorizontal="@dimen/margin_20_dp"
+            android:theme="@style/AppTheme.Overlay"
+            android:hint="@string/address">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/add_property_description"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="@id/add_property_kind"
+            app:layout_constraintTop_toBottomOf="@id/add_property_address"
+            app:endIconMode="clear_text"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_marginVertical="@dimen/margin_10_dp"
+            android:layout_marginHorizontal="@dimen/margin_20_dp"
+            android:theme="@style/AppTheme.Overlay"
+            android:hint="@string/property_description">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <TextView
+            android:id="@+id/add_property_point_of_interest"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="@id/add_property_kind"
+            app:layout_constraintTop_toBottomOf="@id/add_property_description"
+            android:layout_marginVertical="@dimen/margin_10_dp"
+            android:text="@string/choose_the_points_of_interest"/>
+
+
+        <com.google.android.material.checkbox.MaterialCheckBox
+            android:id="@+id/add_property_school_box"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="@id/add_property_point_of_interest"
+            app:layout_constraintTop_toBottomOf="@id/add_property_point_of_interest"
+            android:text="@string/school"
+            android:buttonTint="@color/overlay_light_primaryContainer"/>
+
+        <com.google.android.material.checkbox.MaterialCheckBox
+            android:id="@+id/add_property_parc_box"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toEndOf="@id/add_property_school_box"
+            app:layout_constraintTop_toTopOf="@id/add_property_school_box"
+            android:layout_marginStart="@dimen/margin_20_dp"
+            android:text="@string/parc"
+            android:buttonTint="@color/overlay_light_primaryContainer"/>
+
+        <com.google.android.material.checkbox.MaterialCheckBox
+            android:id="@+id/add_property_transport_box"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toEndOf="@id/add_property_parc_box"
+            app:layout_constraintTop_toTopOf="@id/add_property_parc_box"
+            android:layout_marginStart="@dimen/margin_20_dp"
+            android:text="@string/transport"
+            android:buttonTint="@color/overlay_light_primaryContainer"/>
+
+        <com.google.android.material.checkbox.MaterialCheckBox
+            android:id="@+id/add_property_shop_box"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toEndOf="@id/add_property_transport_box"
+            app:layout_constraintTop_toTopOf="@id/add_property_transport_box"
+            android:layout_marginStart="@dimen/margin_20_dp"
+            android:text="@string/shop"
+            android:buttonTint="@color/overlay_light_primaryContainer"/>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/add_property_estate_agent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="@id/add_property_kind"
+            app:layout_constraintTop_toBottomOf="@id/add_property_school_box"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+            android:layout_marginVertical="@dimen/margin_10_dp"
+            android:layout_marginHorizontal="@dimen/margin_20_dp"
+            android:theme="@style/AppTheme.Overlay"
+            android:hint="@string/what_agent">
+
+            <com.google.android.material.textfield.MaterialAutoCompleteTextView
+                android:id="@+id/add_property_estate_agent_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="4"
+                android:inputType="none"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>

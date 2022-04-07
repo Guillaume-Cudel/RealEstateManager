@@ -2,4 +2,37 @@
     <string name="app_name">Real estate manager</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="property_kind">Choose the property kind</string>
+    <string name="price">Price</string>
+    <string name="surface">Surface</string>
+    <string name="surface_measurement">in m2</string>
+    <string name="number_of_rooms">Number of rooms</string>
+    <string name="address">Address</string>
+    <string name="property_description">Property description</string>
+    <string name="choose_the_points_of_interest">Choose the points of interest</string>
+    <string name="school">School</string>
+    <string name="parc">Parc</string>
+    <string name="transport">Transport</string>
+    <string name="shop">Shop</string>
+    <string name="house">House</string>
+    <string name="ground">Ground</string>
+    <string name="apartment">Apartment</string>
+    <string name="parking">Parking</string>
+    <string name="other">Other</string>
+    <string name="what_agent">What agent ?</string>
+    
+    
+    <string-array name="Estate_agents">
+        <item>Mickael Bordier</item>
+        <item>Helene Cluchet</item>
+        <item>Vanessa Basset</item>
+        <item>Alexandre Sase</item>
+
+    </string-array>
+
+
+
+
+
+    
 </resources>
