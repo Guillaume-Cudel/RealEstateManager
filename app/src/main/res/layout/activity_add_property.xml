@@ -217,13 +217,47 @@
                 android:layout_height="wrap_content" />
         </com.google.android.material.textfield.TextInputLayout>
 
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/add_property_address_postal_code"
+            android:layout_width="180dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="@id/add_property_kind"
+            app:layout_constraintTop_toBottomOf="@id/add_property_address"
+            app:endIconMode="clear_text"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_marginVertical="@dimen/margin_10_dp"
+            android:theme="@style/AppTheme.Overlay"
+            android:hint="@string/postal_code">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/add_property_address_city"
+            android:layout_width="180dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toEndOf="@id/add_property_address_postal_code"
+            app:layout_constraintTop_toTopOf="@id/add_property_address_postal_code"
+            android:layout_marginStart="@dimen/margin_10_dp"
+            app:endIconMode="clear_text"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:theme="@style/AppTheme.Overlay"
+            android:hint="@string/city">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </com.google.android.material.textfield.TextInputLayout>
+
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/add_property_description"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintStart_toStartOf="@id/add_property_kind"
-            app:layout_constraintTop_toBottomOf="@id/add_property_address"
+            app:layout_constraintTop_toBottomOf="@id/add_property_address_postal_code"
             app:endIconMode="clear_text"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_marginVertical="@dimen/margin_10_dp"
@@ -305,6 +339,165 @@
                 android:inputType="none"/>
         </com.google.android.material.textfield.TextInputLayout>
 
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/add_property_card1"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            app:layout_constraintStart_toStartOf="@id/add_property_kind"
+            app:layout_constraintEnd_toStartOf="@id/add_property_card2"
+            app:layout_constraintTop_toBottomOf="@id/add_property_estate_agent"
+            android:layout_marginTop="@dimen/margin_10_dp"
+            android:clickable="true"
+            android:focusable="true">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/add_property_photo1"
+                    android:layout_width="match_parent"
+                    android:layout_height="120dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:src="@drawable/outline_add_a_photo_black_48"
+                    android:scaleType="centerInside"
+                    app:tint="@color/overlay_light_primary"/>
+
+                <TextView
+                    android:id="@+id/add_property_photo1_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    android:layout_marginBottom="10dp"
+                    android:text="@string/add_photo"
+                    android:gravity="center"
+                    android:textColor="@color/overlay_light_primary"/>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/add_property_card2"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            app:layout_constraintStart_toEndOf="@id/add_property_card1"
+            app:layout_constraintEnd_toEndOf="@id/add_property_price"
+            app:layout_constraintTop_toTopOf="@id/add_property_card1"
+            android:clickable="true"
+            android:focusable="true">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/add_property_photo2"
+                    android:layout_width="match_parent"
+                    android:layout_height="120dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:src="@drawable/outline_add_a_photo_black_48"
+                    android:scaleType="centerInside"
+                    app:tint="@color/little_grey_bold"/>
+
+                <TextView
+                    android:id="@+id/add_property_photo2_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    android:layout_marginBottom="10dp"
+                    android:text="@string/photo_2"
+                    android:gravity="center"
+                    android:textColor="@color/little_grey"/>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/add_property_card3"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            app:layout_constraintStart_toStartOf="@id/add_property_kind"
+            app:layout_constraintEnd_toStartOf="@id/add_property_card2"
+            app:layout_constraintTop_toBottomOf="@id/add_property_card1"
+            android:layout_marginTop="@dimen/margin_10_dp"
+            android:clickable="true"
+            android:focusable="true">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/add_property_photo3"
+                    android:layout_width="match_parent"
+                    android:layout_height="120dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:src="@drawable/outline_add_a_photo_black_48"
+                    android:scaleType="centerInside"
+                    app:tint="@color/little_grey_bold"/>
+
+                <TextView
+                    android:id="@+id/add_property_photo3_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    android:layout_marginBottom="10dp"
+                    android:text="@string/photo_3"
+                    android:gravity="center"
+                    android:textColor="@color/little_grey"/>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/add_property_card4"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            app:layout_constraintStart_toEndOf="@id/add_property_card1"
+            app:layout_constraintEnd_toEndOf="@id/add_property_price"
+            app:layout_constraintTop_toBottomOf="@id/add_property_card1"
+            android:layout_marginTop="@dimen/margin_10_dp"
+            android:clickable="true"
+            android:focusable="true">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/add_property_photo4"
+                    android:layout_width="match_parent"
+                    android:layout_height="120dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:src="@drawable/outline_add_a_photo_black_48"
+                    android:scaleType="centerInside"
+                    app:tint="@color/little_grey_bold"/>
+
+                <TextView
+                    android:id="@+id/add_property_photo4_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    android:layout_marginBottom="10dp"
+                    android:text="@string/photo_4"
+                    android:gravity="center"
+                    android:textColor="@color/little_grey"/>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
