@@ -11,7 +11,7 @@
     <string name="property_description">Property description</string>
     <string name="choose_the_points_of_interest">Choose the points of interest</string>
     <string name="school">School</string>
-    <string name="parc">Parc</string>
+    <string name="parc">Park</string>
     <string name="transport">Transport</string>
     <string name="shop">Shop</string>
     <string name="house">House</string>
@@ -26,6 +26,7 @@
     <string name="photo_4">Photo 4</string>
     <string name="postal_code">Postal Code</string>
     <string name="city">City</string>
+    <string name="add_property">Add property</string>
 
 
     <string-array name="Estate_agents">

@@ -150,6 +150,7 @@
             android:hint="@string/price">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/add_property_price_edit"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="number"/>
@@ -172,6 +173,7 @@
             app:helperText="@string/surface_measurement">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/add_property_surface_edit"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="number" />
@@ -194,6 +196,7 @@
             android:hint="@string/number_of_rooms">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/add_property_rooms_edit"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="number"/>
@@ -213,6 +216,7 @@
             android:hint="@string/address">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/add_property_address_edit"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
         </com.google.android.material.textfield.TextInputLayout>
@@ -230,6 +234,7 @@
             android:hint="@string/postal_code">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/add_property_address_postal_code_edit"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
         </com.google.android.material.textfield.TextInputLayout>
@@ -247,6 +252,7 @@
             android:hint="@string/city">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/add_property_address_city_edit"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
         </com.google.android.material.textfield.TextInputLayout>
@@ -266,6 +272,7 @@
             android:hint="@string/property_description">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/add_property_description_edit"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
         </com.google.android.material.textfield.TextInputLayout>
@@ -497,6 +504,18 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/add_property_validate_button"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:text="@string/add_property"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/add_property_card3"
+            android:layout_marginTop="@dimen/margin_20_dp"
+            android:backgroundTint="@color/overlay_light_primary"
+            app:cornerRadius="@dimen/margin_20_dp"/>
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
