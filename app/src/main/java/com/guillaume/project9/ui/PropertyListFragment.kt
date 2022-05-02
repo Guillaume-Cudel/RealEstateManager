@@ -1,4 +1,4 @@
-package com.guillaume.project9.view
+package com.guillaume.project9.ui
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment

@@ -10,7 +10,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        tools:context=".view.AddPropertyActivity">
+        tools:context=".ui.AddPropertyActivity">
 
 
 
@@ -368,8 +368,7 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     android:src="@drawable/outline_add_a_photo_black_48"
-                    android:scaleType="centerInside"
-                    app:tint="@color/overlay_light_primary"/>
+                    android:scaleType="centerInside" />
 
                 <TextView
                     android:id="@+id/add_property_photo1_text"
@@ -379,9 +378,8 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"
                     android:layout_marginBottom="10dp"
-                    android:text="@string/add_photo"
-                    android:gravity="center"
-                    android:textColor="@color/overlay_light_primary"/>
+                    android:text="@string/photo_1"
+                    android:gravity="center"/>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </com.google.android.material.card.MaterialCardView>
@@ -407,8 +405,7 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     android:src="@drawable/outline_add_a_photo_black_48"
-                    android:scaleType="centerInside"
-                    app:tint="@color/little_grey_bold"/>
+                    android:scaleType="centerInside"/>
 
                 <TextView
                     android:id="@+id/add_property_photo2_text"
@@ -419,8 +416,7 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     android:layout_marginBottom="10dp"
                     android:text="@string/photo_2"
-                    android:gravity="center"
-                    android:textColor="@color/little_grey"/>
+                    android:gravity="center"/>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </com.google.android.material.card.MaterialCardView>
@@ -447,8 +443,7 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     android:src="@drawable/outline_add_a_photo_black_48"
-                    android:scaleType="centerInside"
-                    app:tint="@color/little_grey_bold"/>
+                    android:scaleType="centerInside"/>
 
                 <TextView
                     android:id="@+id/add_property_photo3_text"
@@ -459,8 +454,7 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     android:layout_marginBottom="10dp"
                     android:text="@string/photo_3"
-                    android:gravity="center"
-                    android:textColor="@color/little_grey"/>
+                    android:gravity="center"/>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </com.google.android.material.card.MaterialCardView>
@@ -487,8 +481,7 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     android:src="@drawable/outline_add_a_photo_black_48"
-                    android:scaleType="centerInside"
-                    app:tint="@color/little_grey_bold"/>
+                    android:scaleType="centerInside"/>
 
                 <TextView
                     android:id="@+id/add_property_photo4_text"
@@ -499,8 +492,7 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     android:layout_marginBottom="10dp"
                     android:text="@string/photo_4"
-                    android:gravity="center"
-                    android:textColor="@color/little_grey"/>
+                    android:gravity="center"/>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </com.google.android.material.card.MaterialCardView>

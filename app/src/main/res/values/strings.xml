@@ -20,13 +20,19 @@
     <string name="parking">Parking</string>
     <string name="other">Other</string>
     <string name="what_agent">What agent ?</string>
-    <string name="add_photo">Add photo 1</string>
+    <string name="add_photo">Add photo</string>
+    <string name="photo_1">Photo 1</string>
     <string name="photo_2">Photo 2</string>
     <string name="photo_3">Photo 3</string>
     <string name="photo_4">Photo 4</string>
     <string name="postal_code">Postal Code</string>
     <string name="city">City</string>
     <string name="add_property">Add property</string>
+    <string name="add_photo_from">Add photo from ?</string>
+    <string name="from_gallery">From gallery</string>
+    <string name="take_picture">Take picture</string>
+    <string name="photo_description">Photo description</string>
+    <string name="validate_photo">Validate photo</string>
 
 
     <string-array name="Estate_agents">
@@ -38,8 +44,4 @@
     </string-array>
 
 
-
-
-
-    
 </resources>

@@ -1,4 +1,4 @@
-package com.guillaume.project9;
+package com.guillaume.project9.utils;
 
 import android.content.Context;
 import android.net.ConnectivityManager;

@@ -1,6 +1,7 @@
 package com.guillaume.project9
 
 
+import com.guillaume.project9.utils.Utils
 import junit.framework.Assert.assertEquals
 import org.junit.Assert.assertNotEquals
 import org.junit.Test

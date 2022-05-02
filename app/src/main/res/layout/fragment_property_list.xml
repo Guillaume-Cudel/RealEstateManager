@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".view.PropertyListFragment"
+    tools:context=".ui.PropertyListFragment"
     android:id="@+id/propertys_recycleView"
     android:name="com.guillaume.project9.view.PropertyListFragment"
     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
