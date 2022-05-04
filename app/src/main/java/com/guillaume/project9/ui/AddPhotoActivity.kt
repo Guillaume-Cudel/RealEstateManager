@@ -3,6 +3,7 @@ package com.guillaume.project9.ui
 import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.database.Cursor
 import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Build
@@ -18,7 +19,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
-import com.bumptech.glide.Glide
+import androidx.core.net.toFile
 import com.guillaume.project9.databinding.ActivityAddPhotoBinding
 import java.io.File
 import java.io.IOException
@@ -29,7 +30,6 @@ class AddPhotoActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityAddPhotoBinding
     private var photoFile: File? = null
-    private var photoUri: Uri? = null
     private var mCurrentPhotoPath: String? = null
     private var cardChoosed = 100
 
@@ -65,34 +65,11 @@ class AddPhotoActivity : AppCompatActivity() {
         ) {
 
             binding.addPhotoCameraImage.setOnClickListener {
-                val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-                photoFile = createImageFile()
-                if(photoFile != null){
-                    val photoURI = FileProvider.getUriForFile(this,
-                        "com.guillaume.project9.fileprovider", photoFile!!)
-
-                    intent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI)
-                    Log.i("URI", photoURI.toString())
-                    Log.i("Photo_string", mCurrentPhotoPath.toString())
-                pickPhoto.launch(intent)
-                }
+                takePhoto()
             }
 
             binding.addPhotoGalleryImage.setOnClickListener {
-                //val i = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
-                photoFile = createImageFile()
-                if(photoFile != null) {
-                    val photoURI = FileProvider.getUriForFile(
-                        this,
-                        "com.guillaume.project9.fileprovider", photoFile!!
-                    )
-
-                    intent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI)
-                    Log.i("URI", photoURI.toString())
-                    //galleryResult.launch(i)
-                loadImage.launch("image/*")
-                //todo check it
-                }
+                selectPhotoFromGallery()
             }
         } else {
             ActivityCompat.requestPermissions(
@@ -100,6 +77,7 @@ class AddPhotoActivity : AppCompatActivity() {
                 arrayOf(android.Manifest.permission.CAMERA), CAMERA_PERMISSION_CODE)
         }
     }
+
 
 
 
@@ -122,7 +100,31 @@ class AddPhotoActivity : AppCompatActivity() {
         }
     }
 
-    @RequiresApi(Build.VERSION_CODES.Q)
+    private fun takePhoto() {
+        val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+        photoFile = createImageFile()
+        if(photoFile != null){
+            val photoURI = FileProvider.getUriForFile(this,
+                "com.guillaume.project9.fileprovider", photoFile!!)
+
+            intent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI)
+            Log.i("URI", photoURI.toString())
+            Log.i("Photo_string", mCurrentPhotoPath.toString())
+            pickPhoto.launch(intent)
+    }
+    }
+
+
+
+
+
+    private fun selectPhotoFromGallery(){
+
+        loadImage.launch("image/*")
+    }
+
+
+    /*@RequiresApi(Build.VERSION_CODES.Q)
     val loadImage = registerForActivityResult(ActivityResultContracts.GetContent(), ActivityResultCallback {
         //binding.addPhotoImage.setImageURI(it)
         //photoFile = File(it.path!!)
@@ -135,38 +137,48 @@ class AddPhotoActivity : AppCompatActivity() {
             .load(it)
             .centerCrop()
             .into(binding.addPhotoImage)
-    })
+    })*/
 
-    /*val galleryResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult()){
-        if(it.resultCode == RESULT_OK && it.data != null){
-            val bundle = it.data!!.extras?.get("data")
-            val uri: Uri = bundle as Uri
-            val bitmap: Bitmap = bundle as Bitmap
+    private val loadImage = registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
+        uri?.let { binding.addPhotoImage.setImageURI(uri)
+            photoFile = createImageFile()
+            val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
 
-            Glide.with(this)
-                .load(uri)
-                .centerCrop()
-                .into(binding.addPhotoImage)
+            if(photoFile != null) {
+                val photoURI = FileProvider.getUriForFile(
+                    this,
+                    "com.guillaume.project9.fileprovider", photoFile!!
+                )
+
+                intent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI)
+                Log.i("URI", photoURI.toString())
+                Log.i("Photo_string", mCurrentPhotoPath.toString())
+            }
 
         }
+    }
 
 
-    }*/
 
-
-    var pickPhoto = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+    private val pickPhoto = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
         if (it.resultCode == RESULT_OK && it.data != null) {
             val myBitmap = BitmapFactory.decodeFile(photoFile!!.absolutePath)
 
-            //val bundle = it.data!!.extras?.get("data")
-            //val uri: Uri = it.data!!.extras?.get(MediaStore.EXTRA_OUTPUT) as Uri
 
-                Glide.with(this)
-                    .load(myBitmap)
-                    .centerCrop()
-                    .into(binding.addPhotoImage)
+            binding.addPhotoImage.setImageBitmap(myBitmap)
+
         }
     }
+
+    /*private val pickPhoto = registerForActivityResult(ActivityResultContracts.TakePicture()) { isSuccess ->
+        if(isSuccess){
+            photoUri?.let { uri ->
+                binding.addPhotoImage.setImageURI(uri)
+            }
+        }
+    }*/
+
+
 
 
     @Throws(IOException::class)
@@ -179,7 +191,6 @@ class AddPhotoActivity : AppCompatActivity() {
             ".jpg",
             storageDir
         )
-
         // Save a file: path for use with ACTION_VIEW intents
         mCurrentPhotoPath = image.absolutePath
         return image
@@ -200,7 +211,7 @@ class AddPhotoActivity : AppCompatActivity() {
     }
 
 
-    /*fun convertImageUriToFile(imageUri: Uri, activity: Activity): File? {
+    fun convertImageUriToFile(imageUri: Uri, activity: Activity): File? {
         var cursor: Cursor? = null
         return try {
             val proj = arrayOf(
@@ -218,8 +229,7 @@ class AddPhotoActivity : AppCompatActivity() {
                     }
                 }
 
-            val file_ColumnIndex: Int = cursor
-                .getColumnIndexOrThrow(MediaStore.Images.Media.DATA)
+            val file_ColumnIndex: Int = cursor!!.getColumnIndexOrThrow(MediaStore.Images.Media.DATA)
             val orientation_ColumnIndex: Int = cursor
                 .getColumnIndexOrThrow(MediaStore.Images.ImageColumns.ORIENTATION)
             if (cursor.moveToFirst()) {
@@ -233,5 +243,5 @@ class AddPhotoActivity : AppCompatActivity() {
                 cursor.close()
             }
         }
-    }*/
+    }
 }

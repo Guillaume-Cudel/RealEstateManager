@@ -13,6 +13,7 @@ import com.guillaume.project9.R
 import com.guillaume.project9.databinding.ActivityAddPropertyBinding
 import com.guillaume.project9.model.PropertyPhoto
 import java.io.File
+import java.net.URI
 import java.util.*
 
 class AddPropertyActivity : AppCompatActivity() {
@@ -148,6 +149,7 @@ class AddPropertyActivity : AppCompatActivity() {
     private fun launchAddPhotoActivity(){
         val intent = Intent(this, AddPhotoActivity::class.java)
         intent.putExtra("card_number", cardChoosed)
+        //todo send photo if the card choosed is not empty
         Log.i("INTENT:",  "$cardChoosed is send !")
         getPhotoContent.launch(intent)
     }
@@ -156,15 +158,14 @@ class AddPropertyActivity : AppCompatActivity() {
         val receiveData = it.data
 
         val bundle: Bundle? = receiveData?.extras
-        cardChoosed = bundle!!.getInt("card_number")
-        val photoFile = bundle.get("photo_file") as File
-        val photoDescription: String? = bundle.getString("photo_description")
+        if (bundle != null) {
+            cardChoosed = bundle.getInt("card_number")
+            val photoFile = bundle.get("photo_file") as File
+            val photoDescription: String? = bundle.getString("photo_description")
+            Log.i("ACTIVITY1_data_received", "Received data: $photoDescription")
+            setPhotoInArea(cardChoosed, photoFile, photoDescription)
 
-
-        Log.i("ACTIVITY1_data_received", "Received data: $photoDescription")
-
-        setPhotoInArea(cardChoosed, photoFile, photoDescription)
-
+        }
     })
 
 
