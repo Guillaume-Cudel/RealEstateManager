@@ -23,6 +23,7 @@ import androidx.core.net.toFile
 import com.guillaume.project9.databinding.ActivityAddPhotoBinding
 import java.io.File
 import java.io.IOException
+import java.io.InputStream
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -42,6 +43,7 @@ class AddPhotoActivity : AppCompatActivity() {
         binding = ActivityAddPhotoBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        //todo set toolbar to go back
         //val actionBar = actionBar
         //actionBar?.setDisplayHomeAsUpEnabled(true)
 
@@ -54,7 +56,6 @@ class AddPhotoActivity : AppCompatActivity() {
         pickOrloadPhotos()
         onClickValidateButton()
     }
-
 
 
     private fun pickOrloadPhotos() {
@@ -74,11 +75,10 @@ class AddPhotoActivity : AppCompatActivity() {
         } else {
             ActivityCompat.requestPermissions(
                 this,
-                arrayOf(android.Manifest.permission.CAMERA), CAMERA_PERMISSION_CODE)
+                arrayOf(android.Manifest.permission.CAMERA), CAMERA_PERMISSION_CODE
+            )
         }
     }
-
-
 
 
     override fun onRequestPermissionsResult(
@@ -103,86 +103,47 @@ class AddPhotoActivity : AppCompatActivity() {
     private fun takePhoto() {
         val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
         photoFile = createImageFile()
-        if(photoFile != null){
-            val photoURI = FileProvider.getUriForFile(this,
-                "com.guillaume.project9.fileprovider", photoFile!!)
+        if (photoFile != null) {
+            val photoURI = FileProvider.getUriForFile(
+                this,
+                "com.guillaume.project9.fileprovider", photoFile!!
+            )
 
             intent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI)
             Log.i("URI", photoURI.toString())
             Log.i("Photo_string", mCurrentPhotoPath.toString())
             pickPhoto.launch(intent)
+        }
     }
-    }
 
-
-
-
-
-    private fun selectPhotoFromGallery(){
-
+    private fun selectPhotoFromGallery() {
         loadImage.launch("image/*")
     }
 
 
-    /*@RequiresApi(Build.VERSION_CODES.Q)
-    val loadImage = registerForActivityResult(ActivityResultContracts.GetContent(), ActivityResultCallback {
-        //binding.addPhotoImage.setImageURI(it)
-        //photoFile = File(it.path!!)
-        //val myBitmap = BitmapFactory.decodeFile(photoFile!!.absolutePath)
-        //val bitmap: Bitmap = this.contentResolver.loadThumbnail(it, Size(200, 200), null)
-
-        //todo recove and convert the image to file
-
-        Glide.with(this)
-            .load(it)
-            .centerCrop()
-            .into(binding.addPhotoImage)
-    })*/
-
-    private val loadImage = registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
-        uri?.let { binding.addPhotoImage.setImageURI(uri)
-            photoFile = createImageFile()
-            val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-
-            if(photoFile != null) {
-                val photoURI = FileProvider.getUriForFile(
-                    this,
-                    "com.guillaume.project9.fileprovider", photoFile!!
-                )
-
-                intent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI)
-                Log.i("URI", photoURI.toString())
-                Log.i("Photo_string", mCurrentPhotoPath.toString())
-            }
-
-        }
-    }
-
-
-
-    private val pickPhoto = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
-        if (it.resultCode == RESULT_OK && it.data != null) {
-            val myBitmap = BitmapFactory.decodeFile(photoFile!!.absolutePath)
-
-
-            binding.addPhotoImage.setImageBitmap(myBitmap)
-
-        }
-    }
-
-    /*private val pickPhoto = registerForActivityResult(ActivityResultContracts.TakePicture()) { isSuccess ->
-        if(isSuccess){
-            photoUri?.let { uri ->
+    private val loadImage =
+        registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
+            uri?.let {
                 binding.addPhotoImage.setImageURI(uri)
+                contentResolver.openInputStream(uri)?.use {
+                    photoFile = createImageFile()
+                    val bytes = it.readBytes()
+                    photoFile?.writeBytes(bytes)
+                }
             }
         }
-    }*/
 
 
-
+    private val pickPhoto =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+            if (it.resultCode == RESULT_OK && it.data != null) {
+                val myBitmap = BitmapFactory.decodeFile(photoFile!!.absolutePath)
+                binding.addPhotoImage.setImageBitmap(myBitmap)
+            }
+        }
 
     @Throws(IOException::class)
-     fun createImageFile(): File {
+    fun createImageFile(): File {
         val timeStamp = SimpleDateFormat("dd-MM-yyyy_HH-mm-ss").format(Date())
         val imageFileName = "JPEG_" + timeStamp + "_"
         val storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES)
@@ -196,52 +157,19 @@ class AddPhotoActivity : AppCompatActivity() {
         return image
     }
 
-    private fun onClickValidateButton(){
+    private fun onClickValidateButton() {
         binding.addPhotoValidateButton.setOnClickListener {
             val description = binding.addPhotoDescriptionEdit.text.toString()
+            val photoName = photoFile.toString()
             Log.i("PHOTO_DESCRIPTION", description)
 
             val intent = Intent()
             intent.putExtra("card_number", cardChoosed)
-            intent.putExtra("photo_file", photoFile)
+            intent.putExtra("photo_name", photoName)
             intent.putExtra("photo_description", description)
             setResult(Activity.RESULT_OK, intent)
             finish()
         }
     }
 
-
-    fun convertImageUriToFile(imageUri: Uri, activity: Activity): File? {
-        var cursor: Cursor? = null
-        return try {
-            val proj = arrayOf(
-                //MediaStore.Images.Media.DATA,
-                MediaStore.Images.Media._ID,
-                //MediaStore.Images.ImageColumns.ORIENTATION
-            )
-            //cursor = activity.managedQuery(imageUri, proj, null, null, null)
-
-            this.contentResolver.query(imageUri, proj, null, null, null)
-                ?.use {
-                    cursor ->
-                    while (cursor.moveToNext()){
-
-                    }
-                }
-
-            val file_ColumnIndex: Int = cursor!!.getColumnIndexOrThrow(MediaStore.Images.Media.DATA)
-            val orientation_ColumnIndex: Int = cursor
-                .getColumnIndexOrThrow(MediaStore.Images.ImageColumns.ORIENTATION)
-            if (cursor.moveToFirst()) {
-                val orientation: String = cursor
-                    .getString(orientation_ColumnIndex)
-                return File(cursor.getString(file_ColumnIndex))
-            }
-            null
-        } finally {
-            if (cursor != null) {
-                cursor.close()
-            }
-        }
-    }
 }

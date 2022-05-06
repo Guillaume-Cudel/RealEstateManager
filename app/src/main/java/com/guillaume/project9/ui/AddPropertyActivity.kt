@@ -4,6 +4,7 @@ import android.content.Intent
 import android.graphics.BitmapFactory
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Environment
 import android.util.Log
 import android.widget.*
 import androidx.activity.result.ActivityResultCallback
@@ -160,9 +161,10 @@ class AddPropertyActivity : AppCompatActivity() {
         val bundle: Bundle? = receiveData?.extras
         if (bundle != null) {
             cardChoosed = bundle.getInt("card_number")
-            val photoFile = bundle.get("photo_file") as File
             val photoDescription: String? = bundle.getString("photo_description")
+            val photoName = bundle.getString("photo_name")
             Log.i("ACTIVITY1_data_received", "Received data: $photoDescription")
+            val photoFile = File(photoName)
             setPhotoInArea(cardChoosed, photoFile, photoDescription)
 
         }
