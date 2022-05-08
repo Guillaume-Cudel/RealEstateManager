@@ -33,6 +33,8 @@ class AddPhotoActivity : AppCompatActivity() {
     private var photoFile: File? = null
     private var mCurrentPhotoPath: String? = null
     private var cardChoosed = 100
+    private var description: String? = null
+    private var photoName: String? = null
 
     companion object {
         private const val CAMERA_PERMISSION_CODE = 3
@@ -47,16 +49,23 @@ class AddPhotoActivity : AppCompatActivity() {
         //val actionBar = actionBar
         //actionBar?.setDisplayHomeAsUpEnabled(true)
 
-
         val otherBundle = getIntent().extras
         cardChoosed = otherBundle!!.getInt("card_number")
-
+        photoName = otherBundle.getString("photo_name")
+        description = otherBundle.getString("photo_description")
+        if(photoName != null){
+            val photoFile = File(photoName)
+            val bitmap = BitmapFactory.decodeFile(photoFile.absolutePath)
+            binding.addPhotoImage.setImageBitmap(bitmap)
+            if(description != null){
+                binding.addPhotoDescriptionEdit.setText(description)
+            }
+        }
         Log.i("INTENT_OTHER_ACTIVITY", "Data received : $cardChoosed")
 
         pickOrloadPhotos()
         onClickValidateButton()
     }
-
 
     private fun pickOrloadPhotos() {
         if (ContextCompat.checkSelfPermission(
@@ -159,9 +168,9 @@ class AddPhotoActivity : AppCompatActivity() {
 
     private fun onClickValidateButton() {
         binding.addPhotoValidateButton.setOnClickListener {
-            val description = binding.addPhotoDescriptionEdit.text.toString()
-            val photoName = photoFile.toString()
-            Log.i("PHOTO_DESCRIPTION", description)
+            description = binding.addPhotoDescriptionEdit.text.toString()
+            photoName = photoFile.toString()
+            Log.i("PHOTO_DESCRIPTION", description!!)
 
             val intent = Intent()
             intent.putExtra("card_number", cardChoosed)

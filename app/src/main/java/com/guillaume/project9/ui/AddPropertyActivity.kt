@@ -21,13 +21,15 @@ class AddPropertyActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityAddPropertyBinding
 
-    var kind: Int = 2
-    var kindResult: String = ""
-    var cardChoosed = 0
-    var photo1: PropertyPhoto? = null
-    var photo2: PropertyPhoto? = null
-    var photo3: PropertyPhoto? = null
-    var photo4: PropertyPhoto? = null
+    private var kind: Int = 2
+    private var kindResult: String = ""
+    private var cardChoosed = 0
+    private var photoDescription: String? = null
+    private var photoName: String? = null
+    private var photo1: PropertyPhoto? = null
+    private var photo2: PropertyPhoto? = null
+    private var photo3: PropertyPhoto? = null
+    private var photo4: PropertyPhoto? = null
 
 
 
@@ -150,7 +152,8 @@ class AddPropertyActivity : AppCompatActivity() {
     private fun launchAddPhotoActivity(){
         val intent = Intent(this, AddPhotoActivity::class.java)
         intent.putExtra("card_number", cardChoosed)
-        //todo send photo if the card choosed is not empty
+        intent.putExtra("photo_name", photoName)
+        intent.putExtra("photo_description", photoDescription)
         Log.i("INTENT:",  "$cardChoosed is send !")
         getPhotoContent.launch(intent)
     }
@@ -161,17 +164,14 @@ class AddPropertyActivity : AppCompatActivity() {
         val bundle: Bundle? = receiveData?.extras
         if (bundle != null) {
             cardChoosed = bundle.getInt("card_number")
-            val photoDescription: String? = bundle.getString("photo_description")
-            val photoName = bundle.getString("photo_name")
+            photoDescription= bundle.getString("photo_description")
+            photoName = bundle.getString("photo_name")
             Log.i("ACTIVITY1_data_received", "Received data: $photoDescription")
             val photoFile = File(photoName)
             setPhotoInArea(cardChoosed, photoFile, photoDescription)
 
         }
     })
-
-
-
 
     private fun setPhotoInArea(card: Int, photo: File, photoDecription: String?) {
         var image: ImageView = binding.addPropertyPhoto1
