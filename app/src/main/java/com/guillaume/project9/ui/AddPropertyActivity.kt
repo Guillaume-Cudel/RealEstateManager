@@ -30,6 +30,7 @@ class AddPropertyActivity : AppCompatActivity() {
     private var photo2: PropertyPhoto? = null
     private var photo3: PropertyPhoto? = null
     private var photo4: PropertyPhoto? = null
+    private var interestList = mutableSetOf("")
 
 
 
@@ -42,14 +43,46 @@ class AddPropertyActivity : AppCompatActivity() {
         configureEstateAgentInputText()
         setKindProperty()
         addPhotos()
+        setListOfInteret()
 
         binding.addPropertyValidateButton.setOnClickListener {
             recovePropertyData()
         }
     }
 
+    private fun setListOfInteret(){
+        interestList.remove("")
+
+        binding.addPropertySchoolBox.setOnClickListener {
+            val school = "School"
+            if(binding.addPropertySchoolBox.isChecked){
+                interestList.add(school)
+            }else interestList.remove(school)
+        }
+        binding.addPropertyParcBox.setOnClickListener {
+            val park = "Park"
+            if(binding.addPropertyParcBox.isChecked){
+                interestList.add(park)
+            } else interestList.remove(park)
+        }
+        binding.addPropertyTransportBox.setOnClickListener {
+            val transport = "Transport"
+            if(binding.addPropertyTransportBox.isChecked){
+                interestList.add(transport)
+            } else interestList.remove(transport)
+        }
+        binding.addPropertyShopBox.setOnClickListener {
+            val shop = "Shop"
+            if(binding.addPropertyShopBox.isChecked){
+                interestList.add(shop)
+            } else interestList.remove(shop)
+        }
+
+    }
+
 
     private fun setKindProperty() {
+        setKindProperty(kind)
         binding.addPropertyKindHouse.setOnClickListener {
             kind = 0
             setKindProperty(kind)
@@ -115,8 +148,18 @@ class AddPropertyActivity : AppCompatActivity() {
     }
 
     private fun recovePropertyData() {
-        // todo continu to recove all data
+        // todo recove all data
+        kindResult
         binding.addPropertyPriceEdit.editableText.toString()
+        binding.addPropertySurfaceEdit.editableText.toString()
+        binding.addPropertyRoomsEdit.editableText.toString()
+        binding.addPropertyAddressEdit.editableText.toString()
+        binding.addPropertyAddressPostalCodeEdit.editableText.toString()
+        binding.addPropertyAddressCityEdit.editableText.toString()
+        binding.addPropertyDescriptionEdit.editableText.toString()
+        interestList.size
+        binding.addPropertyEstateAgentText.editableText.toString()
+        val photos: MutableList<PropertyPhoto?> = mutableListOf(photo1, photo2, photo3, photo4)
 
     }
 
