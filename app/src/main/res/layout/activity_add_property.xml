@@ -147,7 +147,8 @@
             android:layout_marginVertical="@dimen/margin_10_dp"
             android:layout_marginHorizontal="@dimen/margin_20_dp"
             android:theme="@style/AppTheme.Overlay"
-            android:hint="@string/price">
+            android:hint="@string/price"
+            app:helperText="@string/required">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/add_property_price_edit"
@@ -213,7 +214,8 @@
             android:layout_marginVertical="@dimen/margin_10_dp"
             android:layout_marginHorizontal="@dimen/margin_20_dp"
             android:theme="@style/AppTheme.Overlay"
-            android:hint="@string/address">
+            android:hint="@string/address"
+            app:helperText="@string/required">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/add_property_address_edit"
@@ -223,7 +225,7 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/add_property_address_postal_code"
-            android:layout_width="180dp"
+            android:layout_width="170dp"
             android:layout_height="wrap_content"
             app:layout_constraintStart_toStartOf="@id/add_property_kind"
             app:layout_constraintTop_toBottomOf="@id/add_property_address"
@@ -231,7 +233,8 @@
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_marginVertical="@dimen/margin_10_dp"
             android:theme="@style/AppTheme.Overlay"
-            android:hint="@string/postal_code">
+            android:hint="@string/postal_code"
+            app:helperText="@string/required">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/add_property_address_postal_code_edit"
@@ -242,7 +245,7 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/add_property_address_city"
-            android:layout_width="180dp"
+            android:layout_width="170dp"
             android:layout_height="wrap_content"
             app:layout_constraintStart_toEndOf="@id/add_property_address_postal_code"
             app:layout_constraintTop_toTopOf="@id/add_property_address_postal_code"
@@ -250,7 +253,8 @@
             app:endIconMode="clear_text"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:theme="@style/AppTheme.Overlay"
-            android:hint="@string/city">
+            android:hint="@string/city"
+            app:helperText="@string/required">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/add_property_address_city_edit"
@@ -337,7 +341,8 @@
             android:layout_marginVertical="@dimen/margin_10_dp"
             android:layout_marginHorizontal="@dimen/margin_20_dp"
             android:theme="@style/AppTheme.Overlay"
-            android:hint="@string/what_agent">
+            android:hint="@string/what_agent"
+            app:helperText="@string/required">
 
             <com.google.android.material.textfield.MaterialAutoCompleteTextView
                 android:id="@+id/add_property_estate_agent_text"
@@ -507,7 +512,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/add_property_card3"
             android:layout_marginTop="@dimen/margin_20_dp"
-            android:backgroundTint="@color/overlay_light_primary"
+            android:enabled="false"
             app:cornerRadius="@dimen/margin_20_dp"/>
 
 

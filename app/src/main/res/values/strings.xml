@@ -3,11 +3,11 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="property_kind">Choose the property kind</string>
-    <string name="price">Price</string>
-    <string name="surface">Surface</string>
-    <string name="surface_measurement">in m2</string>
+    <string name="price">Price*</string>
+    <string name="surface">Surface*</string>
+    <string name="surface_measurement">in m2 (Required)</string>
     <string name="number_of_rooms">Number of rooms</string>
-    <string name="address">Address</string>
+    <string name="address">Address*</string>
     <string name="property_description">Property description</string>
     <string name="choose_the_points_of_interest">Choose the points of interest</string>
     <string name="school">School</string>
@@ -19,20 +19,22 @@
     <string name="apartment">Apartment</string>
     <string name="parking">Parking</string>
     <string name="other">Other</string>
-    <string name="what_agent">What agent ?</string>
+    <string name="what_agent">What agent ?*</string>
     <string name="add_photo">Add photo</string>
     <string name="photo_1">Photo 1</string>
     <string name="photo_2">Photo 2</string>
     <string name="photo_3">Photo 3</string>
     <string name="photo_4">Photo 4</string>
-    <string name="postal_code">Postal Code</string>
-    <string name="city">City</string>
+    <string name="postal_code">Postal Code*</string>
+    <string name="city">City*</string>
     <string name="add_property">Add property</string>
     <string name="add_photo_from">Add photo from ?</string>
     <string name="from_gallery">From gallery</string>
     <string name="take_picture">Take picture</string>
     <string name="photo_description">Photo description</string>
     <string name="validate_photo">Validate photo</string>
+    <string name="required">*Required</string>
+    <string name="empty_fields">One or more fields are empty. Please fill them.</string>
 
 
     <string-array name="Estate_agents">

@@ -2,19 +2,27 @@ package com.guillaume.project9.ui
 
 import android.content.Intent
 import android.graphics.BitmapFactory
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Environment
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
 import android.widget.*
 import androidx.activity.result.ActivityResultCallback
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.annotation.RequiresApi
+import androidx.core.content.ContextCompat
 import com.bumptech.glide.Glide
 import com.guillaume.project9.R
 import com.guillaume.project9.databinding.ActivityAddPropertyBinding
+import com.guillaume.project9.model.Property
 import com.guillaume.project9.model.PropertyPhoto
 import java.io.File
 import java.net.URI
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 import java.util.*
 
 class AddPropertyActivity : AppCompatActivity() {
@@ -30,11 +38,12 @@ class AddPropertyActivity : AppCompatActivity() {
     private var photo2: PropertyPhoto? = null
     private var photo3: PropertyPhoto? = null
     private var photo4: PropertyPhoto? = null
-    private var interestList = mutableSetOf("")
+    private var interestList: MutableSet<String?> = mutableSetOf("")
 
 
 
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityAddPropertyBinding.inflate(layoutInflater)
@@ -45,9 +54,22 @@ class AddPropertyActivity : AppCompatActivity() {
         addPhotos()
         setListOfInteret()
 
+        activateSaveButton()
         binding.addPropertyValidateButton.setOnClickListener {
             recovePropertyData()
         }
+    }
+
+    private fun activateSaveButton(){
+        binding.addPropertyEstateAgentText.addTextChangedListener(object: TextWatcher{
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+            override fun afterTextChanged(s: Editable?) {
+                binding.addPropertyValidateButton.isEnabled = s?.length!! > 0
+                binding.addPropertyValidateButton.backgroundTintList =
+                    ContextCompat.getColorStateList(this@AddPropertyActivity, R.color.overlay_light_primary)
+            }
+        })
     }
 
     private fun setListOfInteret(){
@@ -147,21 +169,52 @@ class AddPropertyActivity : AppCompatActivity() {
         }
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     private fun recovePropertyData() {
-        // todo recove all data
-        kindResult
-        binding.addPropertyPriceEdit.editableText.toString()
-        binding.addPropertySurfaceEdit.editableText.toString()
-        binding.addPropertyRoomsEdit.editableText.toString()
-        binding.addPropertyAddressEdit.editableText.toString()
-        binding.addPropertyAddressPostalCodeEdit.editableText.toString()
-        binding.addPropertyAddressCityEdit.editableText.toString()
-        binding.addPropertyDescriptionEdit.editableText.toString()
-        interestList.size
-        binding.addPropertyEstateAgentText.editableText.toString()
+        val price = binding.addPropertyPriceEdit.editableText?.toString()
+        val surface = binding.addPropertySurfaceEdit.editableText?.toString()
+        val rooms = binding.addPropertyRoomsEdit.editableText?.toString()
+        verifyEmptyData(rooms)
+        val description: String? = binding.addPropertyDescriptionEdit.editableText?.toString()
+        verifyEmptyData(description)
         val photos: MutableList<PropertyPhoto?> = mutableListOf(photo1, photo2, photo3, photo4)
+        val address = binding.addPropertyAddressEdit.editableText?.toString()
+        val postalCode = binding.addPropertyAddressPostalCodeEdit.editableText?.toString()
+        val city = binding.addPropertyAddressCityEdit.editableText?.toString()
+        val agent = binding.addPropertyEstateAgentText.editableText.toString()
+        val date = LocalDateTime.now()
+        val formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")
+        val dateFormatted = date.format(formatter)
 
+        if(price.equals("") || surface.equals("") || address.equals("")
+            || postalCode.equals("") || city.equals("")){
+            Toast.makeText(this, getString(R.string.empty_fields), Toast.LENGTH_LONG).show()
+        }else {
+            //todo save property into database
+            val property = Property(
+                kindResult,
+                price!!.toInt(),
+                surface!!.toDouble(),
+                rooms?.toInt(),
+                description,
+                photos,
+                address!!,
+                postalCode!!.toInt(),
+                city!!,
+                interestList,
+                false,
+                dateFormatted,
+                agent
+            )
+        }
     }
+
+    private fun verifyEmptyData(field: String?): String? {
+        if(field.equals("")) field.equals(null)
+
+        return field
+    }
+
 
 
     private fun configureEstateAgentInputText() {
@@ -224,22 +277,22 @@ class AddPropertyActivity : AppCompatActivity() {
             1 -> {
                 image = binding.addPropertyPhoto1
                 binding.addPropertyPhoto1Text.text = ""
-                photo1 = PropertyPhoto(uniqueId(), photo, photoDecription)
+                photo1 = PropertyPhoto(photo, photoDecription)
             }
             2 -> {
                 image = binding.addPropertyPhoto2
                 binding.addPropertyPhoto2Text.text = ""
-                photo2 = PropertyPhoto(uniqueId(), photo, photoDecription)
+                photo2 = PropertyPhoto( photo, photoDecription)
             }
             3 -> {
                 image = binding.addPropertyPhoto3
                 binding.addPropertyPhoto3Text.text = ""
-                photo3 = PropertyPhoto(uniqueId(), photo, photoDecription)
+                photo3 = PropertyPhoto(photo, photoDecription)
             }
             4 -> {
                 image = binding.addPropertyPhoto4
                 binding.addPropertyPhoto4Text.text = ""
-                photo4 = PropertyPhoto(uniqueId(), photo, photoDecription)
+                photo4 = PropertyPhoto(photo, photoDecription)
             }
         }
         Glide.with(this)
@@ -247,8 +300,5 @@ class AddPropertyActivity : AppCompatActivity() {
             .centerCrop()
             .into(image)
     }
-
-    fun uniqueId():String = UUID.randomUUID().toString()
-
 
 }
