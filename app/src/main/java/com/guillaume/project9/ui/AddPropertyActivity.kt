@@ -5,7 +5,6 @@ import android.graphics.BitmapFactory
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.os.Environment
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
@@ -18,9 +17,8 @@ import com.bumptech.glide.Glide
 import com.guillaume.project9.R
 import com.guillaume.project9.databinding.ActivityAddPropertyBinding
 import com.guillaume.project9.model.Property
-import com.guillaume.project9.model.PropertyPhoto
+import com.guillaume.project9.model.Photo
 import java.io.File
-import java.net.URI
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.util.*
@@ -34,11 +32,13 @@ class AddPropertyActivity : AppCompatActivity() {
     private var cardChoosed = 0
     private var photoDescription: String? = null
     private var photoName: String? = null
-    private var photo1: PropertyPhoto? = null
-    private var photo2: PropertyPhoto? = null
-    private var photo3: PropertyPhoto? = null
-    private var photo4: PropertyPhoto? = null
+    private var photo1: Photo? = null
+    private var photo2: Photo? = null
+    private var photo3: Photo? = null
+    private var photo4: Photo? = null
     private var interestList: MutableSet<String?> = mutableSetOf("")
+    private var pointInterestList = listOf(interestList.toString())
+    private val id: String = uniqueId()
 
 
 
@@ -177,12 +177,13 @@ class AddPropertyActivity : AppCompatActivity() {
         verifyEmptyData(rooms)
         val description: String? = binding.addPropertyDescriptionEdit.editableText?.toString()
         verifyEmptyData(description)
-        val photos: MutableList<PropertyPhoto?> = mutableListOf(photo1, photo2, photo3, photo4)
+        val photos: MutableList<Photo?> = mutableListOf(photo1, photo2, photo3, photo4)
         val address = binding.addPropertyAddressEdit.editableText?.toString()
         val postalCode = binding.addPropertyAddressPostalCodeEdit.editableText?.toString()
         val city = binding.addPropertyAddressCityEdit.editableText?.toString()
         val agent = binding.addPropertyEstateAgentText.editableText.toString()
         val date = LocalDateTime.now()
+        //todo change formatter to see the month
         val formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")
         val dateFormatted = date.format(formatter)
 
@@ -191,17 +192,17 @@ class AddPropertyActivity : AppCompatActivity() {
             Toast.makeText(this, getString(R.string.empty_fields), Toast.LENGTH_LONG).show()
         }else {
             //todo save property into database
-            val property = Property(
+                //todo save photos !
+            val property = Property(id,
                 kindResult,
                 price!!.toInt(),
                 surface!!.toDouble(),
                 rooms?.toInt(),
                 description,
-                photos,
                 address!!,
                 postalCode!!.toInt(),
                 city!!,
-                interestList,
+                pointInterestList,
                 false,
                 dateFormatted,
                 agent
@@ -263,36 +264,37 @@ class AddPropertyActivity : AppCompatActivity() {
             photoDescription= bundle.getString("photo_description")
             photoName = bundle.getString("photo_name")
             Log.i("ACTIVITY1_data_received", "Received data: $photoDescription")
-            val photoFile = File(photoName)
-            setPhotoInArea(cardChoosed, photoFile, photoDescription)
+
+            setPhotoInArea(cardChoosed, photoName, photoDescription)
 
         }
     })
 
-    private fun setPhotoInArea(card: Int, photo: File, photoDecription: String?) {
+    private fun setPhotoInArea(card: Int, photo: String?, photoDescription: String?) {
         var image: ImageView = binding.addPropertyPhoto1
-        val myBitmap = BitmapFactory.decodeFile(photo.absolutePath)
+        val photoFile = File(photo)
+        val myBitmap = BitmapFactory.decodeFile(photoFile.absolutePath)
 
         when (card) {
             1 -> {
                 image = binding.addPropertyPhoto1
                 binding.addPropertyPhoto1Text.text = ""
-                photo1 = PropertyPhoto(photo, photoDecription)
+                photo1 = Photo(id, photo, photoDescription)
             }
             2 -> {
                 image = binding.addPropertyPhoto2
                 binding.addPropertyPhoto2Text.text = ""
-                photo2 = PropertyPhoto( photo, photoDecription)
+                photo2 = Photo(id, photo, photoDescription)
             }
             3 -> {
                 image = binding.addPropertyPhoto3
                 binding.addPropertyPhoto3Text.text = ""
-                photo3 = PropertyPhoto(photo, photoDecription)
+                photo3 = Photo(id, photo, photoDescription)
             }
             4 -> {
                 image = binding.addPropertyPhoto4
                 binding.addPropertyPhoto4Text.text = ""
-                photo4 = PropertyPhoto(photo, photoDecription)
+                photo4 = Photo(id, photo, photoDescription)
             }
         }
         Glide.with(this)
@@ -300,5 +302,7 @@ class AddPropertyActivity : AppCompatActivity() {
             .centerCrop()
             .into(image)
     }
+
+    fun uniqueId():String = UUID.randomUUID().toString()
 
 }
