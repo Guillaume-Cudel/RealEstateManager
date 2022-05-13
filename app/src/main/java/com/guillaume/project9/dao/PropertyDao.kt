@@ -17,13 +17,15 @@ interface PropertyDao {
     suspend fun insertProperty(property: Property)
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    suspend fun insertPhoto(photo: Photo)
+    @JvmSuppressWildcards
+    suspend fun insertPhotos(photos: List<Photo?>)
 
     @Query("SELECT * FROM property_table")
     fun getAllProperty(): List<Property>
 
+    //todo check getPropertyByLatestDate() to get photos
     @Query("SELECT * FROM photo_table WHERE propertyCreatorId = :propertyId")
-    fun getPropertyPhotos(propertyId: Int): List<Photo>
+    fun getPropertyPhotos(propertyId: String?): Flow<List<Photo>>
 
     @Update
     fun updateProperty(property: Property)

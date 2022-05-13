@@ -21,7 +21,7 @@ class PropertyRepository(private val propertyDao: PropertyDao) {
 
     @Suppress("RedundantSuspendModifier")
     @WorkerThread
-    suspend fun insertPhoto(photo: Photo) {
-        propertyDao.insertPhoto(photo)
+    suspend fun insertPhotos(photos: List<Photo?>) {
+        propertyDao.insertPhotos(photos)
     }
 }

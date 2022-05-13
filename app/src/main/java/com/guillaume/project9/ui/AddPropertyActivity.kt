@@ -11,15 +11,21 @@ import android.util.Log
 import android.widget.*
 import androidx.activity.result.ActivityResultCallback
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.activity.viewModels
 import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
 import com.bumptech.glide.Glide
 import com.guillaume.project9.R
 import com.guillaume.project9.databinding.ActivityAddPropertyBinding
+import com.guillaume.project9.di.PropertyViewModelFactory
+import com.guillaume.project9.di.PropertysApplication
 import com.guillaume.project9.model.Property
 import com.guillaume.project9.model.Photo
+import com.guillaume.project9.viewmodel.PropertyViewModel
 import java.io.File
+import java.time.Instant
 import java.time.LocalDateTime
+import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 import java.util.*
 
@@ -36,9 +42,13 @@ class AddPropertyActivity : AppCompatActivity() {
     private var photo2: Photo? = null
     private var photo3: Photo? = null
     private var photo4: Photo? = null
+    private var photoList: MutableSet<Photo?> = mutableSetOf()
     private var interestList: MutableSet<String?> = mutableSetOf("")
     private var pointInterestList = listOf(interestList.toString())
     private val id: String = uniqueId()
+    private val propertyVM: PropertyViewModel by viewModels {
+        PropertyViewModelFactory((application as PropertysApplication).repository)
+    }
 
 
 
@@ -177,13 +187,16 @@ class AddPropertyActivity : AppCompatActivity() {
         verifyEmptyData(rooms)
         val description: String? = binding.addPropertyDescriptionEdit.editableText?.toString()
         verifyEmptyData(description)
-        val photos: MutableList<Photo?> = mutableListOf(photo1, photo2, photo3, photo4)
+
+        val list: List<Photo?> = photoList.toList()
+        //val photos: List<Photo?> = listOf(photo1, photo2, photo3, photo4)
         val address = binding.addPropertyAddressEdit.editableText?.toString()
         val postalCode = binding.addPropertyAddressPostalCodeEdit.editableText?.toString()
         val city = binding.addPropertyAddressCityEdit.editableText?.toString()
         val agent = binding.addPropertyEstateAgentText.editableText.toString()
-        val date = LocalDateTime.now()
-        //todo change formatter to see the month
+        //todo change date to get the good hour
+        val zoneId = ZoneId.of("Europe/Paris")
+        val date = LocalDateTime.now(zoneId)
         val formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")
         val dateFormatted = date.format(formatter)
 
@@ -191,8 +204,7 @@ class AddPropertyActivity : AppCompatActivity() {
             || postalCode.equals("") || city.equals("")){
             Toast.makeText(this, getString(R.string.empty_fields), Toast.LENGTH_LONG).show()
         }else {
-            //todo save property into database
-                //todo save photos !
+
             val property = Property(id,
                 kindResult,
                 price!!.toInt(),
@@ -205,8 +217,11 @@ class AddPropertyActivity : AppCompatActivity() {
                 pointInterestList,
                 false,
                 dateFormatted,
-                agent
-            )
+                agent)
+
+            propertyVM.insertProperty(property)
+            propertyVM.insertPhotos(list)
+            finish()
         }
     }
 
@@ -280,21 +295,25 @@ class AddPropertyActivity : AppCompatActivity() {
                 image = binding.addPropertyPhoto1
                 binding.addPropertyPhoto1Text.text = ""
                 photo1 = Photo(id, photo, photoDescription)
+                photoList.add(photo1)
             }
             2 -> {
                 image = binding.addPropertyPhoto2
                 binding.addPropertyPhoto2Text.text = ""
                 photo2 = Photo(id, photo, photoDescription)
+                photoList.add(photo2)
             }
             3 -> {
                 image = binding.addPropertyPhoto3
                 binding.addPropertyPhoto3Text.text = ""
                 photo3 = Photo(id, photo, photoDescription)
+                photoList.add(photo3)
             }
             4 -> {
                 image = binding.addPropertyPhoto4
                 binding.addPropertyPhoto4Text.text = ""
                 photo4 = Photo(id, photo, photoDescription)
+                photoList.add(photo4)
             }
         }
         Glide.with(this)
