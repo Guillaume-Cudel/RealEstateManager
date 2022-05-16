@@ -25,7 +25,7 @@ interface PropertyDao {
 
     //todo check getPropertyByLatestDate() to get photos
     @Query("SELECT * FROM photo_table WHERE propertyCreatorId = :propertyId")
-    fun getPropertyPhotos(propertyId: String?): Flow<List<Photo>>
+    fun getPropertyPhotosById(propertyId: String?): Flow<List<Photo>>
 
     @Update
     fun updateProperty(property: Property)

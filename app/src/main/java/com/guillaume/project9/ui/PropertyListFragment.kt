@@ -9,10 +9,11 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.guillaume.project9.R
 import com.guillaume.project9.databinding.FragmentPropertyListBinding
 import com.guillaume.project9.di.PropertyViewModelFactory
 import com.guillaume.project9.di.PropertysApplication
+import com.guillaume.project9.model.Photo
+import com.guillaume.project9.model.Property
 import com.guillaume.project9.viewmodel.PropertyViewModel
 
 
@@ -20,6 +21,9 @@ class PropertyListFragment : Fragment() {
 
     private lateinit var binding: FragmentPropertyListBinding
     private var recyclerView: RecyclerView? = null
+    private val adapter = PropertyListAdapter()
+    private var propertysList: List<Property?> = listOf()
+    private var photoListByProperty: List<Photo?> = listOf()
     private val propertyVM: PropertyViewModel by viewModels {
         PropertyViewModelFactory((activity?.application as PropertysApplication).repository)
     }
@@ -30,15 +34,28 @@ class PropertyListFragment : Fragment() {
         binding = FragmentPropertyListBinding.inflate(inflater, container, false)
 
         recyclerView = binding.propertysRecycleView
-        val adapter = PropertyListAdapter()
         recyclerView!!.adapter = adapter
         recyclerView!!.layoutManager = LinearLayoutManager(activity)
 
         propertyVM.allPropertys.observe(requireActivity(), Observer { propertys ->
             propertys?.let{ adapter.submitList(it)}
+            propertysList = propertys
+            for(item in propertys){
+                //todo call callback before?
+               propertyVM.getPhotosByProperty(item.propertyId).observe(requireActivity(), Observer {
+                   photoListByProperty = it
+                   updatePhotos(photoListByProperty)
+               })
+            }
+
+
         })
 
         return binding.root
+    }
+
+    private fun updatePhotos(photos: List<Photo?>){
+        adapter.updatePhotos(photos)
     }
 
 }
