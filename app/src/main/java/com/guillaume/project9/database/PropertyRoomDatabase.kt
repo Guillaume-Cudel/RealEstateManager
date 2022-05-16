@@ -19,7 +19,7 @@ import java.io.File
 import java.time.chrono.HijrahChronology
 import java.time.chrono.HijrahChronology.INSTANCE
 
-@Database(entities = [Property::class, Photo::class], version = 3)
+@Database(entities = [Property::class, Photo::class], version = 4)
 @TypeConverters(PropertyTypeConverter::class)
 abstract class PropertyRoomDatabase : RoomDatabase() {
 
@@ -64,6 +64,7 @@ abstract class PropertyRoomDatabase : RoomDatabase() {
                         80.32,
                         4,
                         "House at 30min of toulouse center",
+                        listOf(),
                         "4 rue virginia woolf",
                         31200,
                         "toulouse",

@@ -20,7 +20,7 @@ class PropertyListAdapter: ListAdapter<Property, PropertyViewHolder>(PropertyVie
         return PropertyViewHolder.create(parent)
     }
 
-    private var photosList: List<Photo?> = listOf()
+    //private var photosList: List<Photo?> = listOf()
 
     override fun onBindViewHolder(holder: PropertyViewHolder, position: Int) {
         // todo get data and display them
@@ -35,8 +35,8 @@ class PropertyListAdapter: ListAdapter<Property, PropertyViewHolder>(PropertyVie
         holder.date.text = current.launchOrSellDate
 
 
-        if(photosList.isNotEmpty()) {
-            val photosString: String? = photosList[0]?.photos
+        if(current.photos.isNotEmpty()) {
+            val photosString: String? = current.photos[0]
             val photoFile = photosString?.let { File(it) }
             val myBitmap = BitmapFactory.decodeFile(photoFile?.absolutePath)
 
@@ -50,10 +50,10 @@ class PropertyListAdapter: ListAdapter<Property, PropertyViewHolder>(PropertyVie
         }
     }
 
-    fun updatePhotos(photos: List<Photo?>){
+    /*fun updatePhotos(photos: List<Photo?>){
         photosList = photos
         notifyDataSetChanged()
-    }
+    }*/
 }
 
 

@@ -43,6 +43,7 @@ class AddPropertyActivity : AppCompatActivity() {
     private var photo3: Photo? = null
     private var photo4: Photo? = null
     private var photoList: MutableSet<Photo?> = mutableSetOf()
+    private var photoListString : MutableSet<String?> = mutableSetOf()
     private var interestList: MutableSet<String?> = mutableSetOf("")
     private var pointInterestList = listOf(interestList.toString())
     private val id: String = uniqueId()
@@ -189,7 +190,7 @@ class AddPropertyActivity : AppCompatActivity() {
         verifyEmptyData(description)
 
         val list: List<Photo?> = photoList.toList()
-        //val photos: List<Photo?> = listOf(photo1, photo2, photo3, photo4)
+        val stringPhotosList: List<String?> = photoListString.toList()
         val address = binding.addPropertyAddressEdit.editableText?.toString()
         val postalCode = binding.addPropertyAddressPostalCodeEdit.editableText?.toString()
         val city = binding.addPropertyAddressCityEdit.editableText?.toString()
@@ -211,6 +212,7 @@ class AddPropertyActivity : AppCompatActivity() {
                 surface!!.toDouble(),
                 rooms?.toInt(),
                 description,
+                stringPhotosList,
                 address!!,
                 postalCode!!.toInt(),
                 city!!,
@@ -289,6 +291,7 @@ class AddPropertyActivity : AppCompatActivity() {
         var image: ImageView = binding.addPropertyPhoto1
         val photoFile = File(photo)
         val myBitmap = BitmapFactory.decodeFile(photoFile.absolutePath)
+        photoListString.add(photo)
 
         when (card) {
             1 -> {

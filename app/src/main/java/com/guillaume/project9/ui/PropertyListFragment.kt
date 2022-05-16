@@ -40,13 +40,13 @@ class PropertyListFragment : Fragment() {
         propertyVM.allPropertys.observe(requireActivity(), Observer { propertys ->
             propertys?.let{ adapter.submitList(it)}
             propertysList = propertys
-            for(item in propertys){
-                //todo call callback before?
+            /*for(item in propertys){
+                //todo use this method to get all photos on property's detail in other fragment
                propertyVM.getPhotosByProperty(item.propertyId).observe(requireActivity(), Observer {
                    photoListByProperty = it
                    updatePhotos(photoListByProperty)
                })
-            }
+            }*/
 
 
         })
@@ -54,8 +54,8 @@ class PropertyListFragment : Fragment() {
         return binding.root
     }
 
-    private fun updatePhotos(photos: List<Photo?>){
+    /*private fun updatePhotos(photos: List<Photo?>){
         adapter.updatePhotos(photos)
-    }
+    }*/
 
 }
