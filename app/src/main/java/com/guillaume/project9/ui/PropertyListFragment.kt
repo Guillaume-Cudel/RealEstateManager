@@ -1,5 +1,6 @@
 package com.guillaume.project9.ui
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -9,6 +10,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.guillaume.project9.R
 import com.guillaume.project9.databinding.FragmentPropertyListBinding
 import com.guillaume.project9.di.PropertyViewModelFactory
 import com.guillaume.project9.di.PropertysApplication
@@ -17,11 +19,11 @@ import com.guillaume.project9.model.Property
 import com.guillaume.project9.viewmodel.PropertyViewModel
 
 
-class PropertyListFragment : Fragment() {
+class PropertyListFragment : Fragment(), Communicator {
 
     private lateinit var binding: FragmentPropertyListBinding
     private var recyclerView: RecyclerView? = null
-    private val adapter = PropertyListAdapter()
+    private val adapter = PropertyListAdapter(this@PropertyListFragment)
     private var propertysList: List<Property?> = listOf()
     private var photoListByProperty: List<Photo?> = listOf()
     private val propertyVM: PropertyViewModel by viewModels {
@@ -41,7 +43,6 @@ class PropertyListFragment : Fragment() {
             propertys?.let{ adapter.submitList(it)}
             propertysList = propertys
             /*for(item in propertys){
-                //todo use this method to get all photos on property's detail in other fragment
                propertyVM.getPhotosByProperty(item.propertyId).observe(requireActivity(), Observer {
                    photoListByProperty = it
                    updatePhotos(photoListByProperty)
@@ -52,6 +53,19 @@ class PropertyListFragment : Fragment() {
         })
 
         return binding.root
+    }
+
+    override fun passData(property: Property) {
+        val bundle = Bundle()
+        bundle.putSerializable("property", property)
+
+        val transaction = this.parentFragmentManager.beginTransaction()
+        val fragment2 = PropertyDetailFragment()
+        fragment2.arguments = bundle
+
+        transaction.replace(R.id.propertyListFragment, fragment2)
+        transaction.addToBackStack(null)
+        transaction.commit()
     }
 
     /*private fun updatePhotos(photos: List<Photo?>){
