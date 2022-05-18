@@ -25,7 +25,7 @@ class PropertyListFragment : Fragment(), Communicator {
     private var recyclerView: RecyclerView? = null
     private val adapter = PropertyListAdapter(this@PropertyListFragment)
     private var propertysList: List<Property?> = listOf()
-    private var photoListByProperty: List<Photo?> = listOf()
+    //private var photoListByProperty: List<Photo?> = listOf()
     private val propertyVM: PropertyViewModel by viewModels {
         PropertyViewModelFactory((activity?.application as PropertysApplication).repository)
     }
