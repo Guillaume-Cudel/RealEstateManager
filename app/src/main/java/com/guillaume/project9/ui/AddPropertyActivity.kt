@@ -210,6 +210,7 @@ class AddPropertyActivity : AppCompatActivity() {
                 kindResult,
                 price!!.toInt(),
                 surface!!.toDouble(),
+                //todo get rooms if it's not null et convert it to int
                 rooms?.toInt(),
                 description,
                 stringPhotosList,

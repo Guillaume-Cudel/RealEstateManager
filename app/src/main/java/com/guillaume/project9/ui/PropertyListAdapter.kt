@@ -65,20 +65,8 @@ class PropertyListAdapter(private val listener: Communicator): ListAdapter<Prope
         }
 
         holder.itemView.setOnClickListener { v ->
-            /*val activity = v!!.context as AppCompatActivity
-            val detailFragment = PropertyDetailFragment()
-            listener.passData(current)
-
-            activity.supportFragmentManager.beginTransaction()
-                .replace(R.id.propertyListFragment, detailFragment)
-                .addToBackStack(null).commit()*/
             listener.passData(current)
         }
-
-        /*fun updatePhotos(photos: List<Photo?>){
-        photosList = photos
-        notifyDataSetChanged()
-    }*/
     }
 }
 

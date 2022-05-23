@@ -42,7 +42,7 @@ abstract class PropertyRoomDatabase : RoomDatabase() {
                     "property_database"
                 )
                     .addCallback(PropertyDatabaseCallback(scope))
-                    //.fallbackToDestructiveMigration()
+                    .fallbackToDestructiveMigration()
                     //.addMigrations(MIGRATION_3_4)
                     .build()
                 INSTANCE = instance

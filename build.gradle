@@ -4,6 +4,10 @@ buildscript {
         mavenCentral()
         maven { url "https://jitpack.io" }
     }
+
+    dependencies {
+        classpath "com.google.android.libraries.mapsplatform.secrets-gradle-plugin:secrets-gradle-plugin:2.0.0"
+    }
 }
 
 plugins {

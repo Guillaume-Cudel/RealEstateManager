@@ -243,25 +243,25 @@
                 android:inputType="number"/>
         </com.google.android.material.textfield.TextInputLayout>
 
+
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/add_property_address_city"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="170dp"
             android:layout_height="wrap_content"
-            app:layout_constraintStart_toEndOf="@id/add_property_address_postal_code"
-            app:layout_constraintTop_toTopOf="@id/add_property_address_postal_code"
-            android:layout_marginStart="@dimen/margin_10_dp"
-            app:endIconMode="clear_text"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:theme="@style/AppTheme.Overlay"
+            android:layout_marginStart="4dp"
             android:hint="@string/city"
-            app:helperText="@string/required">
+            android:theme="@style/AppTheme.Overlay"
+            app:endIconMode="clear_text"
+            app:helperText="@string/required"
+            app:layout_constraintStart_toEndOf="@id/add_property_address_postal_code"
+            app:layout_constraintTop_toTopOf="@id/add_property_address_postal_code">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/add_property_address_city_edit"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
         </com.google.android.material.textfield.TextInputLayout>
-
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/add_property_description"

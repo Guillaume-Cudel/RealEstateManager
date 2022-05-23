@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.guillaume.project9.R
@@ -25,7 +26,6 @@ class PropertyListFragment : Fragment(), Communicator {
     private var recyclerView: RecyclerView? = null
     private val adapter = PropertyListAdapter(this@PropertyListFragment)
     private var propertysList: List<Property?> = listOf()
-    //private var photoListByProperty: List<Photo?> = listOf()
     private val propertyVM: PropertyViewModel by viewModels {
         PropertyViewModelFactory((activity?.application as PropertysApplication).repository)
     }
@@ -38,18 +38,12 @@ class PropertyListFragment : Fragment(), Communicator {
         recyclerView = binding.propertysRecycleView
         recyclerView!!.adapter = adapter
         recyclerView!!.layoutManager = LinearLayoutManager(activity)
+        recyclerView!!.addItemDecoration(DividerItemDecoration(requireContext(), DividerItemDecoration.HORIZONTAL))
+        recyclerView!!.addItemDecoration(DividerItemDecoration(requireContext(), DividerItemDecoration.VERTICAL))
 
         propertyVM.allPropertys.observe(requireActivity(), Observer { propertys ->
             propertys?.let{ adapter.submitList(it)}
             propertysList = propertys
-            /*for(item in propertys){
-               propertyVM.getPhotosByProperty(item.propertyId).observe(requireActivity(), Observer {
-                   photoListByProperty = it
-                   updatePhotos(photoListByProperty)
-               })
-            }*/
-
-
         })
 
         return binding.root
@@ -68,8 +62,5 @@ class PropertyListFragment : Fragment(), Communicator {
         transaction.commit()
     }
 
-    /*private fun updatePhotos(photos: List<Photo?>){
-        adapter.updatePhotos(photos)
-    }*/
 
 }

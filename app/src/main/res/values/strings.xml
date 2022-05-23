@@ -35,6 +35,13 @@
     <string name="validate_photo">Validate photo</string>
     <string name="required">*Required</string>
     <string name="empty_fields">One or more fields are empty. Please fill them.</string>
+    <string name="media">Media</string>
+    <string name="property_kind_textview">Kind</string>
+    <string name="surface_detail">Surface</string>
+    <string name="rooms">Rooms</string>
+    <string name="location">Location</string>
+    <string name="agent">Agent</string>
+    <string name="selled">Selled</string>
 
 
     <string-array name="Estate_agents">
