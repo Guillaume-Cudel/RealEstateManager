@@ -41,25 +41,7 @@
         app:layout_constraintTop_toBottomOf="@id/detail_text_agent"
         android:text="Vanessa Basset"/>
 
-    <TextView
-        android:id="@+id/detail_text_selled"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="@id/detail_text_price"
-        app:layout_constraintBottom_toBottomOf="@id/detail_text_agent"
-        android:text="@string/selled"
-        android:textStyle="bold"
-        android:textSize="18sp"/>
 
-    <com.google.android.material.switchmaterial.SwitchMaterial
-        android:id="@+id/detail_button_selled"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintStart_toEndOf="@id/detail_text_selled"
-        app:layout_constraintTop_toTopOf="@id/detail_text_selled"
-        app:layout_constraintBottom_toBottomOf="@id/detail_text_selled"
-        android:layout_marginStart="@dimen/margin_20_dp"
-        app:useMaterialThemeColors="true"/>
 
     <TextView
         android:id="@+id/detail_text_media"
@@ -589,7 +571,7 @@
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="@id/detail_text_school"
         app:layout_constraintTop_toBottomOf="@id/detail_text_school"
-        android:text="Yes"/>
+        android:text="No"/>
 
     <ImageView
         android:id="@+id/detail_park_icon"
@@ -617,7 +599,7 @@
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="@id/detail_text_park"
         app:layout_constraintTop_toBottomOf="@id/detail_text_park"
-        android:text="Yes"/>
+        android:text="No"/>
 
 
     <ImageView
@@ -646,7 +628,7 @@
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="@id/detail_text_transport"
         app:layout_constraintTop_toBottomOf="@id/detail_text_transport"
-        android:text="Yes"/>
+        android:text="No"/>
 
     <ImageView
         android:id="@+id/detail_shop_icon"
@@ -674,7 +656,7 @@
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="@id/detail_text_shop"
         app:layout_constraintTop_toBottomOf="@id/detail_text_shop"
-        android:text="Yes"/>
+        android:text="@string/no"/>
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/detail_cardView_map"

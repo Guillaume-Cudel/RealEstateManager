@@ -16,7 +16,7 @@ import com.guillaume.project9.model.PropertyTypeConverter
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
-@Database(entities = [Property::class, Photo::class], version = 4)
+@Database(entities = [Property::class, Photo::class], version = 4, exportSchema = true)
 @TypeConverters(PropertyTypeConverter::class)
 abstract class PropertyRoomDatabase : RoomDatabase() {
 

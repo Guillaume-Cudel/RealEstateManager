@@ -8,12 +8,14 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
+import android.view.Menu
 import android.widget.*
 import androidx.activity.result.ActivityResultCallback
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
+import androidx.appcompat.widget.Toolbar
 import com.bumptech.glide.Glide
 import com.guillaume.project9.R
 import com.guillaume.project9.databinding.ActivityAddPropertyBinding
@@ -45,7 +47,6 @@ class AddPropertyActivity : AppCompatActivity() {
     private var photoList: MutableSet<Photo?> = mutableSetOf()
     private var photoListString : MutableSet<String?> = mutableSetOf()
     private var interestList: MutableSet<String?> = mutableSetOf("")
-    private var pointInterestList = listOf(interestList.toString())
     private val id: String = uniqueId()
     private val propertyVM: PropertyViewModel by viewModels {
         PropertyViewModelFactory((application as PropertysApplication).repository)
@@ -60,6 +61,12 @@ class AddPropertyActivity : AppCompatActivity() {
         binding = ActivityAddPropertyBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        /*val toolbar: Toolbar = findViewById(R.id.main_toolbar)
+        setSupportActionBar(toolbar)*/
+        val actionBar = supportActionBar
+        actionBar?.setDisplayHomeAsUpEnabled(true)
+        //actionBar?.hide()
+
         configureEstateAgentInputText()
         setKindProperty()
         addPhotos()
@@ -70,6 +77,10 @@ class AddPropertyActivity : AppCompatActivity() {
             recovePropertyData()
         }
     }
+
+    /*override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        return super.onCreateOptionsMenu(menu)
+    }*/
 
     private fun activateSaveButton(){
         binding.addPropertyEstateAgentText.addTextChangedListener(object: TextWatcher{
@@ -186,6 +197,7 @@ class AddPropertyActivity : AppCompatActivity() {
         val surface = binding.addPropertySurfaceEdit.editableText?.toString()
         val rooms = binding.addPropertyRoomsEdit.editableText?.toString()
         verifyEmptyData(rooms)
+        val roomsToInt = rooms?.toInt()
         val description: String? = binding.addPropertyDescriptionEdit.editableText?.toString()
         verifyEmptyData(description)
 
@@ -194,6 +206,7 @@ class AddPropertyActivity : AppCompatActivity() {
         val address = binding.addPropertyAddressEdit.editableText?.toString()
         val postalCode = binding.addPropertyAddressPostalCodeEdit.editableText?.toString()
         val city = binding.addPropertyAddressCityEdit.editableText?.toString()
+        val pointInterestList = listOf(interestList.toString())
         val agent = binding.addPropertyEstateAgentText.editableText.toString()
         //todo change date to get the good hour
         val zoneId = ZoneId.of("Europe/Paris")
@@ -211,7 +224,7 @@ class AddPropertyActivity : AppCompatActivity() {
                 price!!.toInt(),
                 surface!!.toDouble(),
                 //todo get rooms if it's not null et convert it to int
-                rooms?.toInt(),
+                roomsToInt,
                 description,
                 stringPhotosList,
                 address!!,

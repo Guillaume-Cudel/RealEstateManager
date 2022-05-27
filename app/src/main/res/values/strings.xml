@@ -42,6 +42,7 @@
     <string name="location">Location</string>
     <string name="agent">Agent</string>
     <string name="selled">Selled</string>
+    <string name="no">No</string>
 
 
     <string-array name="Estate_agents">
