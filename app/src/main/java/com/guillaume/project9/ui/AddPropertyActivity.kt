@@ -9,6 +9,7 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
 import android.view.Menu
+import android.view.MenuItem
 import android.widget.*
 import androidx.activity.result.ActivityResultCallback
 import androidx.activity.result.contract.ActivityResultContracts
@@ -23,6 +24,7 @@ import com.guillaume.project9.di.PropertyViewModelFactory
 import com.guillaume.project9.di.PropertysApplication
 import com.guillaume.project9.model.Property
 import com.guillaume.project9.model.Photo
+import com.guillaume.project9.model.PointsOfInterest
 import com.guillaume.project9.viewmodel.PropertyViewModel
 import java.io.File
 import java.time.Instant
@@ -46,7 +48,7 @@ class AddPropertyActivity : AppCompatActivity() {
     private var photo4: Photo? = null
     private var photoList: MutableSet<Photo?> = mutableSetOf()
     private var photoListString : MutableSet<String?> = mutableSetOf()
-    private var interestList: MutableSet<String?> = mutableSetOf("")
+    private var interestList: MutableSet<String?> = mutableSetOf()
     private val id: String = uniqueId()
     private val propertyVM: PropertyViewModel by viewModels {
         PropertyViewModelFactory((application as PropertysApplication).repository)
@@ -62,10 +64,9 @@ class AddPropertyActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         /*val toolbar: Toolbar = findViewById(R.id.main_toolbar)
-        setSupportActionBar(toolbar)*/
+        setSupportActionBar(toolbar)
         val actionBar = supportActionBar
-        actionBar?.setDisplayHomeAsUpEnabled(true)
-        //actionBar?.hide()
+        actionBar?.setDisplayHomeAsUpEnabled(true)*/
 
         configureEstateAgentInputText()
         setKindProperty()
@@ -78,9 +79,16 @@ class AddPropertyActivity : AppCompatActivity() {
         }
     }
 
-    /*override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        return super.onCreateOptionsMenu(menu)
-    }*/
+
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        //return super.onOptionsItemSelected(item)
+        val itemId = item.itemId
+        if(itemId == android.R.id.home){
+            finish()
+        }
+        return true
+    }
 
     private fun activateSaveButton(){
         binding.addPropertyEstateAgentText.addTextChangedListener(object: TextWatcher{
@@ -95,7 +103,6 @@ class AddPropertyActivity : AppCompatActivity() {
     }
 
     private fun setListOfInteret(){
-        interestList.remove("")
 
         binding.addPropertySchoolBox.setOnClickListener {
             val school = "School"
@@ -203,12 +210,17 @@ class AddPropertyActivity : AppCompatActivity() {
 
         val list: List<Photo?> = photoList.toList()
         val stringPhotosList: List<String?> = photoListString.toList()
+        var firstPhoto: String? = null
+        if(stringPhotosList.isNotEmpty()){
+            firstPhoto = stringPhotosList[0]
+        }
         val address = binding.addPropertyAddressEdit.editableText?.toString()
         val postalCode = binding.addPropertyAddressPostalCodeEdit.editableText?.toString()
         val city = binding.addPropertyAddressCityEdit.editableText?.toString()
-        val pointInterestList = listOf(interestList.toString())
+        //val pointInterestList = listOf(interestList.toString())
+        val pointsOfInterestList = convertInterestStringToClass(interestList)
+
         val agent = binding.addPropertyEstateAgentText.editableText.toString()
-        //todo change date to get the good hour
         val zoneId = ZoneId.of("Europe/Paris")
         val date = LocalDateTime.now(zoneId)
         val formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")
@@ -226,17 +238,17 @@ class AddPropertyActivity : AppCompatActivity() {
                 //todo get rooms if it's not null et convert it to int
                 roomsToInt,
                 description,
-                stringPhotosList,
+                firstPhoto,
                 address!!,
                 postalCode!!.toInt(),
                 city!!,
-                pointInterestList,
                 false,
                 dateFormatted,
                 agent)
 
             propertyVM.insertProperty(property)
             propertyVM.insertPhotos(list)
+            propertyVM.insertPointsOfInterest(pointsOfInterestList.toList())
             finish()
         }
     }
@@ -245,6 +257,16 @@ class AddPropertyActivity : AppCompatActivity() {
         if(field.equals("")) field.equals(null)
 
         return field
+    }
+
+    private fun convertInterestStringToClass(interest: MutableSet<String?>): MutableSet<PointsOfInterest?>{
+        var point: PointsOfInterest?
+        var interestClass: MutableSet<PointsOfInterest?> = mutableSetOf()
+        for(item in interest){
+            point = PointsOfInterest(id, item)
+            interestClass.add(point)
+        }
+        return interestClass
     }
 
 

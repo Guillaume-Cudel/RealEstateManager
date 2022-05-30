@@ -1,20 +1,17 @@
 package com.guillaume.project9.ui
 
 import android.graphics.BitmapFactory
-import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.guillaume.project9.R
-import com.guillaume.project9.model.Photo
 import com.guillaume.project9.model.Property
 import java.io.File
 import java.lang.StringBuilder
@@ -52,8 +49,8 @@ class PropertyListAdapter(private val listener: Communicator): ListAdapter<Prope
         holder.date.text = current.launchOrSellDate
 
 
-        if (current.photos.isNotEmpty()) {
-            val photosString: String? = current.photos[0]
+        if (current.photo != null) {
+            val photosString: String? = current.photo
             val photoFile = photosString?.let { File(it) }
             val myBitmap = BitmapFactory.decodeFile(photoFile?.absolutePath)
             //holder.bind(current.launchOrSellDate)

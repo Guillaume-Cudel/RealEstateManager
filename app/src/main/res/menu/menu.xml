@@ -8,11 +8,11 @@
         android:title="Add property"
         app:showAsAction="ifRoom"/>
 
-    <item
+    <!--<item
         android:id="@+id/action_bar_edit_property"
         android:icon="@drawable/baseline_edit_note_24"
         android:title="Edit property"
-        app:showAsAction="ifRoom"/>
+        app:showAsAction="ifRoom"/>-->
 
     <item
         android:id="@+id/action_bar_search_property"

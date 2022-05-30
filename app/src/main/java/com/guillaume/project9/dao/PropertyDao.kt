@@ -2,6 +2,7 @@ package com.guillaume.project9.dao
 
 import androidx.room.*
 import com.guillaume.project9.model.Photo
+import com.guillaume.project9.model.PointsOfInterest
 import com.guillaume.project9.model.Property
 import com.guillaume.project9.model.PropertyWithPhotos
 import kotlinx.coroutines.flow.Flow
@@ -20,12 +21,19 @@ interface PropertyDao {
     @JvmSuppressWildcards
     suspend fun insertPhotos(photos: List<Photo?>)
 
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    @JvmSuppressWildcards
+    suspend fun insertPointsOfInterest(pointOfInterest: List<PointsOfInterest?>)
+
     @Query("SELECT * FROM property_table")
     fun getAllProperty(): List<Property>
 
-    //todo check getPropertyByLatestDate() to get photos
     @Query("SELECT * FROM photo_table WHERE propertyCreatorId = :propertyId")
     fun getPropertyPhotosById(propertyId: String?): Flow<List<Photo>>
+
+    @Query("SELECT * FROM points_interest_table WHERE propertyCreatorId = :propertyId")
+    fun getPropertyPointsOfInterestById(propertyId: String?): Flow<List<PointsOfInterest>>
+
 
     @Update
     fun updateProperty(property: Property)

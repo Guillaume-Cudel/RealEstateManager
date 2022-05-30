@@ -1,10 +1,8 @@
 package com.guillaume.project9.ui
 
 import android.os.Bundle
+import android.view.*
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
@@ -14,6 +12,7 @@ import com.guillaume.project9.databinding.FragmentPropertyListBinding
 import com.guillaume.project9.di.PropertyViewModelFactory
 import com.guillaume.project9.di.PropertysApplication
 import com.guillaume.project9.model.Photo
+import com.guillaume.project9.model.PointsOfInterest
 import com.guillaume.project9.model.Property
 import com.guillaume.project9.viewmodel.PropertyViewModel
 
@@ -33,16 +32,47 @@ class PropertyDetailFragment : Fragment() {
         // Inflate the layout for this fragment
         binding = FragmentPropertyDetailBinding.inflate(inflater, container, false)
 
+        setHasOptionsMenu(true)
+
+
         property = arguments?.getSerializable("property") as Property?
+
+        propertyVM.getPointsOfInterestByProperty(property!!.propertyId).observe(requireActivity(), Observer {
+            val interest = it
+            displayInterestPoints(interest)
+        })
+
         propertyVM.getPhotosByProperty(property!!.propertyId).observe(requireActivity(), Observer {
             photoList = it
             displayData()
-            displayInterestPoints()
+            //displayInterestPoints()
             displayPhotos(photoList)
         })
 
         return binding.root
     }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        //super.onCreateOptionsMenu(menu, inflater)
+        inflater.inflate(R.menu.details_menu, menu)
+    }
+
+    override fun onPrepareOptionsMenu(menu: Menu) {
+        super.onPrepareOptionsMenu(menu)
+        val add = menu.findItem(R.id.action_bar_add_property)
+        add.isVisible = false
+        val search = menu.findItem(R.id.action_bar_search_property)
+        search.isVisible = false
+    }
+
+    /*override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when(item.itemId){
+            R.id.action_bar_edit_property -> {
+                //todo handle this
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
+    }*/
 
     private fun displayData(){
         binding.detailTextAgentResponse.text = property!!.agent
@@ -57,25 +87,17 @@ class PropertyDetailFragment : Fragment() {
         binding.detailTextLocationCityResponse.text = property!!.cityAddress
     }
 
-    private fun displayInterestPoints(){
-        //todo recove data list correctly
+    private fun displayInterestPoints(interestList: List<PointsOfInterest>){
         val yes = "Yes"
-        val interestList = property?.pointOfInterest
-        if (interestList != null) {
-            for(item in interestList){
-                if(item.equals("School"))
-                    binding.detailTextSchoolResponse.text = yes
-                if (item.equals("Park"))
-                    binding.detailTextParkResponse.text = yes
-                if (item.equals("Transport"))
-                    binding.detailTextTransportResponse.text = yes
-                if (item.equals("Shop"))
-                    binding.detailTextShopResponse.text = yes
-
-            }
-
-
-
+        for(item in interestList){
+            if(item.pointOfInterest.equals("School"))
+                binding.detailTextSchoolResponse.text = yes
+            if (item.pointOfInterest.equals("Park"))
+                binding.detailTextParkResponse.text = yes
+            if (item.pointOfInterest.equals("Transport"))
+                binding.detailTextTransportResponse.text = yes
+            if (item.pointOfInterest.equals("Shop"))
+                binding.detailTextShopResponse.text = yes
         }
     }
 

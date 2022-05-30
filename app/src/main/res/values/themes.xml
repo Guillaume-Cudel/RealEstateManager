@@ -1,12 +1,17 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
 
-    <style name="Theme.Project9" parent="Theme.MaterialComponents.Light.NoActionBar">
+    <style name="Theme.Project9" parent="Theme.MaterialComponents.Light.DarkActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
 <!--    <style name="Theme.Project9" parent="Theme.MaterialComponents.DayNight.DarkActionBar">-->
+
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/overlay_light_primary</item>
         <item name="colorPrimaryVariant">@color/overlay_light_primaryContainer</item>
         <item name="colorOnPrimary">@color/white</item>
+        <item name="colorPrimaryContainer">@color/overlay_light_primaryContainer</item>
+        <item name="colorOnPrimaryContainer">@color/overlay_light_onPrimaryContainer</item>
         <!-- Secondary brand color. -->
         <item name="colorSecondary">@color/overlay_light_primary</item>
         <item name="colorSecondaryVariant">@color/overlay_light_primaryContainer</item>

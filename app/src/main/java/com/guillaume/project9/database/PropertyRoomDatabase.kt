@@ -11,12 +11,13 @@ import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
 import com.guillaume.project9.dao.PropertyDao
 import com.guillaume.project9.model.Photo
+import com.guillaume.project9.model.PointsOfInterest
 import com.guillaume.project9.model.Property
 import com.guillaume.project9.model.PropertyTypeConverter
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
-@Database(entities = [Property::class, Photo::class], version = 4, exportSchema = true)
+@Database(entities = [Property::class, Photo::class, PointsOfInterest::class], version = 1, exportSchema = true)
 @TypeConverters(PropertyTypeConverter::class)
 abstract class PropertyRoomDatabase : RoomDatabase() {
 
@@ -29,11 +30,7 @@ abstract class PropertyRoomDatabase : RoomDatabase() {
         @Volatile
         private var INSTANCE: PropertyRoomDatabase? = null
 
-        val MIGRATION_3_4 = object: Migration(3,4) {
-            override fun migrate(database: SupportSQLiteDatabase) {
-                database.execSQL("ALTER TABLE property_table ADD COLUMN photos TEXT")
-            }
-        }
+
 
         fun getDatabase(context: Context, scope: CoroutineScope): PropertyRoomDatabase {
             return INSTANCE ?: synchronized(this) {
@@ -42,8 +39,7 @@ abstract class PropertyRoomDatabase : RoomDatabase() {
                     "property_database"
                 )
                     .addCallback(PropertyDatabaseCallback(scope))
-                    .fallbackToDestructiveMigration()
-                    //.addMigrations(MIGRATION_3_4)
+                    //.fallbackToDestructiveMigration()
                     .build()
                 INSTANCE = instance
                 instance
@@ -63,24 +59,30 @@ abstract class PropertyRoomDatabase : RoomDatabase() {
 
                     val propertyDao = database.propertyDao()
 
+
+                    val propertyId = "first"
                     val property = Property(
-                        "first",
+                        propertyId,
                         "House",
                         235000,
                         80.32,
                         4,
                         "House at 30min of toulouse center",
-                        listOf(),
+                        null,
                         "4 rue virginia woolf",
                         31200,
                         "toulouse",
-                        listOf("school", "Park", "shop"),
                         false,
                         "12/05/22 10:16",
                         "Vanessa Basset"
                     )
 
+                    val interest1 = PointsOfInterest(propertyId, "School")
+                    val interest2 = PointsOfInterest(propertyId, "Transport")
+                    var interestList = listOf(interest1, interest2)
+
                     propertyDao.insertProperty(property)
+                    propertyDao.insertPointsOfInterest(interestList)
 
                 }
             }

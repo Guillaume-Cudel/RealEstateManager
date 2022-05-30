@@ -16,15 +16,11 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+
         setSupportActionBar(binding.mainToolbar)
         binding.mainToolbar.title = "@string/app_name"
-        val actionBar = supportActionBar
-        actionBar?.show()
 
-
-        /*binding.mainButton.setOnClickListener {
-            startActivity(Intent(this, AddPropertyActivity::class.java))
-        }*/
 
     }
 

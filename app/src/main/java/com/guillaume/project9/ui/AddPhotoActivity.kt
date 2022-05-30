@@ -46,8 +46,8 @@ class AddPhotoActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         //todo set toolbar to go back
-        //val actionBar = actionBar
-        //actionBar?.setDisplayHomeAsUpEnabled(true)
+        /*val actionBar = supportActionBar
+        actionBar?.setDisplayHomeAsUpEnabled(true)*/
 
         val otherBundle = getIntent().extras
         cardChoosed = otherBundle!!.getInt("card_number")

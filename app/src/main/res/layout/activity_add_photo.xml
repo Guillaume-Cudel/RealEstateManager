@@ -88,7 +88,7 @@
         app:layout_constraintTop_toBottomOf="@id/add_photo_camera_text"
         android:layout_marginTop="@dimen/margin_20_dp"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:theme="@style/AppTheme.Overlay"
+
         android:hint="@string/photo_description">
 
 

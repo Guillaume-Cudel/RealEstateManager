@@ -658,8 +658,8 @@
         app:layout_constraintTop_toBottomOf="@id/detail_text_shop"
         android:text="@string/no"/>
 
-    <com.google.android.material.card.MaterialCardView
-        android:id="@+id/detail_cardView_map"
+    <ImageView
+        android:id="@+id/detail_image_map"
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintStart_toStartOf="@id/detail_location_icon"
@@ -667,14 +667,7 @@
         app:layout_constraintTop_toBottomOf="@id/detail_text_location_city_response"
         app:layout_constraintBottom_toBottomOf="@id/detail_text_shop"
         android:layout_marginTop="@dimen/margin_20_dp"
-        android:layout_marginEnd="@dimen/margin_20_dp">
-
-        <androidx.fragment.app.FragmentContainerView
-            android:id="@+id/map_fragment"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            />
-    </com.google.android.material.card.MaterialCardView>
+        android:layout_marginEnd="@dimen/margin_20_dp"/>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

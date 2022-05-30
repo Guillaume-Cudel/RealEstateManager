@@ -2,6 +2,7 @@ package com.guillaume.project9.viewmodel
 
 import androidx.lifecycle.*
 import com.guillaume.project9.model.Photo
+import com.guillaume.project9.model.PointsOfInterest
 import com.guillaume.project9.model.Property
 import com.guillaume.project9.repository.PropertyRepository
 import kotlinx.coroutines.SupervisorJob
@@ -25,6 +26,10 @@ class PropertyViewModel(private val repository: PropertyRepository): ViewModel()
         repository.insertPhotos(photos)
     }
 
+    fun insertPointsOfInterest(pointsOfInterest: List<PointsOfInterest?>) = viewModelScope.launch {
+        repository.insertPointOfInterest(pointsOfInterest)
+    }
+
     fun getPhotosByProperty(propertyId: String?): LiveData<List<Photo>> {
         //val result = MutableLiveData<List<Photo>>()
         var photoList: LiveData<List<Photo>>? = null
@@ -33,6 +38,14 @@ class PropertyViewModel(private val repository: PropertyRepository): ViewModel()
             //result.postValue(photoList)
         }
         return photoList!!
+    }
+
+    fun getPointsOfInterestByProperty(propertyId: String?): LiveData<List<PointsOfInterest>>{
+        var pointsOfInterest: LiveData<List<PointsOfInterest>>? = null
+        viewModelScope.launch {
+            pointsOfInterest = repository.getPointsOfInterest(propertyId).asLiveData()
+        }
+        return pointsOfInterest!!
     }
 
 
