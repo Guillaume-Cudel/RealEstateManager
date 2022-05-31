@@ -90,8 +90,7 @@
                         android:layout_height="match_parent"
                         android:src="@drawable/ic_baseline_camera_24"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:tint="@color/overlay_light_primary" />
+                        app:layout_constraintTop_toTopOf="parent" />
 
                     <TextView
                         android:id="@+id/detail_card1_text"
@@ -99,7 +98,7 @@
                         android:layout_height="30dp"
                         android:background="@color/little_black"
                         android:gravity="center"
-                        android:text="Salon"
+                        android:text="WC"
                         android:textColor="@color/white"
                         app:layout_constraintBottom_toBottomOf="@id/detail_card1_image"
                         app:layout_constraintStart_toStartOf="@id/detail_card1_image" />
@@ -278,76 +277,6 @@
                         android:textColor="@color/white"
                         app:layout_constraintBottom_toBottomOf="@id/detail_card6_image"
                         app:layout_constraintStart_toStartOf="@id/detail_card6_image" />
-
-
-                </androidx.constraintlayout.widget.ConstraintLayout>
-            </com.google.android.material.card.MaterialCardView>
-
-            <com.google.android.material.card.MaterialCardView
-                android:id="@+id/detail_card7"
-                android:layout_width="80dp"
-                android:layout_height="80dp"
-                android:layout_marginStart="@dimen/margin_10_dp"
-                android:clickable="true"
-                android:focusable="true"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent">
-
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-
-                    <ImageView
-                        android:id="@+id/detail_card7_image"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                    <TextView
-                        android:id="@+id/detail_card7_text"
-                        android:layout_width="match_parent"
-                        android:layout_height="30dp"
-                        android:background="@color/little_black"
-                        android:gravity="center"
-                        android:textColor="@color/white"
-                        app:layout_constraintBottom_toBottomOf="@id/detail_card7_image"
-                        app:layout_constraintStart_toStartOf="@id/detail_card7_image" />
-
-
-                </androidx.constraintlayout.widget.ConstraintLayout>
-            </com.google.android.material.card.MaterialCardView>
-
-            <com.google.android.material.card.MaterialCardView
-                android:id="@+id/detail_card8"
-                android:layout_width="80dp"
-                android:layout_height="80dp"
-                android:layout_marginStart="@dimen/margin_10_dp"
-                android:clickable="true"
-                android:focusable="true"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent">
-
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-
-                    <ImageView
-                        android:id="@+id/detail_card8_image"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                    <TextView
-                        android:id="@+id/detail_card8_text"
-                        android:layout_width="match_parent"
-                        android:layout_height="30dp"
-                        android:background="@color/little_black"
-                        android:gravity="center"
-                        android:textColor="@color/white"
-                        app:layout_constraintBottom_toBottomOf="@id/detail_card8_image"
-                        app:layout_constraintStart_toStartOf="@id/detail_card8_image" />
 
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
