@@ -42,10 +42,6 @@ class AddPropertyActivity : AppCompatActivity() {
     private var cardChoosed = 0
     private var photoDescription: String? = null
     private var photoName: String? = null
-    private var photo1: Photo? = null
-    private var photo2: Photo? = null
-    private var photo3: Photo? = null
-    private var photo4: Photo? = null
     private var photoList: MutableSet<Photo?> = mutableSetOf()
     private var photoListString : MutableSet<String?> = mutableSetOf()
     private var interestList: MutableSet<String?> = mutableSetOf()
@@ -217,7 +213,6 @@ class AddPropertyActivity : AppCompatActivity() {
         val address = binding.addPropertyAddressEdit.editableText?.toString()
         val postalCode = binding.addPropertyAddressPostalCodeEdit.editableText?.toString()
         val city = binding.addPropertyAddressCityEdit.editableText?.toString()
-        //val pointInterestList = listOf(interestList.toString())
         val pointsOfInterestList = convertInterestStringToClass(interestList)
 
         val agent = binding.addPropertyEstateAgentText.editableText.toString()
@@ -333,28 +328,24 @@ class AddPropertyActivity : AppCompatActivity() {
             1 -> {
                 image = binding.addPropertyPhoto1
                 binding.addPropertyPhoto1Text.text = ""
-                photo1 = Photo(id, photo, photoDescription)
-                photoList.add(photo1)
             }
             2 -> {
                 image = binding.addPropertyPhoto2
                 binding.addPropertyPhoto2Text.text = ""
-                photo2 = Photo(id, photo, photoDescription)
-                photoList.add(photo2)
             }
             3 -> {
                 image = binding.addPropertyPhoto3
                 binding.addPropertyPhoto3Text.text = ""
-                photo3 = Photo(id, photo, photoDescription)
-                photoList.add(photo3)
             }
             4 -> {
                 image = binding.addPropertyPhoto4
                 binding.addPropertyPhoto4Text.text = ""
-                photo4 = Photo(id, photo, photoDescription)
-                photoList.add(photo4)
             }
         }
+
+        val addPhoto = Photo(id, photo, photoDescription)
+        photoList.add(addPhoto)
+
         Glide.with(this)
             .load(myBitmap)
             .centerCrop()

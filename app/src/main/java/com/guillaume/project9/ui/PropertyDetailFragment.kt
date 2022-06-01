@@ -1,5 +1,6 @@
 package com.guillaume.project9.ui
 
+import android.content.Intent
 import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.view.*
@@ -63,14 +64,20 @@ class PropertyDetailFragment : Fragment() {
         search.isVisible = false
     }
 
-    /*override fun onOptionsItemSelected(item: MenuItem): Boolean {
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when(item.itemId){
             R.id.action_bar_edit_property -> {
-                //todo handle this
+                val intent = Intent(activity, EditPropertyActivity::class.java)
+                val bundle = Bundle()
+                bundle.putSerializable("property_to_edit", property)
+                intent.putExtras(bundle)
+                startActivity(intent)
+
+                true
             }
             else -> super.onOptionsItemSelected(item)
         }
-    }*/
+    }
 
     private fun displayData(){
         binding.detailTextAgentResponse.text = property!!.agent
@@ -207,4 +214,5 @@ class PropertyDetailFragment : Fragment() {
                 binding.detailCard6Text.text = photos[5]?.description}
         }
     }
+
 }

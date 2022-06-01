@@ -25,7 +25,6 @@ class PropertyListAdapter(private val listener: Communicator): ListAdapter<Prope
 
 
     override fun onBindViewHolder(holder: PropertyViewHolder, position: Int) {
-        // todo get data and display them
         val context = holder.itemView.context
         val current = getItem(position)
 

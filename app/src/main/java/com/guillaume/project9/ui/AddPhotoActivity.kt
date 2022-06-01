@@ -49,7 +49,7 @@ class AddPhotoActivity : AppCompatActivity() {
         /*val actionBar = supportActionBar
         actionBar?.setDisplayHomeAsUpEnabled(true)*/
 
-        val otherBundle = getIntent().extras
+        val otherBundle = intent.extras
         cardChoosed = otherBundle!!.getInt("card_number")
         photoName = otherBundle.getString("photo_name")
         description = otherBundle.getString("photo_description")
