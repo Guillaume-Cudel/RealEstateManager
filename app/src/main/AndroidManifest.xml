@@ -25,6 +25,7 @@
         android:theme="@style/Theme.Project9">
         <activity
             android:name=".ui.EditPropertyActivity"
+            android:configChanges="orientation|screenSize"
             android:exported="false" />
         <activity
             android:name=".ui.AddPhotoActivity"

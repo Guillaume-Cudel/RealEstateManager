@@ -13,11 +13,7 @@ class PropertyViewModel(private val repository: PropertyRepository): ViewModel()
 
 
     val allPropertys: LiveData<List<Property>> = repository.allPropertys.asLiveData()
-    //val allPhotosByProperty: LiveData<List<Photo>> = repository
 
-    /**
-     * Launching a new coroutine to insert the data in a non-blocking way
-     */
     fun insertProperty(property: Property) = viewModelScope.launch {
         repository.insertProperty(property)
     }
@@ -31,11 +27,9 @@ class PropertyViewModel(private val repository: PropertyRepository): ViewModel()
     }
 
     fun getPhotosByProperty(propertyId: String?): LiveData<List<Photo>> {
-        //val result = MutableLiveData<List<Photo>>()
         var photoList: LiveData<List<Photo>>? = null
         viewModelScope.launch {
             photoList = repository.getPhotosByProperty(propertyId).asLiveData()
-            //result.postValue(photoList)
         }
         return photoList!!
     }
@@ -48,9 +42,15 @@ class PropertyViewModel(private val repository: PropertyRepository): ViewModel()
         return pointsOfInterest!!
     }
 
+    fun updateProperty(property: Property) = viewModelScope.launch {
+        repository.updateProperty(property)
+    }
 
+    fun deletePhotos(propertyId: String?) = viewModelScope.launch {
+        repository.deletePhotos(propertyId)
+    }
 
-
-
-
+    fun deleteInterest(propertyId: String?) = viewModelScope.launch {
+        repository.deleteInterest(propertyId)
+    }
 }

@@ -8,7 +8,6 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
-import android.view.Menu
 import android.view.MenuItem
 import android.widget.*
 import androidx.activity.result.ActivityResultCallback
@@ -16,7 +15,6 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
-import androidx.appcompat.widget.Toolbar
 import com.bumptech.glide.Glide
 import com.guillaume.project9.R
 import com.guillaume.project9.databinding.ActivityAddPropertyBinding
@@ -27,7 +25,6 @@ import com.guillaume.project9.model.Photo
 import com.guillaume.project9.model.PointsOfInterest
 import com.guillaume.project9.viewmodel.PropertyViewModel
 import java.io.File
-import java.time.Instant
 import java.time.LocalDateTime
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
@@ -67,7 +64,7 @@ class AddPropertyActivity : AppCompatActivity() {
         configureEstateAgentInputText()
         setKindProperty()
         addPhotos()
-        setListOfInteret()
+        setListOfInterest()
 
         activateSaveButton()
         binding.addPropertyValidateButton.setOnClickListener {
@@ -98,7 +95,7 @@ class AddPropertyActivity : AppCompatActivity() {
         })
     }
 
-    private fun setListOfInteret(){
+    private fun setListOfInterest(){
 
         binding.addPropertySchoolBox.setOnClickListener {
             val school = "School"
@@ -216,10 +213,7 @@ class AddPropertyActivity : AppCompatActivity() {
         val pointsOfInterestList = convertInterestStringToClass(interestList)
 
         val agent = binding.addPropertyEstateAgentText.editableText.toString()
-        val zoneId = ZoneId.of("Europe/Paris")
-        val date = LocalDateTime.now(zoneId)
-        val formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")
-        val dateFormatted = date.format(formatter)
+        val dateFormatted = getDate()
 
         if(price.equals("") || surface.equals("") || address.equals("")
             || postalCode.equals("") || city.equals("")){
@@ -246,6 +240,14 @@ class AddPropertyActivity : AppCompatActivity() {
             propertyVM.insertPointsOfInterest(pointsOfInterestList.toList())
             finish()
         }
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun getDate(): String{
+        val zoneId = ZoneId.of("Europe/Paris")
+        val date = LocalDateTime.now(zoneId)
+        val formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")
+        return date.format(formatter)
     }
 
     private fun verifyEmptyData(field: String?): String? {

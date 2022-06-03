@@ -34,11 +34,16 @@ interface PropertyDao {
     @Query("SELECT * FROM points_interest_table WHERE propertyCreatorId = :propertyId")
     fun getPropertyPointsOfInterestById(propertyId: String?): Flow<List<PointsOfInterest>>
 
-
-    @Update
-    fun updateProperty(property: Property)
-
     @Transaction
     @Query("SELECT * FROM property_table")
     fun getPropertyPhotos(): List<PropertyWithPhotos>
+
+    @Update
+    suspend fun updateProperty(property: Property)
+
+    @Query("DELETE FROM photo_table WHERE propertyCreatorId = :propertyId")
+    suspend fun deletePhotos(propertyId: String?)
+
+    @Query("DELETE FROM points_interest_table WHERE propertyCreatorId = :propertyId")
+    suspend fun deleteInterest(propertyId: String?)
 }

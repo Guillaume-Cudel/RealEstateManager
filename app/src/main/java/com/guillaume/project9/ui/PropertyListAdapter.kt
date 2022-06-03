@@ -21,9 +21,6 @@ class PropertyListAdapter(private val listener: Communicator): ListAdapter<Prope
         return PropertyViewHolder.create(parent)
     }
 
-    //private var photosList: List<Photo?> = listOf()
-
-
     override fun onBindViewHolder(holder: PropertyViewHolder, position: Int) {
         val context = holder.itemView.context
         val current = getItem(position)
@@ -47,12 +44,12 @@ class PropertyListAdapter(private val listener: Communicator): ListAdapter<Prope
         holder.city.text = current.cityAddress
         holder.date.text = current.launchOrSellDate
 
+        //todo set sold boolean
 
         if (current.photo != null) {
             val photosString: String? = current.photo
             val photoFile = photosString?.let { File(it) }
             val myBitmap = BitmapFactory.decodeFile(photoFile?.absolutePath)
-            //holder.bind(current.launchOrSellDate)
             holder.date.text = current.launchOrSellDate
             Glide.with(context)
                 .load(myBitmap)

@@ -42,4 +42,19 @@ class PropertyRepository(private val propertyDao: PropertyDao) {
     fun getPointsOfInterest(propertyId: String?): Flow<List<PointsOfInterest>>{
         return propertyDao.getPropertyPointsOfInterestById(propertyId)
     }
+
+    @WorkerThread
+    suspend fun updateProperty(property: Property){
+        propertyDao.updateProperty(property)
+    }
+
+    @WorkerThread
+    suspend fun deletePhotos(propertyId: String?){
+        propertyDao.deletePhotos(propertyId)
+    }
+
+    @WorkerThread
+    suspend fun deleteInterest(propertyId: String?){
+        propertyDao.deleteInterest(propertyId)
+    }
 }
