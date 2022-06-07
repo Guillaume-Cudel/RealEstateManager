@@ -59,6 +59,10 @@
     <string name="property_sold">Property sold</string>
     <string name="edit_number_of_rooms">Number of rooms</string>
     <string name="sold_status">SOLD</string>
+    <string name="adding_of_property">Adding of property</string>
+    <string name="add_property_went_well">Adding of property went well</string>
+    <string name="channel_name">Channel 1</string>
+    <string name="channel_description">This is channel 1</string>
 
 
     <string-array name="Estate_agents">

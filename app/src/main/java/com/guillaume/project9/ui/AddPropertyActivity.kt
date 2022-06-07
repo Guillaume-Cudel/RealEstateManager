@@ -1,5 +1,8 @@
 package com.guillaume.project9.ui
 
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.content.Context
 import android.content.Intent
 import android.graphics.BitmapFactory
 import android.os.Build
@@ -14,6 +17,8 @@ import androidx.activity.result.ActivityResultCallback
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.annotation.RequiresApi
+import androidx.core.app.NotificationCompat
+import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.ContextCompat
 import com.bumptech.glide.Glide
 import com.guillaume.project9.R
@@ -34,6 +39,8 @@ class AddPropertyActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityAddPropertyBinding
 
+    private val CHANNEL_ID = "CHANNEL_ID"
+    val notificationID = 1
     private var kind: Int = 2
     private var kindResult: String = ""
     private var cardChoosed = 0
@@ -235,6 +242,7 @@ class AddPropertyActivity : AppCompatActivity() {
             propertyVM.insertProperty(property)
             propertyVM.insertPhotos(list)
             propertyVM.insertPointsOfInterest(pointsOfInterestList.toList())
+            sendNotification()
             finish()
         }
     }
@@ -350,6 +358,34 @@ class AddPropertyActivity : AppCompatActivity() {
             .into(image)
     }
 
-    fun uniqueId():String = UUID.randomUUID().toString()
+    private fun uniqueId():String = UUID.randomUUID().toString()
+
+    private fun sendNotification(){
+        val title = getString(R.string.adding_of_property)
+        val textContent = getString(R.string.add_property_went_well)
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val name = getString(R.string.channel_name)
+            val descriptionText = getString(R.string.channel_description)
+            val importance = NotificationManager.IMPORTANCE_DEFAULT
+            val channel = NotificationChannel(CHANNEL_ID, name, importance).apply {
+                description = descriptionText
+            }
+            val notificationManager: NotificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+            notificationManager.createNotificationChannel(channel)
+        }
+
+        val builder = NotificationCompat.Builder(this, CHANNEL_ID)
+            .setSmallIcon(R.drawable.outline_business_black_48)
+            .setContentTitle(title)
+            .setContentText(textContent)
+            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+            .setAutoCancel(true)
+
+        with(NotificationManagerCompat.from(this)){
+            notify(notificationID, builder.build())
+        }
+    }
+
 
 }
