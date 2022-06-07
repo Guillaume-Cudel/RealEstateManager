@@ -63,7 +63,7 @@ class EditPropertyActivity : AppCompatActivity() {
 
         })
         setDataToEditor(property!!)
-        handleSellButton()
+        handleSellButton(property!!.sold)
 
         binding.editPropertySaveButton.setOnClickListener {
             handleSaveButton()
@@ -147,9 +147,15 @@ class EditPropertyActivity : AppCompatActivity() {
         return stringList
     }
 
-    private fun handleSellButton() {
-        binding.editPropertySellButton.setOnClickListener {
-            sold = binding.editPropertySellButton.isChecked
+    private fun handleSellButton(soldProperty: Boolean) {
+
+        if(soldProperty){
+            binding.editPropertySellButton.isChecked = true
+            binding.editPropertySellButton.isClickable = false
+        }else {
+            binding.editPropertySellButton.setOnClickListener {
+                sold = binding.editPropertySellButton.isChecked
+            }
         }
     }
 
@@ -256,7 +262,6 @@ class EditPropertyActivity : AppCompatActivity() {
         val price = binding.editPropertyPriceEdit.editableText?.toString()
         val surface = binding.editPropertySurfaceEdit.editableText?.toString()
         val rooms = binding.editPropertyRoomsEdit.editableText?.toString()
-        val roomsToInt = rooms?.toInt()
         val description: String? = binding.editPropertyDescriptionEdit.editableText?.toString()
         val address = binding.editPropertyAddressEdit.editableText?.toString()
         val postalCode = binding.editPropertyAddressPostalCodeEdit.editableText?.toString()
@@ -267,7 +272,7 @@ class EditPropertyActivity : AppCompatActivity() {
         }
         val newInterestList = convertInterestStringToClass(stringInterestList)
 
-        if (price.equals("") || surface.equals("") || address.equals("")
+        if (price.equals("") || surface.equals("") || rooms.equals("") || address.equals("")
             || postalCode.equals("") || city.equals("")) {
             Toast.makeText(this, getString(R.string.empty_fields), Toast.LENGTH_LONG).show()
         } else {
@@ -276,7 +281,7 @@ class EditPropertyActivity : AppCompatActivity() {
                 property!!.kind,
                 price!!.toInt(),
                 surface!!.toDouble(),
-                roomsToInt,
+                rooms!!.toInt(),
                 description,
                 property?.photo,
                 address!!,

@@ -94,7 +94,7 @@
 
             app:counterEnabled="true"
             app:counterMaxLength="2"
-            android:hint="@string/number_of_rooms">
+            android:hint="@string/edit_number_of_rooms">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/edit_property_rooms_edit"

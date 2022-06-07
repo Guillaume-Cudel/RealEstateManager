@@ -196,8 +196,6 @@ class AddPropertyActivity : AppCompatActivity() {
         val price = binding.addPropertyPriceEdit.editableText?.toString()
         val surface = binding.addPropertySurfaceEdit.editableText?.toString()
         val rooms = binding.addPropertyRoomsEdit.editableText?.toString()
-        verifyEmptyData(rooms)
-        val roomsToInt = rooms?.toInt()
         val description: String? = binding.addPropertyDescriptionEdit.editableText?.toString()
         verifyEmptyData(description)
 
@@ -215,7 +213,7 @@ class AddPropertyActivity : AppCompatActivity() {
         val agent = binding.addPropertyEstateAgentText.editableText.toString()
         val dateFormatted = getDate()
 
-        if(price.equals("") || surface.equals("") || address.equals("")
+        if(price.equals("") || surface.equals("") || rooms.equals("") || address.equals("")
             || postalCode.equals("") || city.equals("")){
             Toast.makeText(this, getString(R.string.empty_fields), Toast.LENGTH_LONG).show()
         }else {
@@ -224,8 +222,7 @@ class AddPropertyActivity : AppCompatActivity() {
                 kindResult,
                 price!!.toInt(),
                 surface!!.toDouble(),
-                //todo get rooms if it's not null et convert it to int
-                roomsToInt,
+                rooms!!.toInt(),
                 description,
                 firstPhoto,
                 address!!,
@@ -300,7 +297,6 @@ class AddPropertyActivity : AppCompatActivity() {
         val intent = Intent(this, AddPhotoActivity::class.java)
         intent.putExtra("card_number", cardChoosed)
         intent.putExtra("photo_name", photoName)
-        intent.putExtra("photo_description", photoDescription)
         Log.i("INTENT:",  "$cardChoosed is send !")
         getPhotoContent.launch(intent)
     }

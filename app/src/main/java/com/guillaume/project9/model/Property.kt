@@ -15,7 +15,7 @@ data class Property(@PrimaryKey val propertyId: String, val kind: String, val pr
                     val description: String?, /*@TypeConverters(PropertyTypeConverter::class)*/ var photo: String?,
                     val address: String, val postalCode: Int, val cityAddress: String,
                     /*@TypeConverters(PropertyTypeConverter::class) val pointOfInterest: List<String?>,*/
-                    var selled: Boolean, val launchOrSellDate: String, val agent: String) :
+                    var sold: Boolean, val launchOrSellDate: String, val agent: String) :
     Serializable
 
 

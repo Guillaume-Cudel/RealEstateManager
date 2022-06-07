@@ -6,7 +6,7 @@
     <string name="price">Price*</string>
     <string name="surface">Surface*</string>
     <string name="surface_measurement">in m2 (Required)</string>
-    <string name="number_of_rooms">Number of rooms</string>
+    <string name="number_of_rooms">Number of rooms*</string>
     <string name="address">Address*</string>
     <string name="property_description">Property description</string>
     <string name="choose_the_points_of_interest">Choose the points of interest</string>
@@ -57,6 +57,8 @@
     <string name="remove">Remove</string>
     <string name="add_modify">Add/modify</string>
     <string name="property_sold">Property sold</string>
+    <string name="edit_number_of_rooms">Number of rooms</string>
+    <string name="sold_status">SOLD</string>
 
 
     <string-array name="Estate_agents">

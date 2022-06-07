@@ -52,7 +52,6 @@ class AddPhotoActivity : AppCompatActivity() {
         val otherBundle = intent.extras
         cardChoosed = otherBundle!!.getInt("card_number")
         photoName = otherBundle.getString("photo_name")
-        description = otherBundle.getString("photo_description")
         if(photoName != null){
             val photoFile = File(photoName)
             val bitmap = BitmapFactory.decodeFile(photoFile.absolutePath)

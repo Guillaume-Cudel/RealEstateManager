@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -32,6 +33,7 @@ class PropertyListAdapter(private val listener: Communicator): ListAdapter<Prope
             str.insert(idx, ".");
             idx -= 3;
         }
+        var date = current.launchOrSellDate
         val priceWithMonnayUnity = "$str €"
         holder.price.text = priceWithMonnayUnity
 
@@ -42,11 +44,18 @@ class PropertyListAdapter(private val listener: Communicator): ListAdapter<Prope
         holder.surface.text = surfaceText
         holder.surface.setTextColor(ContextCompat.getColor(context, R.color.little_grey_bold))
         holder.city.text = current.cityAddress
-        holder.date.text = current.launchOrSellDate
+
 
         //todo set sold boolean
+        if(current.sold){
+            val soldDate = "Sold : $date"
+            holder.date.text = soldDate
+        } else {
+            holder.soldText.isVisible = false
+            holder.date.text = date
+        }
 
-        if (current.photo != null) {
+                if (current.photo != null) {
             val photosString: String? = current.photo
             val photoFile = photosString?.let { File(it) }
             val myBitmap = BitmapFactory.decodeFile(photoFile?.absolutePath)
@@ -72,6 +81,7 @@ class PropertyListAdapter(private val listener: Communicator): ListAdapter<Prope
         val kind: TextView = itemView.findViewById(R.id.property_kind)
         val surface: TextView = itemView.findViewById(R.id.property_area)
         val city: TextView = itemView.findViewById(R.id.property_location)
+        val soldText : TextView = itemView.findViewById(R.id.property_sold)
 
 
         /*fun bind(text: String?){
