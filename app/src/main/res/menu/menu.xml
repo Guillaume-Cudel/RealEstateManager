@@ -3,16 +3,16 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
+        android:id="@+id/action_bar_map"
+        android:icon="@drawable/ic_baseline_map_24"
+        android:title="Map"
+        app:showAsAction="ifRoom"/>
+
+    <item
         android:id="@+id/action_bar_add_property"
         android:icon="@drawable/ic_baseline_add_24"
         android:title="Add property"
         app:showAsAction="ifRoom"/>
-
-    <!--<item
-        android:id="@+id/action_bar_edit_property"
-        android:icon="@drawable/baseline_edit_note_24"
-        android:title="Edit property"
-        app:showAsAction="ifRoom"/>-->
 
     <item
         android:id="@+id/action_bar_search_property"

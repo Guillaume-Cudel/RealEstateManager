@@ -23,6 +23,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Project9">
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyCl_z53QkxNDCnSnZwEHQWIK3PNlc6wtwc" />
+
         <activity
             android:name=".ui.EditPropertyActivity"
             android:configChanges="orientation|screenSize"

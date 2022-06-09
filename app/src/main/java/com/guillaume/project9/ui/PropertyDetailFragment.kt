@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import com.bumptech.glide.Glide
 import com.guillaume.project9.R
 import com.guillaume.project9.databinding.FragmentPropertyDetailBinding
 import com.guillaume.project9.di.PropertyViewModelFactory
@@ -46,6 +47,7 @@ class PropertyDetailFragment : Fragment() {
             photoList = it
             displayData()
             displayPhotos(photoList)
+            setMapImage(property!!.address, property!!.cityAddress)
         })
 
         return binding.root
@@ -62,6 +64,8 @@ class PropertyDetailFragment : Fragment() {
         add.isVisible = false
         val search = menu.findItem(R.id.action_bar_search_property)
         search.isVisible = false
+        val map = menu.findItem(R.id.action_bar_map)
+        map.isVisible = false
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -77,6 +81,37 @@ class PropertyDetailFragment : Fragment() {
             }
             else -> super.onOptionsItemSelected(item)
         }
+    }
+
+    private fun setMapImage(address: String, city: String){
+        val centerRequest = adaptToCenterRequest(address, city)
+        val markerRequest = adaptToMarkerRequest(address, city)
+        val baseUrl = "https://maps.googleapis.com/maps/api/staticmap?zoom=16&size=400x400&scale=2&key=AIzaSyCl_z53QkxNDCnSnZwEHQWIK3PNlc6wtwc$centerRequest$markerRequest"
+
+        Glide.with(requireActivity())
+            .load(baseUrl)
+            .centerCrop()
+            .into(binding.detailImageMap)
+
+    }
+
+    private fun adaptToCenterRequest( address: String, city: String): String{
+        //&center=4+rue+virginia+woolf+toulouse,FR
+        val addressConverted = convertToRequest(address)
+        val request = "&center=$addressConverted+$city,FR"
+        return request
+    }
+
+
+    private fun adaptToMarkerRequest(address : String, city: String): String{
+        //&markers=color:red|%4+rue+virginia+woolf+toulouse
+        val addressConverted = convertToRequest(address)
+        val request = "&markers=color:red|%$addressConverted+$city"
+        return request
+    }
+
+    private fun convertToRequest(s: String): String {
+        return s.replace(' ', '+')
     }
 
     private fun displayData(){
