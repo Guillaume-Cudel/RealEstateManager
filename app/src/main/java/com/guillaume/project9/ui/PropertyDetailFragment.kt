@@ -47,8 +47,11 @@ class PropertyDetailFragment : Fragment() {
             photoList = it
             displayData()
             displayPhotos(photoList)
-            setMapImage(property!!.address, property!!.cityAddress)
+
         })
+        if(property != null){
+            setMapImage(property!!.address, property!!.cityAddress)
+        }
 
         return binding.root
     }
@@ -88,7 +91,7 @@ class PropertyDetailFragment : Fragment() {
         val markerRequest = adaptToMarkerRequest(address, city)
         val baseUrl = "https://maps.googleapis.com/maps/api/staticmap?zoom=16&size=400x400&scale=2&key=AIzaSyCl_z53QkxNDCnSnZwEHQWIK3PNlc6wtwc$centerRequest$markerRequest"
 
-        Glide.with(requireActivity())
+        Glide.with(this.requireActivity())
             .load(baseUrl)
             .centerCrop()
             .into(binding.detailImageMap)

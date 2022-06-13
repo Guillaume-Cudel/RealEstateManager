@@ -34,6 +34,8 @@ class MainActivity : AppCompatActivity() {
 
         when(item.itemId){
             R.id.action_bar_add_property -> startActivity(Intent(this, AddPropertyActivity::class.java))
+
+            R.id.action_bar_map -> startActivity(Intent(this, MapsActivity::class.java))
         }
 
         return super.onOptionsItemSelected(item)

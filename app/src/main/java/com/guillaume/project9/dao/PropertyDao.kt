@@ -11,7 +11,7 @@ import kotlin.collections.List as List
 @Dao
 interface PropertyDao {
 
-    @Query("SELECT * FROM property_table ORDER BY launchOrSellDate ASC")
+    @Query("SELECT * FROM property_table ORDER BY launchOrSellDate DESC")
     fun getPropertysByLatestDate(): Flow<List<Property>>
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)

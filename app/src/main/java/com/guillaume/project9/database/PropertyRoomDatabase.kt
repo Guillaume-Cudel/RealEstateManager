@@ -73,7 +73,7 @@ abstract class PropertyRoomDatabase : RoomDatabase() {
                         31200,
                         "toulouse",
                         false,
-                        "12/05/22 10:16",
+                        "12/05/2022 10:16",
                         "Vanessa Basset"
                     )
 
