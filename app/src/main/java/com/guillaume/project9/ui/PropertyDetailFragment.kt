@@ -19,6 +19,7 @@ import com.guillaume.project9.model.Property
 import com.guillaume.project9.viewmodel.PropertyViewModel
 import java.io.File
 import java.lang.StringBuilder
+import java.text.SimpleDateFormat
 
 
 class PropertyDetailFragment : Fragment() {
@@ -129,11 +130,16 @@ class PropertyDetailFragment : Fragment() {
         binding.detailTextLocationPostalCodeResponse.text = property!!.postalCode.toString()
         binding.detailTextLocationCityResponse.text = property!!.cityAddress
         if(property!!.sold){
-            binding.detailTextSoldDate.text = property!!.launchOrSellDate
+            binding.detailTextSoldDate.text = convertToDate(property!!.launchOrSellDate)
         } else {
             binding.detailTextSold.isVisible = false
             binding.detailTextSoldDate.isVisible = false
         }
+    }
+
+    private fun convertToDate(time: Long): String{
+        val sdf = SimpleDateFormat("dd/MM/yyyy HH:mm")
+        return sdf.format(time)
     }
 
     private fun displayInterestPoints(interestList: List<PointsOfInterest>){

@@ -4,7 +4,8 @@ import androidx.room.TypeConverter
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import java.util.*
-
+// USELESS
+//todo remove this
 class PropertyTypeConverter {
 
     private val gson = Gson()

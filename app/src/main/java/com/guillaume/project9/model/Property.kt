@@ -1,21 +1,30 @@
 package com.guillaume.project9.model
 
 import androidx.room.*
+import com.google.android.gms.maps.model.LatLng
 import java.io.Serializable
 import java.util.*
 
-@Entity(/*foreignKeys = [ForeignKey(entity = PropertyPhoto::class,
-    parentColumns = arrayOf("id"),
-    childColumns = arrayOf("propertyPhotos"),
-    onUpdate = ForeignKey.CASCADE)],*/
-    tableName = "property_table")
+@Entity(
+    tableName = "property_table"
+)
 
 
-data class Property(@PrimaryKey val propertyId: String, val kind: String, val price: Int, val surface: Double, val rooms: Int?,
-                    val description: String?, /*@TypeConverters(PropertyTypeConverter::class)*/ var photo: String?,
-                    val address: String, val postalCode: Int, val cityAddress: String,
-                    /*@TypeConverters(PropertyTypeConverter::class) val pointOfInterest: List<String?>,*/
-                    var sold: Boolean, val launchOrSellDate: String, val agent: String) :
-    Serializable
+data class Property(
+    @PrimaryKey val propertyId: String,
+    val kind: String,
+    val price: Int,
+    val surface: Double,
+    val rooms: Int?,
+    val description: String?,
+    var photo: String?,
+    val address: String,
+    val postalCode: Int,
+    val cityAddress: String,
+    var sold: Boolean,
+    val launchOrSellDate: Long,
+    val agent: String,
+    val location: String?
+) : Serializable
 
 

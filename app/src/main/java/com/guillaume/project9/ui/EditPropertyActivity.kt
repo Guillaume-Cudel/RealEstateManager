@@ -289,7 +289,8 @@ class EditPropertyActivity : AppCompatActivity() {
                 city!!,
                 sold,
                 dateFormatted,
-                property!!.agent
+                property!!.agent,
+                property?.location
             )
 
             propertyVM.updateProperty(property!!)
@@ -301,12 +302,22 @@ class EditPropertyActivity : AppCompatActivity() {
         }
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
+    /*@RequiresApi(Build.VERSION_CODES.O)
     private fun getDate(): String {
         val zoneId = ZoneId.of("Europe/Paris")
         val date = LocalDateTime.now(zoneId)
         val formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")
         return date.format(formatter)
+    }*/
+    @RequiresApi(Build.VERSION_CODES.O)
+    //private fun getDate(): String{
+    private fun getDate(): Long {
+        //val zoneId = ZoneId.of("Europe/Paris")
+        //todo change date format with timeStamp
+        /*val date = LocalDateTime.now(zoneId)
+        val formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")
+        return date.format(formatter)*/
+        return System.currentTimeMillis()
     }
 
     private fun setListOfInterest() {

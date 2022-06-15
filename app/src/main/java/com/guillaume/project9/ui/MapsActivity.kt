@@ -65,6 +65,9 @@ class MapsActivity : AppCompatActivity(), ActivityCompat.OnRequestPermissionsRes
             addMarkers(googleMap)
 
             googleMap.uiSettings.isZoomControlsEnabled = true
+            /*googleMap.setOnMarkerClickListener {
+
+            }*/
 
         }
     }
@@ -113,10 +116,12 @@ class MapsActivity : AppCompatActivity(), ActivityCompat.OnRequestPermissionsRes
 
 
     private fun addMarkers(googleMap: GoogleMap) {
+        //todo find how get good property on click marker, save LAtlng ?
          locationList?.forEach { location ->
             val marker = googleMap.addMarker(
                 MarkerOptions()
                     //.title(place.name)
+
                     .position(location)
             )
         }

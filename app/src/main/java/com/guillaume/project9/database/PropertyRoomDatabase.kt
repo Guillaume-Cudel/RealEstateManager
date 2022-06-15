@@ -73,9 +73,11 @@ abstract class PropertyRoomDatabase : RoomDatabase() {
                         31200,
                         "toulouse",
                         false,
-                        "12/05/2022 10:16",
-                        "Vanessa Basset"
+                        /*"12/05/2022 10:16"*/ 1655282245921,
+                        "Vanessa Basset",
+                        null
                     )
+
 
                     val interest1 = PointsOfInterest(propertyId, "School")
                     val interest2 = PointsOfInterest(propertyId, "Transport")

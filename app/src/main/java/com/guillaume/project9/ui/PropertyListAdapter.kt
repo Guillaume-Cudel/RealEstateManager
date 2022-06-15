@@ -16,6 +16,7 @@ import com.guillaume.project9.R
 import com.guillaume.project9.model.Property
 import java.io.File
 import java.lang.StringBuilder
+import java.text.SimpleDateFormat
 
 class PropertyListAdapter(private val listener: Communicator): ListAdapter<Property, PropertyViewHolder>(PropertyViewHolder.PropertyComparator()) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PropertyViewHolder {
@@ -34,6 +35,7 @@ class PropertyListAdapter(private val listener: Communicator): ListAdapter<Prope
             idx -= 3;
         }
         var date = current.launchOrSellDate
+        val stringDate = convertToDate(date)
         val priceWithMonnayUnity = "$str €"
         holder.price.text = priceWithMonnayUnity
 
@@ -46,20 +48,19 @@ class PropertyListAdapter(private val listener: Communicator): ListAdapter<Prope
         holder.city.text = current.cityAddress
 
 
-        //todo set sold boolean
         if(current.sold){
-            val soldDate = "Sold : $date"
+            val soldDate = "Sold : $stringDate"
             holder.date.text = soldDate
         } else {
             holder.soldText.isVisible = false
-            holder.date.text = date
+            holder.date.text = stringDate
         }
 
                 if (current.photo != null) {
             val photosString: String? = current.photo
             val photoFile = photosString?.let { File(it) }
             val myBitmap = BitmapFactory.decodeFile(photoFile?.absolutePath)
-            holder.date.text = current.launchOrSellDate
+            //holder.date.text = current.launchOrSellDate
             Glide.with(context)
                 .load(myBitmap)
                 .centerCrop()
@@ -70,6 +71,12 @@ class PropertyListAdapter(private val listener: Communicator): ListAdapter<Prope
             listener.passData(current)
         }
     }
+
+    private fun convertToDate(time: Long): String{
+        val sdf = SimpleDateFormat("dd/MM/yyyy HH:mm")
+        return sdf.format(time)
+    }
+
 }
 
 

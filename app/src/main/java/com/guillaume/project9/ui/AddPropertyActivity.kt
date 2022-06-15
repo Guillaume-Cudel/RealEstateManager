@@ -30,9 +30,6 @@ import com.guillaume.project9.model.Photo
 import com.guillaume.project9.model.PointsOfInterest
 import com.guillaume.project9.viewmodel.PropertyViewModel
 import java.io.File
-import java.time.LocalDateTime
-import java.time.ZoneId
-import java.time.format.DateTimeFormatter
 import java.util.*
 
 class AddPropertyActivity : AppCompatActivity() {
@@ -237,7 +234,8 @@ class AddPropertyActivity : AppCompatActivity() {
                 city!!,
                 false,
                 dateFormatted,
-                agent)
+                agent,
+            null)
 
             propertyVM.insertProperty(property)
             propertyVM.insertPhotos(list)
@@ -248,12 +246,14 @@ class AddPropertyActivity : AppCompatActivity() {
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
-    private fun getDate(): String{
-        val zoneId = ZoneId.of("Europe/Paris")
+    //private fun getDate(): String{
+    private fun getDate(): Long {
+        //val zoneId = ZoneId.of("Europe/Paris")
         //todo change date format with timeStamp
-        val date = LocalDateTime.now(zoneId)
+        /*val date = LocalDateTime.now(zoneId)
         val formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")
-        return date.format(formatter)
+        return date.format(formatter)*/
+        return System.currentTimeMillis()
     }
 
     private fun verifyEmptyData(field: String?): String? {
