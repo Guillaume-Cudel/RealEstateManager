@@ -14,6 +14,7 @@ import androidx.lifecycle.Observer
 import com.google.android.gms.maps.*
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.LatLngBounds
+import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
 import com.guillaume.project9.R
 import com.guillaume.project9.di.PropertyViewModelFactory
@@ -24,7 +25,8 @@ import com.guillaume.project9.utils.PermissionUtils.PermissionDeniedDialog.Compa
 import com.guillaume.project9.utils.PermissionUtils.isPermissionGranted
 import com.guillaume.project9.viewmodel.PropertyViewModel
 
-class MapsActivity : AppCompatActivity(), ActivityCompat.OnRequestPermissionsResultCallback {
+class MapsActivity : AppCompatActivity(), ActivityCompat.OnRequestPermissionsResultCallback,
+    GoogleMap.OnMarkerClickListener {
 
     private lateinit var map: GoogleMap
     private val LOCATION_PERMISSION_REQUEST_CODE = 1
@@ -50,24 +52,25 @@ class MapsActivity : AppCompatActivity(), ActivityCompat.OnRequestPermissionsRes
     }
 
 
-    private fun addPropertysToMaps(){
+    private fun addPropertysToMaps() {
 
-        val mapFragment = supportFragmentManager.findFragmentById(R.id.map_fragment) as? SupportMapFragment
+        val mapFragment =
+            supportFragmentManager.findFragmentById(R.id.map_fragment) as? SupportMapFragment
         mapFragment?.getMapAsync { googleMap ->
             map = googleMap
             enableMyLocation()
             val bounds = LatLngBounds.builder()
             locationList?.forEach {
                 val boundsLatLng = LatLng(it.latitude, it.longitude)
-                bounds.include(boundsLatLng )
+                bounds.include(boundsLatLng)
             }
             googleMap.moveCamera(CameraUpdateFactory.newLatLngBounds(bounds.build(), 100))
             addMarkers(googleMap)
 
             googleMap.uiSettings.isZoomControlsEnabled = true
-            /*googleMap.setOnMarkerClickListener {
+            //todo check how to click on marker
+            googleMap.setOnMarkerClickListener(this)
 
-            }*/
 
         }
     }
@@ -75,7 +78,7 @@ class MapsActivity : AppCompatActivity(), ActivityCompat.OnRequestPermissionsRes
     private fun getAddressList(list: List<Property>): MutableSet<String> {
         var fullAddress: String?
         val addressList: MutableSet<String> = mutableSetOf()
-        for(item in list){
+        for (item in list) {
             fullAddress = "${item.address} ${item.cityAddress}, France"
             addressList.add(fullAddress)
         }
@@ -85,15 +88,15 @@ class MapsActivity : AppCompatActivity(), ActivityCompat.OnRequestPermissionsRes
     private fun getLocationListFromAddress(addressList: MutableSet<String>): List<LatLng>? {
         var location: LatLng?
         var locationList: MutableSet<LatLng> = mutableSetOf()
-        for(item in addressList){
+        for (item in addressList) {
             location = convertAddressToLocation(item)
             if (location != null) {
                 locationList.add(location)
+                updateProperty(item, location)
             }
         }
-        return if(locationList.isNotEmpty()) locationList.toList() else null
+        return if (locationList.isNotEmpty()) locationList.toList() else null
     }
-
 
     private fun convertAddressToLocation(address: String): LatLng? {
         val addressList: List<Address>
@@ -101,46 +104,82 @@ class MapsActivity : AppCompatActivity(), ActivityCompat.OnRequestPermissionsRes
 
         try {
             addressList = geoCoder.getFromLocationName(address, 1)
-            if(addressList.isNotEmpty()) run {
+            if (addressList.isNotEmpty()) run {
                 val singleAddress: Address = addressList[0]
                 return LatLng(singleAddress.latitude, singleAddress.longitude)
-            } else{
+            } else {
                 return null
             }
 
-        } catch(e: Exception){
+        } catch (e: Exception) {
             e.printStackTrace()
             return null
         }
     }
 
+    private fun updateProperty(address: String, location: LatLng) {
+        for (item in propertyList) {
+            if(item.location == null || item.location == "") {
+                val fullAddress = "${item.address} ${item.cityAddress}, France"
+                val lat = location.latitude
+                val lng = location.longitude
+                val stringLocation = "${lat.toString()}+${lng.toString()}"
+                if (fullAddress == address) {
+                    val updateProperty = Property(
+                        item.propertyId,
+                        item.kind,
+                        item.price,
+                        item.surface,
+                        item.rooms,
+                        item.description,
+                        item.photo,
+                        item.address,
+                        item.postalCode,
+                        item.cityAddress,
+                        item.sold,
+                        item.launchOrSellDate,
+                        item.agent,
+                        stringLocation
+                    )
+                    propertyVM.updateProperty(updateProperty)
+                }
+            }
+        }
+    }
 
     private fun addMarkers(googleMap: GoogleMap) {
-        //todo find how get good property on click marker, save LAtlng ?
-         locationList?.forEach { location ->
-            val marker = googleMap.addMarker(
-                MarkerOptions()
-                    //.title(place.name)
+        propertyList.forEach { property ->
+            if (property.location != null) {
+                val latlng = property.location!!.split("+")
+                val location = LatLng(latlng[0].toDouble(), latlng[1].toDouble())
 
-                    .position(location)
-            )
+                val marker = googleMap.addMarker(
+                    MarkerOptions()
+                        //.title(place.name)
+                        .position(location)
+                )
+                marker?.tag = property
+            }
         }
     }
 
 
     @SuppressLint("MissingPermission")
     private fun enableMyLocation() {
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION
+        if (ContextCompat.checkSelfPermission(
+                this, Manifest.permission.ACCESS_FINE_LOCATION
             ) == PackageManager.PERMISSION_GRANTED || ContextCompat.checkSelfPermission(
                 this,
                 Manifest.permission.ACCESS_COARSE_LOCATION
-            ) == PackageManager.PERMISSION_GRANTED) {
+            ) == PackageManager.PERMISSION_GRANTED
+        ) {
             map.isMyLocationEnabled = true
             //addPropertysToMaps()
             return
         }
 
-        if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.ACCESS_FINE_LOCATION
+        if (ActivityCompat.shouldShowRequestPermissionRationale(
+                this, Manifest.permission.ACCESS_FINE_LOCATION
             ) || ActivityCompat.shouldShowRequestPermissionRationale(
                 this,
                 Manifest.permission.ACCESS_COARSE_LOCATION
@@ -204,6 +243,9 @@ class MapsActivity : AppCompatActivity(), ActivityCompat.OnRequestPermissionsRes
         newInstance(true).show(supportFragmentManager, "dialog")
     }
 
+    override fun onMarkerClick(p0: Marker): Boolean {
+        TODO("Not yet implemented")
+    }
 
 
 }

@@ -7,18 +7,15 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
-import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
 import com.guillaume.project9.dao.PropertyDao
 import com.guillaume.project9.model.Photo
 import com.guillaume.project9.model.PointsOfInterest
 import com.guillaume.project9.model.Property
-import com.guillaume.project9.model.PropertyTypeConverter
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
 @Database(entities = [Property::class, Photo::class, PointsOfInterest::class], version = 1, exportSchema = true)
-@TypeConverters(PropertyTypeConverter::class)
 abstract class PropertyRoomDatabase : RoomDatabase() {
 
 

@@ -246,13 +246,7 @@ class AddPropertyActivity : AppCompatActivity() {
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
-    //private fun getDate(): String{
     private fun getDate(): Long {
-        //val zoneId = ZoneId.of("Europe/Paris")
-        //todo change date format with timeStamp
-        /*val date = LocalDateTime.now(zoneId)
-        val formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")
-        return date.format(formatter)*/
         return System.currentTimeMillis()
     }
 
