@@ -4,6 +4,7 @@ import android.content.Intent
 import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.view.*
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
@@ -38,6 +39,10 @@ class PropertyDetailFragment : Fragment() {
 
         setHasOptionsMenu(true)
 
+
+        if(activity is AppCompatActivity){
+            (activity as AppCompatActivity).supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        }
 
         property = arguments?.getSerializable("property") as Property?
         propertyVM.getPointsOfInterestByProperty(property!!.propertyId).observe(requireActivity(), Observer {

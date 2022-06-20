@@ -2,12 +2,17 @@ package com.guillaume.project9.ui
 
 import android.Manifest
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.Address
 import android.location.Geocoder
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
 import androidx.activity.viewModels
+import androidx.annotation.RequiresApi
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
@@ -17,6 +22,7 @@ import com.google.android.gms.maps.model.LatLngBounds
 import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
 import com.guillaume.project9.R
+import com.guillaume.project9.databinding.ActivityMapsBinding
 import com.guillaume.project9.di.PropertyViewModelFactory
 import com.guillaume.project9.di.PropertysApplication
 import com.guillaume.project9.model.Property
@@ -28,6 +34,7 @@ import com.guillaume.project9.viewmodel.PropertyViewModel
 class MapsActivity : AppCompatActivity(), ActivityCompat.OnRequestPermissionsResultCallback,
     GoogleMap.OnMarkerClickListener {
 
+    private lateinit var binding: ActivityMapsBinding
     private lateinit var map: GoogleMap
     private val LOCATION_PERMISSION_REQUEST_CODE = 1
     private var permissionDenied = false
@@ -39,7 +46,12 @@ class MapsActivity : AppCompatActivity(), ActivityCompat.OnRequestPermissionsRes
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_maps)
+        binding = ActivityMapsBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
+        setSupportActionBar(binding.mapToolbar)
+        binding.mapToolbar.title = "@string/app_name"
+
 
 
         propertyVM.allPropertys.observe(this, Observer {
@@ -48,8 +60,29 @@ class MapsActivity : AppCompatActivity(), ActivityCompat.OnRequestPermissionsRes
             locationList = getLocationListFromAddress(addressList)
             addPropertysToMaps()
         })
-
     }
+
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        menuInflater.inflate(R.menu.menu, menu)
+        val add = menu.findItem(R.id.action_bar_add_property)
+        add.isVisible = false
+        val map = menu.findItem(R.id.action_bar_map)
+        map.isVisible = false
+        val search = menu.findItem(R.id.action_bar_search_property)
+        search.isVisible = false
+
+        return true
+    }
+
+    /*@RequiresApi(Build.VERSION_CODES.M)
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+
+        when(item.itemId){
+            R.id.action_bar_add_property -> startActivity(Intent(this, AddPropertyActivity::class.java))
+            R.id.action_bar_map -> verifyNetwork()
+        }
+        return super.onOptionsItemSelected(item)
+    }*/
 
 
     private fun addPropertysToMaps() {
@@ -75,19 +108,26 @@ class MapsActivity : AppCompatActivity(), ActivityCompat.OnRequestPermissionsRes
         }
     }
 
-    private fun getAddressList(list: List<Property>): MutableSet<String> {
-        var fullAddress: String?
-        val addressList: MutableSet<String> = mutableSetOf()
-        for (item in list) {
+    private fun getAddressList(list: List<Property>): List<String> {
+        /*var fullAddress: String?
+        val addressList: MutableSet<String> = mutableSetOf()*/
+        /*for (item in list) {
             fullAddress = "${item.address} ${item.cityAddress}, France"
             addressList.add(fullAddress)
+        }*/
+        return list.map {item ->
+            "${item.address} ${item.cityAddress}, France"
         }
-        return addressList
+        //return addressList
     }
 
-    private fun getLocationListFromAddress(addressList: MutableSet<String>): List<LatLng>? {
+    private fun getLocationListFromAddress(addressList: List<String>): List<LatLng>? {
+        /*addressList.map {
+            convertAddressToLocation(it)
+        }.filter { it != null }*/
+
         var location: LatLng?
-        var locationList: MutableSet<LatLng> = mutableSetOf()
+        val locationList: MutableList<LatLng> = mutableListOf()
         for (item in addressList) {
             location = convertAddressToLocation(item)
             if (location != null) {
@@ -244,8 +284,47 @@ class MapsActivity : AppCompatActivity(), ActivityCompat.OnRequestPermissionsRes
     }
 
     override fun onMarkerClick(p0: Marker): Boolean {
-        TODO("Not yet implemented")
+        val propertyMarker = p0.tag as Property
+
+        //val intent = Intent(this, MainActivity::class.java)
+        /*val bundle = Bundle()
+        bundle.putSerializable("property", propertyMarker)
+        intent.putExtras(bundle)*/
+
+
+
+        val bundle = Bundle()
+        bundle.putSerializable("property", propertyMarker)
+
+        val transaction = supportFragmentManager.beginTransaction()
+        val fragment2 = PropertyDetailFragment()
+        fragment2.arguments = bundle
+
+        transaction.replace(R.id.map_fragment_frame_layout, fragment2)
+        transaction.addToBackStack(null)
+        transaction.commit()
+        //finish()
+        //startActivity(intent)
+
+
+        return false
     }
+
+
+    /*val bundle = Bundle()
+    bundle.putSerializable("property", property)
+
+    val transaction = this.parentFragmentManager.beginTransaction()
+    val fragment2 = PropertyDetailFragment()
+    fragment2.arguments = bundle
+
+    transaction.replace(R.id.propertyListFragment, fragment2)
+    transaction.addToBackStack(null)
+    transaction.commit()*/
+
+
+
+
 
 
 }

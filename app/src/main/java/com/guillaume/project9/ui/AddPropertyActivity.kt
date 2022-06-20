@@ -65,6 +65,7 @@ class AddPropertyActivity : AppCompatActivity() {
         val actionBar = supportActionBar
         actionBar?.setDisplayHomeAsUpEnabled(true)*/
 
+
         configureEstateAgentInputText()
         setKindProperty()
         addPhotos()
