@@ -2,6 +2,7 @@ package com.guillaume.project9.ui
 
 import android.content.Intent
 import android.graphics.BitmapFactory
+import android.graphics.drawable.Drawable
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -58,12 +59,13 @@ class EditPropertyActivity : AppCompatActivity() {
             photosMutableList = photosList.toMutableSet()
             if (photosList.isNotEmpty()) {
                 displayPhotos(photosList)
-                addOrModifyPhoto()
+
             }
 
         })
         setDataToEditor(property!!)
         handleSellButton(property!!.sold)
+        addOrModifyPhoto()
 
         binding.editPropertySaveButton.setOnClickListener {
             handleSaveButton()
@@ -149,11 +151,14 @@ class EditPropertyActivity : AppCompatActivity() {
 
     private fun handleSellButton(soldProperty: Boolean) {
 
-        if(soldProperty){
-            binding.editPropertySellButton.isChecked = true
-            binding.editPropertySellButton.isClickable = false
-        }else {
-            binding.editPropertySellButton.setOnClickListener {
+        if(soldProperty)binding.editPropertySellButton.isChecked = true
+
+        binding.editPropertySellButton.setOnClickListener {
+            sold = soldProperty
+            if(soldProperty){
+                binding.editPropertySellButton.isChecked = true
+                binding.editPropertySellButton.isClickable = false
+            }else{
                 sold = binding.editPropertySellButton.isChecked
             }
         }
@@ -236,7 +241,10 @@ class EditPropertyActivity : AppCompatActivity() {
         val myBitmap = BitmapFactory.decodeFile(photoFile.absolutePath)
 
         when (card) {
-            0 -> image = binding.editDetailCard1Image
+            0 -> {
+                image = binding.editDetailCard1Image
+                image.setImageDrawable(null)
+            }
             1 -> image = binding.editDetailCard2Image
             2 -> image = binding.editDetailCard3Image
             3 -> image = binding.editDetailCard4Image

@@ -41,8 +41,8 @@ class PropertyDetailFragment : Fragment() {
     ): View? {
         binding = FragmentPropertyDetailBinding.inflate(inflater, container, false)
 
-        /*setHasOptionsMenu(true)
-        if (activity is AppCompatActivity) {
+        setHasOptionsMenu(true)
+        /*if (activity is AppCompatActivity) {
             (activity as AppCompatActivity).supportActionBar?.setDisplayHomeAsUpEnabled(true)
         }*/
 
