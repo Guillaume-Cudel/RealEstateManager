@@ -45,7 +45,6 @@ class AddPhotoActivity : AppCompatActivity() {
         binding = ActivityAddPhotoBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        //todo set toolbar to go back
         /*val actionBar = supportActionBar
         actionBar?.setDisplayHomeAsUpEnabled(true)*/
 

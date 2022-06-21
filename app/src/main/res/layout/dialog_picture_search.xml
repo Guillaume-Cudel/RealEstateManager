@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="320dp"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <TextView
+        android:id="@+id/search_dialog_kind_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginStart="@dimen/margin_20_dp"
+        android:layout_marginTop="@dimen/margin_10_dp"
+        android:text="@string/what_kind"
+        android:textColor="@color/overlay_light_primary"
+        android:textSize="16sp"/>
+
+    <Spinner
+        android:id="@+id/search_dialog_kind_spinner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/search_dialog_kind_text"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="@dimen/margin_10_dp"/>
+
+    <TextView
+        android:id="@+id/search_dialog_price_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/search_dialog_kind_spinner"
+        android:layout_marginStart="@dimen/margin_20_dp"
+        android:layout_marginTop="@dimen/margin_10_dp"
+        android:text="@string/what_price"
+        android:textColor="@color/overlay_light_primary"
+        android:textSize="16sp"/>
+
+    <EditText
+        android:id="@+id/search_dialog_price_min_response"
+        android:layout_width="90dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/search_dialog_price_text"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginStart="@dimen/margin_30_dp"
+        android:layout_marginTop="@dimen/margin_10_dp"
+        android:text="@string/price_min"
+        android:textSize="12sp"/>
+
+
+    <EditText
+        android:id="@+id/search_dialog_price_max_response"
+        android:layout_width="90dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="@id/search_dialog_price_min_response"
+        app:layout_constraintStart_toEndOf="@id/search_dialog_price_min_response"
+        android:layout_marginStart="@dimen/margin_50_dp"
+        android:text="@string/price_max"
+        android:textSize="12sp"/>
+
+    <TextView
+        android:id="@+id/search_dialog_surface_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="@id/search_dialog_kind_text"
+        app:layout_constraintTop_toBottomOf="@id/search_dialog_price_min_response"
+        android:layout_marginTop="@dimen/margin_10_dp"
+        android:text="@string/what_surface"
+        android:textColor="@color/overlay_light_primary"
+        android:textSize="16sp"/>
+
+    <EditText
+        android:id="@+id/search_dialog_surface_min_response"
+        android:layout_width="90dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/search_dialog_surface_text"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginStart="@dimen/margin_30_dp"
+        android:layout_marginTop="@dimen/margin_10_dp"
+        android:text="@string/surface_min"
+        android:textSize="12sp"/>
+
+
+    <EditText
+        android:id="@+id/search_dialog_surface_max_response"
+        android:layout_width="90dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="@id/search_dialog_surface_min_response"
+        app:layout_constraintStart_toEndOf="@id/search_dialog_surface_min_response"
+        android:layout_marginStart="@dimen/margin_50_dp"
+        android:text="@string/surface_max"
+        android:textSize="12sp"/>
+
+    <EditText
+        android:id="@+id/search_dialog_city_response"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="@id/search_dialog_price_min_response"
+        app:layout_constraintTop_toBottomOf="@id/search_dialog_surface_min_response"
+        android:layout_marginTop="@dimen/margin_10_dp"
+        android:text="@string/what_city"
+        android:textSize="12sp"/>
+
+    <TextView
+        android:id="@+id/search_dialog_interest_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="@id/search_dialog_kind_text"
+        app:layout_constraintTop_toBottomOf="@id/search_dialog_city_response"
+        android:layout_marginTop="@dimen/margin_10_dp"
+        android:text="@string/what_points_of_interest"
+        android:textColor="@color/overlay_light_primary"
+        android:textSize="16sp"/>
+
+    <CheckBox
+        android:id="@+id/search_dialog_interest_school"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/search_dialog_interest_text"
+        android:layout_marginStart="@dimen/margin_10_dp"
+        android:layout_marginTop="@dimen/margin_10_dp"
+        android:text="@string/school"/>
+
+    <CheckBox
+        android:id="@+id/search_dialog_interest_park"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toEndOf="@id/search_dialog_interest_school"
+        app:layout_constraintBottom_toBottomOf="@id/search_dialog_interest_school"
+        android:text="@string/parc"/>
+
+    <CheckBox
+        android:id="@+id/search_dialog_interest_transport"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toEndOf="@id/search_dialog_interest_park"
+        app:layout_constraintBottom_toBottomOf="@id/search_dialog_interest_school"
+        android:text="@string/transport"/>
+
+    <CheckBox
+        android:id="@+id/search_dialog_interest_shop"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toEndOf="@id/search_dialog_interest_transport"
+        app:layout_constraintBottom_toBottomOf="@id/search_dialog_interest_school"
+        android:text="@string/shop"/>
+
+    <TextView
+        android:id="@+id/search_dialog_photos_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="@id/search_dialog_kind_text"
+        app:layout_constraintTop_toBottomOf="@id/search_dialog_interest_school"
+        android:layout_marginTop="@dimen/margin_10_dp"
+        android:text="@string/how_many_photos"
+        android:textColor="@color/overlay_light_primary"
+        android:textSize="16sp"/>
+
+    <Spinner
+        android:id="@+id/search_dialog_photos_spinner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="@id/search_dialog_kind_spinner"
+        app:layout_constraintTop_toBottomOf="@id/search_dialog_photos_text"
+        android:layout_marginTop="@dimen/margin_10_dp"/>
+
+    <Button
+        android:id="@+id/search_dialog_button_ok"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/search_dialog_photos_spinner"
+        android:layout_marginTop="@dimen/margin_10_dp"
+        android:layout_marginEnd="@dimen/margin_40_dp"
+        android:text="GO"/>
+
+    <Button
+        android:id="@+id/search_dialog_button_reset"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/search_dialog_button_ok"
+        android:layout_marginStart="@dimen/margin_40_dp"
+        android:text="@string/reset"/>
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -7,6 +7,7 @@ import android.view.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.core.view.isVisible
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import com.bumptech.glide.Glide
@@ -18,6 +19,7 @@ import com.guillaume.project9.model.Photo
 import com.guillaume.project9.model.PointsOfInterest
 import com.guillaume.project9.model.Property
 import com.guillaume.project9.viewmodel.PropertyViewModel
+import com.guillaume.project9.viewmodel.UtilsViewModel
 import java.io.File
 import java.lang.StringBuilder
 import java.text.SimpleDateFormat
@@ -28,42 +30,34 @@ class PropertyDetailFragment : Fragment() {
     private lateinit var binding: FragmentPropertyDetailBinding
     private var property: Property? = null
     private var photoList: List<Photo?> = listOf()
+    private val utilsVM: UtilsViewModel by activityViewModels()
     private val propertyVM: PropertyViewModel by viewModels {
         PropertyViewModelFactory((activity?.application as PropertysApplication).repository)
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?): View? {
+        savedInstanceState: Bundle?
+    ): View? {
         binding = FragmentPropertyDetailBinding.inflate(inflater, container, false)
 
-        setHasOptionsMenu(true)
-
-
-        if(activity is AppCompatActivity){
+        /*setHasOptionsMenu(true)
+        if (activity is AppCompatActivity) {
             (activity as AppCompatActivity).supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        }
+        }*/
 
-        property = arguments?.getSerializable("property") as Property?
-        propertyVM.getPointsOfInterestByProperty(property!!.propertyId).observe(requireActivity(), Observer {
-            val interest = it
-            displayInterestPoints(interest)
-        })
-        propertyVM.getPhotosByProperty(property!!.propertyId).observe(requireActivity(), Observer {
-            photoList = it
-            displayData()
-            displayPhotos(photoList)
 
-        })
-        if(property != null){
-            setMapImage(property!!.address, property!!.cityAddress)
+        /*property = arguments?.getSerializable("property") as Property?
+        displayDataRecoved(property!!)*/
+        utilsVM.data.observe(viewLifecycleOwner) {
+            property = it
+            displayDataRecoved(property!!)
         }
 
         return binding.root
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        //super.onCreateOptionsMenu(menu, inflater)
         inflater.inflate(R.menu.details_menu, menu)
     }
 
@@ -78,7 +72,7 @@ class PropertyDetailFragment : Fragment() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return when(item.itemId){
+        return when (item.itemId) {
             R.id.action_bar_edit_property -> {
                 val intent = Intent(activity, EditPropertyActivity::class.java)
                 val bundle = Bundle()
@@ -92,10 +86,27 @@ class PropertyDetailFragment : Fragment() {
         }
     }
 
-    private fun setMapImage(address: String, city: String){
+    private fun displayDataRecoved(item: Property){
+        propertyVM.getPointsOfInterestByProperty(item.propertyId)
+            .observe(requireActivity(), Observer {
+                val interest = it
+                displayInterestPoints(interest)
+            })
+        propertyVM.getPhotosByProperty(item.propertyId)
+            .observe(requireActivity(), Observer {
+                photoList = it
+                displayData()
+                displayPhotos(photoList)
+
+            })
+        setMapImage(item.address, item.cityAddress)
+    }
+
+    private fun setMapImage(address: String, city: String) {
         val centerRequest = adaptToCenterRequest(address, city)
         val markerRequest = adaptToMarkerRequest(address, city)
-        val baseUrl = "https://maps.googleapis.com/maps/api/staticmap?zoom=16&size=400x400&scale=2&key=AIzaSyCl_z53QkxNDCnSnZwEHQWIK3PNlc6wtwc$centerRequest$markerRequest"
+        val baseUrl =
+            "https://maps.googleapis.com/maps/api/staticmap?zoom=16&size=400x400&scale=2&key=AIzaSyCl_z53QkxNDCnSnZwEHQWIK3PNlc6wtwc$centerRequest$markerRequest"
 
         Glide.with(this.requireActivity())
             .load(baseUrl)
@@ -104,7 +115,7 @@ class PropertyDetailFragment : Fragment() {
 
     }
 
-    private fun adaptToCenterRequest( address: String, city: String): String{
+    private fun adaptToCenterRequest(address: String, city: String): String {
         //&center=4+rue+virginia+woolf+toulouse,FR
         val addressConverted = convertToRequest(address)
         val request = "&center=$addressConverted+$city,FR"
@@ -112,7 +123,7 @@ class PropertyDetailFragment : Fragment() {
     }
 
 
-    private fun adaptToMarkerRequest(address : String, city: String): String{
+    private fun adaptToMarkerRequest(address: String, city: String): String {
         //&markers=color:red|%4+rue+virginia+woolf+toulouse
         val addressConverted = convertToRequest(address)
         val request = "&markers=color:red|%$addressConverted+$city"
@@ -123,7 +134,7 @@ class PropertyDetailFragment : Fragment() {
         return s.replace(' ', '+')
     }
 
-    private fun displayData(){
+    private fun displayData() {
         binding.detailTextAgentResponse.text = property!!.agent
         binding.detailTextKindResponse.text = property!!.kind
         binding.detailTextPriceResponse.text = adaptPriceView(property!!.price.toString())
@@ -134,7 +145,7 @@ class PropertyDetailFragment : Fragment() {
         binding.detailTextLocationAddressResponse.text = property!!.address
         binding.detailTextLocationPostalCodeResponse.text = property!!.postalCode.toString()
         binding.detailTextLocationCityResponse.text = property!!.cityAddress
-        if(property!!.sold){
+        if (property!!.sold) {
             binding.detailTextSoldDate.text = convertToDate(property!!.launchOrSellDate)
         } else {
             binding.detailTextSold.isVisible = false
@@ -142,15 +153,15 @@ class PropertyDetailFragment : Fragment() {
         }
     }
 
-    private fun convertToDate(time: Long): String{
+    private fun convertToDate(time: Long): String {
         val sdf = SimpleDateFormat("dd/MM/yyyy HH:mm")
         return sdf.format(time)
     }
 
-    private fun displayInterestPoints(interestList: List<PointsOfInterest>){
+    private fun displayInterestPoints(interestList: List<PointsOfInterest>) {
         val yes = "Yes"
-        for(item in interestList){
-            if(item.pointOfInterest.equals("School"))
+        for (item in interestList) {
+            if (item.pointOfInterest.equals("School"))
                 binding.detailTextSchoolResponse.text = yes
             if (item.pointOfInterest.equals("Park"))
                 binding.detailTextParkResponse.text = yes
@@ -171,81 +182,147 @@ class PropertyDetailFragment : Fragment() {
         return "$str €"
     }
 
-    private fun displayPhotos(photos: List<Photo?>){
-        when(photos.size){
-            0 -> {binding.detailCard1.isVisible = false
+    private fun displayPhotos(photos: List<Photo?>) {
+        when (photos.size) {
+            0 -> {
+                binding.detailCard1.isVisible = false
                 binding.detailCard2.isVisible = false
                 binding.detailCard3.isVisible = false
                 binding.detailCard4.isVisible = false
                 binding.detailCard5.isVisible = false
-                binding.detailCard6.isVisible = false}
-            1 -> {binding.detailCard2.isVisible = false
+                binding.detailCard6.isVisible = false
+            }
+            1 -> {
+                binding.detailCard2.isVisible = false
                 binding.detailCard3.isVisible = false
                 binding.detailCard4.isVisible = false
                 binding.detailCard5.isVisible = false
-                binding.detailCard6.isVisible = false}
-            2 -> { binding.detailCard3.isVisible = false
+                binding.detailCard6.isVisible = false
+            }
+            2 -> {
+                binding.detailCard3.isVisible = false
                 binding.detailCard4.isVisible = false
                 binding.detailCard5.isVisible = false
-                binding.detailCard6.isVisible = false}
-            3 -> {binding.detailCard4.isVisible = false
+                binding.detailCard6.isVisible = false
+            }
+            3 -> {
+                binding.detailCard4.isVisible = false
                 binding.detailCard5.isVisible = false
-                binding.detailCard6.isVisible = false}
-            4 -> {binding.detailCard5.isVisible = false
-                binding.detailCard6.isVisible = false}
-            5 -> {binding.detailCard6.isVisible = false}
+                binding.detailCard6.isVisible = false
+            }
+            4 -> {
+                binding.detailCard5.isVisible = false
+                binding.detailCard6.isVisible = false
+            }
+            5 -> {
+                binding.detailCard6.isVisible = false
+            }
         }
-        if(photos.isNotEmpty()){
-        recovePhotos(photos)
+        if (photos.isNotEmpty()) {
+            recovePhotos(photos)
         }
 
     }
 
-    private fun recovePhotos(photos: List<Photo?>){
+    private fun recovePhotos(photos: List<Photo?>) {
 
-        when(photos.size){
-            1 -> { binding.detailCard1Image.setImageBitmap(BitmapFactory.decodeFile(File(photos[0]!!.photos.toString()).absolutePath))
-                if(photos[0]?.description.equals("")) binding.detailCard1Text.text = getString(R.string.photo_1) else binding.detailCard1Text.text = photos[0]?.description }
-            2 -> {binding.detailCard1Image.setImageBitmap(BitmapFactory.decodeFile(File(photos[0]!!.photos.toString()).absolutePath))
-                if(photos[0]?.description.equals("")) binding.detailCard1Text.text = getString(R.string.photo_1) else binding.detailCard1Text.text = photos[0]?.description
+        when (photos.size) {
+            1 -> {
+                binding.detailCard1Image.setImageBitmap(BitmapFactory.decodeFile(File(photos[0]!!.photos.toString()).absolutePath))
+                if (photos[0]?.description.equals("")) binding.detailCard1Text.text =
+                    getString(R.string.photo_1) else binding.detailCard1Text.text =
+                    photos[0]?.description
+            }
+            2 -> {
+                binding.detailCard1Image.setImageBitmap(BitmapFactory.decodeFile(File(photos[0]!!.photos.toString()).absolutePath))
+                if (photos[0]?.description.equals("")) binding.detailCard1Text.text =
+                    getString(R.string.photo_1) else binding.detailCard1Text.text =
+                    photos[0]?.description
                 binding.detailCard2Image.setImageBitmap(BitmapFactory.decodeFile(File(photos[1]!!.photos.toString()).absolutePath))
-                if(photos[1]?.description.equals("")) binding.detailCard2Text.text = getString(R.string.photo_2) else binding.detailCard2Text.text = photos[1]?.description}
-            3 -> {binding.detailCard1Image.setImageBitmap(BitmapFactory.decodeFile(File(photos[0]!!.photos.toString()).absolutePath))
-                if(photos[0]?.description.equals("")) binding.detailCard1Text.text = getString(R.string.photo_1) else binding.detailCard1Text.text = photos[0]?.description
+                if (photos[1]?.description.equals("")) binding.detailCard2Text.text =
+                    getString(R.string.photo_2) else binding.detailCard2Text.text =
+                    photos[1]?.description
+            }
+            3 -> {
+                binding.detailCard1Image.setImageBitmap(BitmapFactory.decodeFile(File(photos[0]!!.photos.toString()).absolutePath))
+                if (photos[0]?.description.equals("")) binding.detailCard1Text.text =
+                    getString(R.string.photo_1) else binding.detailCard1Text.text =
+                    photos[0]?.description
                 binding.detailCard2Image.setImageBitmap(BitmapFactory.decodeFile(File(photos[1]!!.photos.toString()).absolutePath))
-                if(photos[1]?.description.equals("")) binding.detailCard2Text.text = getString(R.string.photo_2) else binding.detailCard2Text.text = photos[1]?.description
+                if (photos[1]?.description.equals("")) binding.detailCard2Text.text =
+                    getString(R.string.photo_2) else binding.detailCard2Text.text =
+                    photos[1]?.description
                 binding.detailCard3Image.setImageBitmap(BitmapFactory.decodeFile(File(photos[2]!!.photos.toString()).absolutePath))
-                if(photos[2]?.description.equals("")) binding.detailCard3Text.text = getString(R.string.photo_3) else binding.detailCard3Text.text = photos[2]?.description}
-            4 -> {binding.detailCard1Image.setImageBitmap(BitmapFactory.decodeFile(File(photos[0]!!.photos.toString()).absolutePath))
-                if(photos[0]?.description.equals("")) binding.detailCard1Text.text = getString(R.string.photo_1) else binding.detailCard1Text.text = photos[0]?.description
+                if (photos[2]?.description.equals("")) binding.detailCard3Text.text =
+                    getString(R.string.photo_3) else binding.detailCard3Text.text =
+                    photos[2]?.description
+            }
+            4 -> {
+                binding.detailCard1Image.setImageBitmap(BitmapFactory.decodeFile(File(photos[0]!!.photos.toString()).absolutePath))
+                if (photos[0]?.description.equals("")) binding.detailCard1Text.text =
+                    getString(R.string.photo_1) else binding.detailCard1Text.text =
+                    photos[0]?.description
                 binding.detailCard2Image.setImageBitmap(BitmapFactory.decodeFile(File(photos[1]!!.photos.toString()).absolutePath))
-                if(photos[1]?.description.equals("")) binding.detailCard2Text.text = getString(R.string.photo_2) else binding.detailCard2Text.text = photos[1]?.description
+                if (photos[1]?.description.equals("")) binding.detailCard2Text.text =
+                    getString(R.string.photo_2) else binding.detailCard2Text.text =
+                    photos[1]?.description
                 binding.detailCard3Image.setImageBitmap(BitmapFactory.decodeFile(File(photos[2]!!.photos.toString()).absolutePath))
-                if(photos[2]?.description.equals("")) binding.detailCard3Text.text = getString(R.string.photo_3) else binding.detailCard3Text.text = photos[2]?.description
+                if (photos[2]?.description.equals("")) binding.detailCard3Text.text =
+                    getString(R.string.photo_3) else binding.detailCard3Text.text =
+                    photos[2]?.description
                 binding.detailCard4Image.setImageBitmap(BitmapFactory.decodeFile(File(photos[3]!!.photos.toString()).absolutePath))
-                if(photos[3]?.description.equals("")) binding.detailCard4Text.text = getString(R.string.photo_4) else binding.detailCard4Text.text = photos[3]?.description}
-            5 -> {binding.detailCard1Image.setImageBitmap(BitmapFactory.decodeFile(File(photos[0]!!.photos.toString()).absolutePath))
-                if(photos[0]?.description.equals("")) binding.detailCard1Text.text = getString(R.string.photo_1) else binding.detailCard1Text.text = photos[0]?.description
+                if (photos[3]?.description.equals("")) binding.detailCard4Text.text =
+                    getString(R.string.photo_4) else binding.detailCard4Text.text =
+                    photos[3]?.description
+            }
+            5 -> {
+                binding.detailCard1Image.setImageBitmap(BitmapFactory.decodeFile(File(photos[0]!!.photos.toString()).absolutePath))
+                if (photos[0]?.description.equals("")) binding.detailCard1Text.text =
+                    getString(R.string.photo_1) else binding.detailCard1Text.text =
+                    photos[0]?.description
                 binding.detailCard2Image.setImageBitmap(BitmapFactory.decodeFile(File(photos[1]!!.photos.toString()).absolutePath))
-                if(photos[1]?.description.equals("")) binding.detailCard2Text.text = getString(R.string.photo_2) else binding.detailCard2Text.text = photos[1]?.description
+                if (photos[1]?.description.equals("")) binding.detailCard2Text.text =
+                    getString(R.string.photo_2) else binding.detailCard2Text.text =
+                    photos[1]?.description
                 binding.detailCard3Image.setImageBitmap(BitmapFactory.decodeFile(File(photos[2]!!.photos.toString()).absolutePath))
-                if(photos[2]?.description.equals("")) binding.detailCard3Text.text = getString(R.string.photo_3) else binding.detailCard3Text.text = photos[2]?.description
+                if (photos[2]?.description.equals("")) binding.detailCard3Text.text =
+                    getString(R.string.photo_3) else binding.detailCard3Text.text =
+                    photos[2]?.description
                 binding.detailCard4Image.setImageBitmap(BitmapFactory.decodeFile(File(photos[3]!!.photos.toString()).absolutePath))
-                if(photos[3]?.description.equals("")) binding.detailCard4Text.text = getString(R.string.photo_4) else binding.detailCard4Text.text = photos[3]?.description
+                if (photos[3]?.description.equals("")) binding.detailCard4Text.text =
+                    getString(R.string.photo_4) else binding.detailCard4Text.text =
+                    photos[3]?.description
                 binding.detailCard5Image.setImageBitmap(BitmapFactory.decodeFile(File(photos[4]!!.photos.toString()).absolutePath))
-                if(photos[4]?.description.equals("")) binding.detailCard5Text.text = getString(R.string.photo_5) else binding.detailCard5Text.text = photos[4]?.description}
-            6 -> {binding.detailCard1Image.setImageBitmap(BitmapFactory.decodeFile(File(photos[0]!!.photos.toString()).absolutePath))
-                if(photos[0]?.description.equals("")) binding.detailCard1Text.text = getString(R.string.photo_1) else binding.detailCard1Text.text = photos[0]?.description
+                if (photos[4]?.description.equals("")) binding.detailCard5Text.text =
+                    getString(R.string.photo_5) else binding.detailCard5Text.text =
+                    photos[4]?.description
+            }
+            6 -> {
+                binding.detailCard1Image.setImageBitmap(BitmapFactory.decodeFile(File(photos[0]!!.photos.toString()).absolutePath))
+                if (photos[0]?.description.equals("")) binding.detailCard1Text.text =
+                    getString(R.string.photo_1) else binding.detailCard1Text.text =
+                    photos[0]?.description
                 binding.detailCard2Image.setImageBitmap(BitmapFactory.decodeFile(File(photos[1]!!.photos.toString()).absolutePath))
-                if(photos[1]?.description.equals("")) binding.detailCard2Text.text = getString(R.string.photo_2) else binding.detailCard2Text.text = photos[1]?.description
+                if (photos[1]?.description.equals("")) binding.detailCard2Text.text =
+                    getString(R.string.photo_2) else binding.detailCard2Text.text =
+                    photos[1]?.description
                 binding.detailCard3Image.setImageBitmap(BitmapFactory.decodeFile(File(photos[2]!!.photos.toString()).absolutePath))
-                if(photos[2]?.description.equals("")) binding.detailCard3Text.text = getString(R.string.photo_3) else binding.detailCard3Text.text = photos[2]?.description
+                if (photos[2]?.description.equals("")) binding.detailCard3Text.text =
+                    getString(R.string.photo_3) else binding.detailCard3Text.text =
+                    photos[2]?.description
                 binding.detailCard4Image.setImageBitmap(BitmapFactory.decodeFile(File(photos[3]!!.photos.toString()).absolutePath))
-                if(photos[3]?.description.equals("")) binding.detailCard4Text.text = getString(R.string.photo_4) else binding.detailCard4Text.text = photos[3]?.description
+                if (photos[3]?.description.equals("")) binding.detailCard4Text.text =
+                    getString(R.string.photo_4) else binding.detailCard4Text.text =
+                    photos[3]?.description
                 binding.detailCard5Image.setImageBitmap(BitmapFactory.decodeFile(File(photos[4]!!.photos.toString()).absolutePath))
-                if(photos[4]?.description.equals("")) binding.detailCard5Text.text = getString(R.string.photo_5) else binding.detailCard5Text.text = photos[4]?.description
+                if (photos[4]?.description.equals("")) binding.detailCard5Text.text =
+                    getString(R.string.photo_5) else binding.detailCard5Text.text =
+                    photos[4]?.description
                 binding.detailCard6Image.setImageBitmap(BitmapFactory.decodeFile(File(photos[5]!!.photos.toString()).absolutePath))
-                if(photos[5]?.description.equals("")) binding.detailCard6Text.text = getString(R.string.photo_6) else binding.detailCard6Text.text = photos[5]?.description}
+                if (photos[5]?.description.equals("")) binding.detailCard6Text.text =
+                    getString(R.string.photo_6) else binding.detailCard6Text.text =
+                    photos[5]?.description
+            }
         }
     }
 

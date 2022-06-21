@@ -15,7 +15,6 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
 
-
     <uses-feature android:name="android.hardware.camera.autofocus" />
 
     <application
@@ -27,6 +26,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Project9">
+        <activity
+            android:name=".ui.PropertyDetailActivity"
+            android:exported="false" />
         <activity
             android:name=".ui.MapsActivity"
             android:exported="false" />

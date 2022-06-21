@@ -272,8 +272,7 @@ class AddPropertyActivity : AppCompatActivity() {
     private fun configureEstateAgentInputText() {
         val estateAgents = resources.getStringArray(R.array.Estate_agents)
         val arrayAdapter = ArrayAdapter(this, R.layout.estate_agent_list_items, estateAgents)
-        val autoCompleteTextView: AutoCompleteTextView =
-            findViewById(R.id.add_property_estate_agent_text)
+        val autoCompleteTextView: AutoCompleteTextView = findViewById(R.id.add_property_estate_agent_text)
         autoCompleteTextView.setAdapter(arrayAdapter)
     }
 

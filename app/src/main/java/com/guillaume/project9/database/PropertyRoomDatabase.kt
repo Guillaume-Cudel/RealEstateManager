@@ -64,7 +64,7 @@ abstract class PropertyRoomDatabase : RoomDatabase() {
                         235000,
                         80.32,
                         4,
-                        "House at 30min of toulouse center",
+                        "House at 30min from toulouse center",
                         null,
                         "4 rue virginia woolf",
                         31200,

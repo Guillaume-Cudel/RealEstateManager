@@ -68,14 +68,45 @@
     <string name="permission_rationale_location">Access to the location service is required to demonstrate the \'my location\' feature, which shows your current location on the map.</string>
     <string name="location_permission_denied">This sample requires location permission to enable the \'my location\' layer. Please try again and grant access to use the location.\nIf the permission has been permanently denied, it can be enabled from the System Settings &gt; Apps &gt; \'Google Maps API Demos\'.</string>
     <string name="permission_required_toast">Location permission is required for this demo.</string>
+    <string name="what_kind">What kind?</string>
+    <string name="what_price_range">What price range?</string>
+    <string name="what_price">What price?</string>
+    <string name="price_min">Price min</string>
+    <string name="price_max">Price max</string>
+    <string name="what_surface">What surface ?</string>
+    <string name="surface_min">Surface min</string>
+    <string name="surface_max">Surface max</string>
+    <string name="what_city">What city ?</string>
+    <string name="what_points_of_interest">What points of interest ?</string>
+    <string name="how_many_photos">How many photos ?</string>
+    <string name="looking_for">What do you looking for ?</string>
+    <string name="reset">Reset</string>
 
     <string-array name="Estate_agents">
         <item>Mickael Bordier</item>
         <item>Helene Cluchet</item>
         <item>Vanessa Basset</item>
         <item>Alexandre Sase</item>
-
     </string-array>
+
+    <string-array name="Kind">
+        <item>House</item>
+        <item>Ground</item>
+        <item>Apartment</item>
+        <item>Parking</item>
+        <item>Other</item>
+    </string-array>
+
+    <string-array name="Photo_number">
+        <item>None</item>
+        <item>One</item>
+        <item>Two</item>
+        <item>Three</item>
+        <item>Four</item>
+        <item>Five</item>
+        <item>Six</item>
+    </string-array>
+
 
 
 </resources>

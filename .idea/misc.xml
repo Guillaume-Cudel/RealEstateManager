@@ -17,7 +17,9 @@
         <entry key="app/src/main/res/layout/activity_edit_property.xml" value="0.25" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.125" />
         <entry key="app/src/main/res/layout/activity_maps.xml" value="0.28229166666666666" />
+        <entry key="app/src/main/res/layout/activity_property_detail.xml" value="0.28229166666666666" />
         <entry key="app/src/main/res/layout/dialog_picture_choice.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/dialog_picture_search.xml" value="0.262037037037037" />
         <entry key="app/src/main/res/layout/estate_agent_list_items.xml" value="0.28229166666666666" />
         <entry key="app/src/main/res/layout/fragment_property_detail.xml" value="0.25" />
         <entry key="app/src/main/res/layout/fragment_property_list.xml" value="0.25" />

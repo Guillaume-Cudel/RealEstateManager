@@ -30,6 +30,7 @@ import com.guillaume.project9.utils.PermissionUtils
 import com.guillaume.project9.utils.PermissionUtils.PermissionDeniedDialog.Companion.newInstance
 import com.guillaume.project9.utils.PermissionUtils.isPermissionGranted
 import com.guillaume.project9.viewmodel.PropertyViewModel
+import com.guillaume.project9.viewmodel.UtilsViewModel
 
 class MapsActivity : AppCompatActivity(), ActivityCompat.OnRequestPermissionsResultCallback,
     GoogleMap.OnMarkerClickListener {
@@ -44,6 +45,7 @@ class MapsActivity : AppCompatActivity(), ActivityCompat.OnRequestPermissionsRes
         PropertyViewModelFactory((this.application as PropertysApplication).repository)
     }
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMapsBinding.inflate(layoutInflater)
@@ -51,8 +53,6 @@ class MapsActivity : AppCompatActivity(), ActivityCompat.OnRequestPermissionsRes
 
         setSupportActionBar(binding.mapToolbar)
         binding.mapToolbar.title = "@string/app_name"
-
-
 
         propertyVM.allPropertys.observe(this, Observer {
             propertyList = it
@@ -74,15 +74,6 @@ class MapsActivity : AppCompatActivity(), ActivityCompat.OnRequestPermissionsRes
         return true
     }
 
-    /*@RequiresApi(Build.VERSION_CODES.M)
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-
-        when(item.itemId){
-            R.id.action_bar_add_property -> startActivity(Intent(this, AddPropertyActivity::class.java))
-            R.id.action_bar_map -> verifyNetwork()
-        }
-        return super.onOptionsItemSelected(item)
-    }*/
 
 
     private fun addPropertysToMaps() {
@@ -101,7 +92,6 @@ class MapsActivity : AppCompatActivity(), ActivityCompat.OnRequestPermissionsRes
             addMarkers(googleMap)
 
             googleMap.uiSettings.isZoomControlsEnabled = true
-            //todo check how to click on marker
             googleMap.setOnMarkerClickListener(this)
 
 
@@ -214,7 +204,6 @@ class MapsActivity : AppCompatActivity(), ActivityCompat.OnRequestPermissionsRes
             ) == PackageManager.PERMISSION_GRANTED
         ) {
             map.isMyLocationEnabled = true
-            //addPropertysToMaps()
             return
         }
 
@@ -286,41 +275,21 @@ class MapsActivity : AppCompatActivity(), ActivityCompat.OnRequestPermissionsRes
     override fun onMarkerClick(p0: Marker): Boolean {
         val propertyMarker = p0.tag as Property
 
-        //val intent = Intent(this, MainActivity::class.java)
+        val intent = Intent(this, PropertyDetailActivity::class.java)
+        intent.putExtra("property", propertyMarker)
+        startActivity(intent)
         /*val bundle = Bundle()
         bundle.putSerializable("property", propertyMarker)
-        intent.putExtras(bundle)*/
-
-
-
-        val bundle = Bundle()
-        bundle.putSerializable("property", propertyMarker)
-
         val transaction = supportFragmentManager.beginTransaction()
         val fragment2 = PropertyDetailFragment()
         fragment2.arguments = bundle
-
-        transaction.replace(R.id.map_fragment_frame_layout, fragment2)
+        transaction.replace(R.id.maps_activity, fragment2)
         transaction.addToBackStack(null)
-        transaction.commit()
-        //finish()
-        //startActivity(intent)
-
-
+        transaction.commit()*/
         return false
     }
 
 
-    /*val bundle = Bundle()
-    bundle.putSerializable("property", property)
-
-    val transaction = this.parentFragmentManager.beginTransaction()
-    val fragment2 = PropertyDetailFragment()
-    fragment2.arguments = bundle
-
-    transaction.replace(R.id.propertyListFragment, fragment2)
-    transaction.addToBackStack(null)
-    transaction.commit()*/
 
 
 
