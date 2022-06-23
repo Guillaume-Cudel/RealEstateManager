@@ -31,7 +31,6 @@ class PropertyDetailActivity : AppCompatActivity() {
         val property = bundle?.getSerializable("property") as Property
         utilsVM.saveProperty(property)
 
-
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -39,17 +38,5 @@ class PropertyDetailActivity : AppCompatActivity() {
         //return super.onCreateOptionsMenu(menu)
         return true
     }
-
-    /*@RequiresApi(Build.VERSION_CODES.M)
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-
-        when(item.itemId){
-            R.id.action_bar_add_property -> startActivity(Intent(this, AddPropertyActivity::class.java))
-
-        }
-        return super.onOptionsItemSelected(item)
-    }*/
-
-
 
 }

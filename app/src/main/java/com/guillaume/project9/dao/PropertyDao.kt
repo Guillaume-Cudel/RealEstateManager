@@ -25,9 +25,6 @@ interface PropertyDao {
     @JvmSuppressWildcards
     suspend fun insertPointsOfInterest(pointOfInterest: List<PointsOfInterest?>)
 
-    @Query("SELECT * FROM property_table")
-    fun getAllProperty(): List<Property>
-
     @Query("SELECT * FROM photo_table WHERE propertyCreatorId = :propertyId")
     fun getPropertyPhotosById(propertyId: String?): Flow<List<Photo>>
 
@@ -37,6 +34,11 @@ interface PropertyDao {
     @Transaction
     @Query("SELECT * FROM property_table")
     fun getPropertyPhotos(): List<PropertyWithPhotos>
+
+    @Query("SELECT * FROM property_table WHERE kind = :kind AND price >= :priceMin AND price <= :priceMax AND surface >= :surfaceMin AND surface <= :surfaceMax ORDER BY launchOrSellDate DESC")
+    fun searchPropertysWithConditions(kind: String, priceMin: Int, priceMax: Int,
+                                      surfaceMin: Double, surfaceMax: Double): Flow<MutableList<Property>>
+
 
     @Update
     suspend fun updateProperty(property: Property)

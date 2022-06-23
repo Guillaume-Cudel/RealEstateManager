@@ -43,6 +43,12 @@ class PropertyRepository(private val propertyDao: PropertyDao) {
     }
 
     @WorkerThread
+    fun searchPropertysWithConditions(kind: String, priceMin: Int, priceMax: Int,
+                                      surfaceMin: Double, surfaceMax: Double): Flow<MutableList<Property>>{
+        return  propertyDao.searchPropertysWithConditions(kind, priceMin, priceMax, surfaceMin, surfaceMax)
+    }
+
+    @WorkerThread
     suspend fun updateProperty(property: Property){
         propertyDao.updateProperty(property)
     }

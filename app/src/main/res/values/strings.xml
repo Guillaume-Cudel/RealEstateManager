@@ -78,7 +78,7 @@
     <string name="surface_max">Surface max</string>
     <string name="what_city">What city ?</string>
     <string name="what_points_of_interest">What points of interest ?</string>
-    <string name="how_many_photos">How many photos ?</string>
+    <string name="how_many_photos">How many photos minimum ?</string>
     <string name="looking_for">What do you looking for ?</string>
     <string name="reset">Reset</string>
 
@@ -99,12 +99,12 @@
 
     <string-array name="Photo_number">
         <item>None</item>
-        <item>One</item>
-        <item>Two</item>
-        <item>Three</item>
-        <item>Four</item>
-        <item>Five</item>
-        <item>Six</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
     </string-array>
 
 

@@ -65,7 +65,12 @@ class PropertyListAdapter(private val listener: Communicator): ListAdapter<Prope
                 .load(myBitmap)
                 .centerCrop()
                 .into(holder.photo)
-        }
+        }else{
+                    Glide.with(context)
+                        .load(R.drawable.property_photo)
+                        .centerCrop()
+                        .into(holder.photo)
+                }
 
         holder.itemView.setOnClickListener { v ->
             listener.passData(current)

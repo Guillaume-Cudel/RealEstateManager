@@ -42,6 +42,7 @@ class PropertyViewModel(private val repository: PropertyRepository): ViewModel()
         return pointsOfInterest!!
     }
 
+
     fun updateProperty(property: Property) = viewModelScope.launch {
         repository.updateProperty(property)
     }

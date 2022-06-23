@@ -45,7 +45,8 @@
         app:layout_constraintStart_toStartOf="parent"
         android:layout_marginStart="@dimen/margin_30_dp"
         android:layout_marginTop="@dimen/margin_10_dp"
-        android:text="@string/price_min"
+        android:inputType="number"
+        android:hint="@string/price_min"
         android:textSize="12sp"/>
 
 
@@ -56,7 +57,8 @@
         app:layout_constraintBottom_toBottomOf="@id/search_dialog_price_min_response"
         app:layout_constraintStart_toEndOf="@id/search_dialog_price_min_response"
         android:layout_marginStart="@dimen/margin_50_dp"
-        android:text="@string/price_max"
+        android:inputType="number"
+        android:hint="@string/price_max"
         android:textSize="12sp"/>
 
     <TextView
@@ -78,7 +80,8 @@
         app:layout_constraintStart_toStartOf="parent"
         android:layout_marginStart="@dimen/margin_30_dp"
         android:layout_marginTop="@dimen/margin_10_dp"
-        android:text="@string/surface_min"
+        android:inputType="numberDecimal"
+        android:hint="@string/surface_min"
         android:textSize="12sp"/>
 
 
@@ -89,7 +92,8 @@
         app:layout_constraintBottom_toBottomOf="@id/search_dialog_surface_min_response"
         app:layout_constraintStart_toEndOf="@id/search_dialog_surface_min_response"
         android:layout_marginStart="@dimen/margin_50_dp"
-        android:text="@string/surface_max"
+        android:inputType="numberDecimal"
+        android:hint="@string/surface_max"
         android:textSize="12sp"/>
 
     <EditText
@@ -99,7 +103,7 @@
         app:layout_constraintStart_toStartOf="@id/search_dialog_price_min_response"
         app:layout_constraintTop_toBottomOf="@id/search_dialog_surface_min_response"
         android:layout_marginTop="@dimen/margin_10_dp"
-        android:text="@string/what_city"
+        android:hint="@string/what_city"
         android:textSize="12sp"/>
 
     <TextView
