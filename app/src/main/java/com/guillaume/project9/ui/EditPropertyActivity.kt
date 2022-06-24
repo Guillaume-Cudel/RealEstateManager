@@ -54,15 +54,15 @@ class EditPropertyActivity : AppCompatActivity() {
             stringInterestList = setStringInterestList(interestList)
             setListOfInterest()
         })
+
         propertyVM.getPhotosByProperty(property!!.propertyId).observe(this, Observer {
             photosList = it
             photosMutableList = photosList.toMutableSet()
             if (photosList.isNotEmpty()) {
                 displayPhotos(photosList)
-
             }
-
         })
+
         setDataToEditor(property!!)
         handleSellButton(property!!.sold)
         addOrModifyPhoto()

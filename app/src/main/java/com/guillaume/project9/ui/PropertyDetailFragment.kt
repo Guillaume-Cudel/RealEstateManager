@@ -87,11 +87,18 @@ class PropertyDetailFragment : Fragment() {
     }
 
     private fun displayDataRecoved(item: Property){
-        propertyVM.getPointsOfInterestByProperty(item.propertyId)
+        /*propertyVM.listInterestLiveData
             .observe(requireActivity(), Observer {
                 val interest = it
                 displayInterestPoints(interest)
             })
+        propertyVM.getPointsOfInterestByProperty(property!!.propertyId)*/
+
+        propertyVM.getPointsOfInterestByProperty(property!!.propertyId).observe(requireActivity(), Observer {
+            val interest = it
+            displayInterestPoints(interest)
+        })
+
         propertyVM.getPhotosByProperty(item.propertyId)
             .observe(requireActivity(), Observer {
                 photoList = it
@@ -99,6 +106,7 @@ class PropertyDetailFragment : Fragment() {
                 displayPhotos(photoList)
 
             })
+
         setMapImage(item.address, item.cityAddress)
     }
 

@@ -7,6 +7,7 @@ import com.guillaume.project9.model.Property
 import com.guillaume.project9.repository.PropertyRepository
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 class PropertyViewModel(private val repository: PropertyRepository): ViewModel() {
@@ -27,11 +28,11 @@ class PropertyViewModel(private val repository: PropertyRepository): ViewModel()
     }
 
     fun getPhotosByProperty(propertyId: String?): LiveData<List<Photo>> {
-        var photoList: LiveData<List<Photo>>? = null
+        var liveData: LiveData<List<Photo>>? = null
         viewModelScope.launch {
-            photoList = repository.getPhotosByProperty(propertyId).asLiveData()
+            liveData = repository.getPhotosByProperty(propertyId).asLiveData()
         }
-        return photoList!!
+        return liveData!!
     }
 
     fun getPointsOfInterestByProperty(propertyId: String?): LiveData<List<PointsOfInterest>>{
@@ -41,6 +42,16 @@ class PropertyViewModel(private val repository: PropertyRepository): ViewModel()
         }
         return pointsOfInterest!!
     }
+
+    /*private val _listInterestLiveData = MutableLiveData<List<PointsOfInterest>>()
+    val listInterestLiveData: LiveData<List<PointsOfInterest>> = _listInterestLiveData
+    fun getPointsOfInterestByProperty(propertyId: String?){
+        viewModelScope.launch {
+            repository.getPointsOfInterest(propertyId).collect {
+                _listInterestLiveData.postValue(it)
+            }
+        }
+    }*/
 
 
     fun updateProperty(property: Property) = viewModelScope.launch {

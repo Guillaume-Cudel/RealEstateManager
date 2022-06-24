@@ -1,11 +1,13 @@
 package com.guillaume.project9.ui
 
 import android.graphics.BitmapFactory
+import android.graphics.drawable.Drawable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.DiffUtil
@@ -13,10 +15,13 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.guillaume.project9.R
+import com.guillaume.project9.R.drawable.property_photo
 import com.guillaume.project9.model.Property
 import java.io.File
 import java.lang.StringBuilder
 import java.text.SimpleDateFormat
+import java.util.*
+import kotlin.concurrent.schedule
 
 class PropertyListAdapter(private val listener: Communicator): ListAdapter<Property, PropertyViewHolder>(PropertyViewHolder.PropertyComparator()) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PropertyViewHolder {
@@ -48,33 +53,55 @@ class PropertyListAdapter(private val listener: Communicator): ListAdapter<Prope
         holder.city.text = current.cityAddress
 
 
-        if(current.sold){
+        /*if(current.sold){
             val soldDate = "Sold : $stringDate"
             holder.date.text = soldDate
         } else {
             holder.soldText.isVisible = false
             holder.date.text = stringDate
-        }
+        }*/
 
-                if (current.photo != null) {
-            val photosString: String? = current.photo
-            val photoFile = photosString?.let { File(it) }
-            val myBitmap = BitmapFactory.decodeFile(photoFile?.absolutePath)
-            //holder.date.text = current.launchOrSellDate
-            Glide.with(context)
-                .load(myBitmap)
-                .centerCrop()
-                .into(holder.photo)
-        }else{
+
+            if (current.photo != null) {
+                val photosString: String? = current.photo
+                val photoFile = photosString?.let { File(it) }
+                val myBitmap = BitmapFactory.decodeFile(photoFile?.absolutePath)
                     Glide.with(context)
-                        .load(R.drawable.property_photo)
+                        .load(myBitmap)
                         .centerCrop()
                         .into(holder.photo)
-                }
+                //holder.photo.setImageBitmap(myBitmap)
+
+            }else{
+                val propertyImage: Drawable? = AppCompatResources.getDrawable(context, property_photo)
+                holder.photo.setImageDrawable(propertyImage)
+                    /*Glide.with(context)
+                        .load(R.drawable.property_photo)
+                        .centerCrop()
+                        .into(holder.photo)*/
+
+        }
+        holder.photo.setBackgroundResource(R.drawable.round_outline)
+        setImageIfSold(current.sold, stringDate, holder.date, holder.soldText)
+
 
         holder.itemView.setOnClickListener { v ->
             listener.passData(current)
         }
+    }
+
+    private fun setImageIfSold(sold: Boolean, stringDate: String, dateTextView: TextView, soldTextView: TextView){
+
+        if(sold){
+            val soldDate = "Sold : $stringDate"
+            dateTextView.text = soldDate
+        } else {
+            //holder.soldText.isVisible = false
+            //holder.date
+                soldTextView.isVisible = false
+            dateTextView.text = stringDate
+        }
+
     }
 
     private fun convertToDate(time: Long): String{

@@ -2,6 +2,7 @@ package com.guillaume.project9.ui
 
 import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
 import android.view.*
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
@@ -20,6 +21,8 @@ import com.guillaume.project9.model.Property
 import com.guillaume.project9.viewmodel.PropertyViewModel
 import com.guillaume.project9.viewmodel.SearchViewModel
 import com.guillaume.project9.viewmodel.SearchViewModelFactory
+import java.util.*
+import kotlin.concurrent.schedule
 
 
 class PropertyListFragment : Fragment(), Communicator {
@@ -64,8 +67,6 @@ class PropertyListFragment : Fragment(), Communicator {
                 DividerItemDecoration.VERTICAL
             )
         )
-
-        //searchPropertysWithConditions("House", "", "290000", "", "", "", "None", listOf("School"))
         propertyVM.allPropertys.observe(requireActivity(), Observer { propertys ->
             databaseList = propertys
             propertys?.let { adapter.submitList(it) }
@@ -94,9 +95,6 @@ class PropertyListFragment : Fragment(), Communicator {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.action_bar_search_property -> {
-                /*var list: List<Property>?
-                list = databaseList
-                adapter.submitList(list)*/
                 openSearchDialog()
                 true
             }
@@ -148,7 +146,6 @@ class PropertyListFragment : Fragment(), Communicator {
             val minSurface = minSurfaceText.text.toString()
             val maxSurface = maxSurfaceText.text.toString()
             val city = cityText.text.toString()
-            //if(city == "") city = "*"
 
             val interestList: MutableList<String> = mutableListOf()
 
@@ -156,8 +153,6 @@ class PropertyListFragment : Fragment(), Communicator {
             if (parkBox.isChecked) interestList.add("Park")
             if (transportBox.isChecked) interestList.add("Transport")
             if (shopBox.isChecked) interestList.add("Shop")
-
-            //todo launch search method
 
             searchPropertysWithConditions(
                 kind,
@@ -210,6 +205,7 @@ class PropertyListFragment : Fragment(), Communicator {
 
             it.map { property ->
                 if (!property.sold) {
+
                     propertyVM.getPhotosByProperty(property.propertyId)
                         .observe(requireActivity(), Observer { photosListSaved ->
                             val photosInt = photosListSaved.size
@@ -226,20 +222,20 @@ class PropertyListFragment : Fragment(), Communicator {
 
                                     if (city != "") {
                                         if (photos <= photosInt && interestNumber <= interestCounter && property.cityAddress == city) {
-                                            propertyListSearched.add(property)
+                                            addOrNotInSearchList(property)
+                                            //propertyListSearched.add(property)
                                         }
                                     } else {
                                         if (photos <= photosInt && interestNumber <= interestCounter) {
-                                            propertyListSearched.add(property)
+                                            addOrNotInSearchList(property)
+                                            //propertyListSearched.add(property)
                                         }
                                     }
 
 
-                                    if (propertyListSearched.isEmpty()) {
-                                        returnNoProperty()
-                                    } else {
-                                        adapter.submitList(propertyListSearched)
-                                    }
+
+                                    if (propertyListSearched.isEmpty()) returnNoProperty()
+                                    else adapter.submitList(propertyListSearched)
                                 })
                         })
                 } else {
@@ -250,6 +246,14 @@ class PropertyListFragment : Fragment(), Communicator {
                 returnNoProperty()
             }
         }
+    }
+
+    private fun addOrNotInSearchList(property: Property){
+        var isSame = false
+        propertyListSearched.map { item ->
+            isSame = item.propertyId == property.propertyId
+        }
+        if(!isSame) propertyListSearched.add(property)
     }
 
     private fun returnNoProperty() {
