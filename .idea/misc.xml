@@ -3,6 +3,7 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="app/src/main/res/drawable/baseline_edit_note_24.xml" value="0.1" />
         <entry key="app/src/main/res/drawable/ic_baseline_add_24.xml" value="0.1025" />
         <entry key="app/src/main/res/drawable/ic_baseline_camera_24.xml" value="0.1575" />
         <entry key="app/src/main/res/drawable/ic_baseline_delete_24.xml" value="0.1" />
@@ -18,12 +19,14 @@
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.125" />
         <entry key="app/src/main/res/layout/activity_maps.xml" value="0.28229166666666666" />
         <entry key="app/src/main/res/layout/activity_property_detail.xml" value="0.28229166666666666" />
+        <entry key="app/src/main/res/layout/dialog_loan_simulator.xml" value="0.25" />
         <entry key="app/src/main/res/layout/dialog_picture_choice.xml" value="0.25" />
         <entry key="app/src/main/res/layout/dialog_picture_search.xml" value="0.262037037037037" />
         <entry key="app/src/main/res/layout/estate_agent_list_items.xml" value="0.28229166666666666" />
         <entry key="app/src/main/res/layout/fragment_property_detail.xml" value="0.25" />
         <entry key="app/src/main/res/layout/fragment_property_list.xml" value="0.25" />
         <entry key="app/src/main/res/layout/item_property.xml" value="0.1896551724137931" />
+        <entry key="app/src/main/res/menu-v26/details_menu.xml" value="0.13148148148148148" />
         <entry key="app/src/main/res/menu-v26/menu.xml" value="0.28229166666666666" />
         <entry key="app/src/main/res/menu/details_menu.xml" value="0.10625" />
         <entry key="app/src/main/res/menu/menu.xml" value="0.165" />

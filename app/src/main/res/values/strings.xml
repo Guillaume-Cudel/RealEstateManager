@@ -81,6 +81,15 @@
     <string name="how_many_photos">How many photos minimum ?</string>
     <string name="looking_for">What do you looking for ?</string>
     <string name="reset">Reset</string>
+    <string name="how_much_is_your_financial_contribution">How much is your financial contribution ?</string>
+    <string name="enter_the_amount_here">Enter the amount here</string>
+    <string name="what_rate">What annual interest rate?</string>
+    <string name="enter_the_interet_rate_here">Enter the interest rate here</string>
+    <string name="loan_over_how_many_months">Loan over how many year ?</string>
+    <string name="monthly_amount">Monthly amount</string>
+    <string name="total_amount">Total amount</string>
+    <string name="quit">Quit</string>
+    <string name="calcul">Calcul</string>
 
     <string-array name="Estate_agents">
         <item>Mickael Bordier</item>

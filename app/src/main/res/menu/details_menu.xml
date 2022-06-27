@@ -3,6 +3,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
+        android:id="@+id/action_bar_loan_simulator"
+        android:icon="@drawable/personal__1_"
+        android:title="Loan simulator"
+        app:showAsAction="ifRoom"/>
+
+    <item
         android:id="@+id/action_bar_edit_property"
         android:icon="@drawable/baseline_edit_note_24"
         android:title="Edit property"

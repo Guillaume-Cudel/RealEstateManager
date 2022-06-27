@@ -4,7 +4,11 @@ import android.content.Intent
 import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.view.*
-import androidx.appcompat.app.AppCompatActivity
+import android.widget.Button
+import android.widget.EditText
+import android.widget.TextView
+import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
@@ -79,7 +83,11 @@ class PropertyDetailFragment : Fragment() {
                 bundle.putSerializable("property_to_edit", property)
                 intent.putExtras(bundle)
                 startActivity(intent)
-
+                true
+            }
+            //todo handle loan simulator
+            R.id.action_bar_loan_simulator -> {
+                openLoanDialog()
                 true
             }
             else -> super.onOptionsItemSelected(item)
@@ -333,5 +341,76 @@ class PropertyDetailFragment : Fragment() {
             }
         }
     }
+
+    private fun openLoanDialog() {
+
+        val builder = AlertDialog.Builder(requireActivity()).create()
+        val dialogView = layoutInflater.inflate(R.layout.dialog_loan_simulator, null)
+        builder.setView(dialogView)
+        val contributionText = dialogView.findViewById<EditText>(R.id.dialog_loan_contribution_response)
+        val interestRateText = dialogView.findViewById<EditText>(R.id.dialog_loan_rate_response)
+        val durationText = dialogView.findViewById<EditText>(R.id.dialog_loan_duration_edit)
+        val monthlyAmountText = dialogView.findViewById<TextView>(R.id.dialog_loan_monthly_amount)
+        val totalAmountText = dialogView.findViewById<TextView>(R.id.dialog_loan_total_amount)
+        val quitButton = dialogView.findViewById<Button>(R.id.dialog_loan_button_quit)
+        val calculateButton = dialogView.findViewById<Button>(R.id.dialog_loan_button_calculate)
+        
+        monthlyAmountText.isVisible = false
+        totalAmountText.isVisible = false
+
+        quitButton.setOnClickListener {
+            builder.dismiss()
+        }
+
+        calculateButton.setOnClickListener {
+            val contribution = contributionText.editableText.toString()
+            val interestRate = interestRateText.editableText.toString()
+            val duration = durationText.editableText.toString()
+
+            if(contribution == "" || interestRate == "" || duration == "") fieldEmptyMessage()
+            else {
+                calculate(dialogView, contribution, interestRate, duration)
+                monthlyAmountText.isVisible = true
+                totalAmountText.isVisible = true
+            }
+        }
+        builder.show()
+    }
+
+    private fun calculate(view: View, contribution: String, interestRate: String, duration: String){
+        val monthlyAmountText = view.findViewById<TextView>(R.id.dialog_loan_monthly_amount_response)
+        val totalAmountText = view.findViewById<TextView>(R.id.dialog_loan_total_amount_response)
+        val contributionInt = contribution.toInt()
+        val rate = interestRate.toDouble()
+        val years = duration.toInt()
+        val propertyAmount = property!!.price
+        val propertyAmountWithoutContribution = propertyAmount - contributionInt
+
+        val totalAmount = ((propertyAmountWithoutContribution * rate)/ 100) * years + propertyAmountWithoutContribution
+        val totalAmountInt = totalAmount.toInt()
+        val totalAmountResponse = adaptPriceView(totalAmountInt.toString())
+        totalAmountText.setText(totalAmountResponse)
+
+        var monthlyAmount = (totalAmount / (years * 12)) + 1
+        monthlyAmount = removeLastNchars(monthlyAmount)
+        val monthlyAmountResponse = "${monthlyAmount.toInt()}€ /month"
+        monthlyAmountText.setText(monthlyAmountResponse)
+    }
+
+    private fun fieldEmptyMessage(){
+        Toast.makeText(requireContext(), "Please fill all fields to calculate", Toast.LENGTH_SHORT).show()
+    }
+
+    private fun removeLastNchars(str: Double): Double {
+        val strString = str.toString()
+        val maxString = 8
+        val strSize = strString.length
+
+        return if(strSize > maxString){
+            val difference = strSize - maxString
+            strString.substring(0, strSize - difference).toDouble()
+        } else str
+    }
+
 
 }
