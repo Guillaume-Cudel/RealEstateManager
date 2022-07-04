@@ -19,17 +19,24 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
     lateinit var mapIntent: Intent
+    //todo chek if is tablet to change displayed data
+    private val isLandTablet by lazy {
+        resources.getBoolean(R.bool.is_tablet)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        //setContentView(R.layout.activity_main)
 
         mapIntent = Intent(this, MapsActivity::class.java)
 
         setSupportActionBar(binding.mainToolbar)
         binding.mainToolbar.title = "@string/app_name"
 
+
+        if(isLandTablet) makeText(this, "Tablet ON", LENGTH_LONG).show()
 
     }
 
@@ -84,4 +91,5 @@ class MainActivity : AppCompatActivity() {
 
         }
     }
+
 }

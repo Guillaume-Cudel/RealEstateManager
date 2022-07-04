@@ -38,6 +38,9 @@ class PropertyDetailFragment : Fragment() {
     private val propertyVM: PropertyViewModel by viewModels {
         PropertyViewModelFactory((activity?.application as PropertysApplication).repository)
     }
+    private val isLandTablet by lazy {
+        resources.getBoolean(R.bool.is_tablet)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -46,20 +49,31 @@ class PropertyDetailFragment : Fragment() {
         binding = FragmentPropertyDetailBinding.inflate(inflater, container, false)
 
         setHasOptionsMenu(true)
-        /*if (activity is AppCompatActivity) {
-            (activity as AppCompatActivity).supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        }*/
 
+        if(isLandTablet){
+            //todo configure it
+            if(property == null){
+                propertyVM.allPropertys.observe(requireActivity(), Observer {
+                    property = it[0]
+                    displayDataRecoved(property!!)
+                })
+            } else {
+                utilsVM.data.observe(viewLifecycleOwner) {
+                    property = it
+                    displayDataRecoved(property!!)
+                }
+            }
 
-        /*property = arguments?.getSerializable("property") as Property?
-        displayDataRecoved(property!!)*/
-        utilsVM.data.observe(viewLifecycleOwner) {
-            property = it
-            displayDataRecoved(property!!)
+        } else {
+            utilsVM.data.observe(viewLifecycleOwner) {
+                property = it
+                displayDataRecoved(property!!)
+            }
         }
 
         return binding.root
     }
+
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.details_menu, menu)
@@ -67,12 +81,14 @@ class PropertyDetailFragment : Fragment() {
 
     override fun onPrepareOptionsMenu(menu: Menu) {
         super.onPrepareOptionsMenu(menu)
-        val add = menu.findItem(R.id.action_bar_add_property)
-        add.isVisible = false
-        val search = menu.findItem(R.id.action_bar_search_property)
-        search.isVisible = false
-        val map = menu.findItem(R.id.action_bar_map)
-        map.isVisible = false
+        if(!isLandTablet) {
+            val add = menu.findItem(R.id.action_bar_add_property)
+            add.isVisible = false
+            val search = menu.findItem(R.id.action_bar_search_property)
+            search.isVisible = false
+            val map = menu.findItem(R.id.action_bar_map)
+            map.isVisible = false
+        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -85,12 +101,18 @@ class PropertyDetailFragment : Fragment() {
                 startActivity(intent)
                 true
             }
-            //todo handle loan simulator
             R.id.action_bar_loan_simulator -> {
                 openLoanDialog()
                 true
             }
             else -> super.onOptionsItemSelected(item)
+        }
+    }
+
+    fun setPropertyDisplayed(){
+        utilsVM.data.observe(viewLifecycleOwner) {
+            property = it
+            displayDataRecoved(it)
         }
     }
 
@@ -101,18 +123,18 @@ class PropertyDetailFragment : Fragment() {
                 displayInterestPoints(interest)
             })
         propertyVM.getPointsOfInterestByProperty(property!!.propertyId)*/
+        val id = item.propertyId
 
-        propertyVM.getPointsOfInterestByProperty(property!!.propertyId).observe(requireActivity(), Observer {
+        propertyVM.getPointsOfInterestByProperty(id).observe(requireActivity(), Observer {
             val interest = it
             displayInterestPoints(interest)
         })
 
-        propertyVM.getPhotosByProperty(item.propertyId)
-            .observe(requireActivity(), Observer {
-                photoList = it
-                displayData()
+        propertyVM.getPhotosByProperty(id)
+            .observe(requireActivity(), Observer { photos ->
+                photoList = photos
+                displayData(item)
                 displayPhotos(photoList)
-
             })
 
         setMapImage(item.address, item.cityAddress)
@@ -150,19 +172,19 @@ class PropertyDetailFragment : Fragment() {
         return s.replace(' ', '+')
     }
 
-    private fun displayData() {
-        binding.detailTextAgentResponse.text = property!!.agent
-        binding.detailTextKindResponse.text = property!!.kind
-        binding.detailTextPriceResponse.text = adaptPriceView(property!!.price.toString())
-        binding.detailTextDescriptionResponse.text = property?.description
-        binding.detailTextSurfaceResponse.text = property!!.surface.toString()
-        val rooms = property?.rooms.toString()
+    private fun displayData(propertyRecoved: Property) {
+        binding.detailTextAgentResponse.text = propertyRecoved.agent
+        binding.detailTextKindResponse.text = propertyRecoved.kind
+        binding.detailTextPriceResponse.text = adaptPriceView(propertyRecoved.price.toString())
+        binding.detailTextDescriptionResponse.text = propertyRecoved.description
+        binding.detailTextSurfaceResponse.text = propertyRecoved.surface.toString()
+        val rooms = propertyRecoved.rooms.toString()
         binding.detailTextRoomsResponse.text = rooms
-        binding.detailTextLocationAddressResponse.text = property!!.address
-        binding.detailTextLocationPostalCodeResponse.text = property!!.postalCode.toString()
-        binding.detailTextLocationCityResponse.text = property!!.cityAddress
-        if (property!!.sold) {
-            binding.detailTextSoldDate.text = convertToDate(property!!.launchOrSellDate)
+        binding.detailTextLocationAddressResponse.text = propertyRecoved.address
+        binding.detailTextLocationPostalCodeResponse.text = propertyRecoved.postalCode.toString()
+        binding.detailTextLocationCityResponse.text = propertyRecoved.cityAddress
+        if (propertyRecoved.sold) {
+            binding.detailTextSoldDate.text = convertToDate(propertyRecoved.launchOrSellDate)
         } else {
             binding.detailTextSold.isVisible = false
             binding.detailTextSoldDate.isVisible = false
@@ -176,7 +198,13 @@ class PropertyDetailFragment : Fragment() {
 
     private fun displayInterestPoints(interestList: List<PointsOfInterest>) {
         val yes = "Yes"
-        for (item in interestList) {
+        val no = "No"
+        binding.detailTextSchoolResponse.text = no
+        binding.detailTextParkResponse.text = no
+        binding.detailTextTransportResponse.text = no
+        binding.detailTextShopResponse.text = no
+
+        interestList.map { item ->
             if (item.pointOfInterest.equals("School"))
                 binding.detailTextSchoolResponse.text = yes
             if (item.pointOfInterest.equals("Park"))
@@ -199,7 +227,53 @@ class PropertyDetailFragment : Fragment() {
     }
 
     private fun displayPhotos(photos: List<Photo?>) {
-        when (photos.size) {
+        binding.detailCard1.isVisible = false
+        binding.detailCard2.isVisible = false
+        binding.detailCard3.isVisible = false
+        binding.detailCard4.isVisible = false
+        binding.detailCard5.isVisible = false
+        binding.detailCard6.isVisible = false
+
+        when(photos.size){
+
+            1 -> {
+                binding.detailCard1.isVisible = true
+
+            }
+            2 -> {
+                binding.detailCard1.isVisible = true
+                binding.detailCard2.isVisible = true
+            }
+            3 -> {
+                binding.detailCard1.isVisible = true
+                binding.detailCard2.isVisible = true
+                binding.detailCard3.isVisible = true
+
+            }
+            4 -> {
+                binding.detailCard1.isVisible = true
+                binding.detailCard2.isVisible = true
+                binding.detailCard3.isVisible = true
+                binding.detailCard4.isVisible = true
+            }
+            5 -> {
+                binding.detailCard1.isVisible = true
+                binding.detailCard2.isVisible = true
+                binding.detailCard3.isVisible = true
+                binding.detailCard4.isVisible = true
+                binding.detailCard5.isVisible = true
+            }
+            6 -> {
+                binding.detailCard1.isVisible = true
+                binding.detailCard2.isVisible = true
+                binding.detailCard3.isVisible = true
+                binding.detailCard4.isVisible = true
+                binding.detailCard5.isVisible = true
+                binding.detailCard6.isVisible = true
+            }
+        }
+
+        /*when (photos.size) {
             0 -> {
                 binding.detailCard1.isVisible = false
                 binding.detailCard2.isVisible = false
@@ -233,7 +307,7 @@ class PropertyDetailFragment : Fragment() {
             5 -> {
                 binding.detailCard6.isVisible = false
             }
-        }
+        }*/
         if (photos.isNotEmpty()) {
             recovePhotos(photos)
         }

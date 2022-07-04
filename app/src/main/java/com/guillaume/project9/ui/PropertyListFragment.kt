@@ -2,11 +2,11 @@ package com.guillaume.project9.ui
 
 import android.content.Intent
 import android.os.Bundle
-import android.os.Handler
 import android.view.*
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -21,22 +21,24 @@ import com.guillaume.project9.model.Property
 import com.guillaume.project9.viewmodel.PropertyViewModel
 import com.guillaume.project9.viewmodel.SearchViewModel
 import com.guillaume.project9.viewmodel.SearchViewModelFactory
-import java.util.*
-import kotlin.concurrent.schedule
+import com.guillaume.project9.viewmodel.UtilsViewModel
 
 
 class PropertyListFragment : Fragment(), Communicator {
 
     private lateinit var binding: FragmentPropertyListBinding
-    private var recyclerView: RecyclerView? = null
     private val adapter = PropertyListAdapter(this@PropertyListFragment)
     private var propertyListSearched: MutableList<Property> = mutableListOf()
     private var databaseList: List<Property> = listOf()
 
     private lateinit var searchVM: SearchViewModel
+    private val utilsVM: UtilsViewModel by activityViewModels()
     private lateinit var searchVMfactory: SearchViewModelFactory
     private val propertyVM: PropertyViewModel by viewModels {
         PropertyViewModelFactory((activity?.application as PropertysApplication).repository)
+    }
+    private val isLandTablet by lazy {
+        resources.getBoolean(R.bool.is_tablet)
     }
 
     override fun onCreateView(
@@ -51,22 +53,9 @@ class PropertyListFragment : Fragment(), Communicator {
             SearchViewModelFactory((activity?.application as PropertysApplication).repository)
         searchVM = ViewModelProvider(this, searchVMfactory)[SearchViewModel::class.java]
 
+        configureRecyclerView()
 
-        recyclerView = binding.propertysRecycleView
-        recyclerView!!.adapter = adapter
-        recyclerView!!.layoutManager = LinearLayoutManager(activity)
-        recyclerView!!.addItemDecoration(
-            DividerItemDecoration(
-                requireContext(),
-                DividerItemDecoration.HORIZONTAL
-            )
-        )
-        recyclerView!!.addItemDecoration(
-            DividerItemDecoration(
-                requireContext(),
-                DividerItemDecoration.VERTICAL
-            )
-        )
+
         propertyVM.allPropertys.observe(requireActivity(), Observer { propertys ->
             databaseList = propertys
             propertys?.let { adapter.submitList(it) }
@@ -75,10 +64,35 @@ class PropertyListFragment : Fragment(), Communicator {
         return binding.root
     }
 
+    private fun configureRecyclerView(){
+        val recyclerView = binding.propertysRecycleView
+        recyclerView.adapter = adapter
+        recyclerView.layoutManager = LinearLayoutManager(activity)
+        recyclerView.addItemDecoration(
+            DividerItemDecoration(
+                requireContext(),
+                DividerItemDecoration.HORIZONTAL
+            )
+        )
+        recyclerView.addItemDecoration(
+            DividerItemDecoration(
+                requireContext(),
+                DividerItemDecoration.VERTICAL
+            )
+        )
+    }
+
     override fun passData(property: Property) {
-        val intent = Intent(requireActivity(), PropertyDetailActivity::class.java)
-        intent.putExtra("property", property)
-        startActivity(intent)
+        if(isLandTablet){
+            val detailFragment = activity?.supportFragmentManager?.findFragmentById(R.id.propertyDetailFragment)
+            utilsVM.saveProperty(property)
+            (detailFragment as PropertyDetailFragment).setPropertyDisplayed()
+
+        } else {
+            val intent = Intent(requireActivity(), PropertyDetailActivity::class.java)
+            intent.putExtra("property", property)
+            startActivity(intent)
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -88,8 +102,12 @@ class PropertyListFragment : Fragment(), Communicator {
 
     override fun onPrepareOptionsMenu(menu: Menu) {
         super.onPrepareOptionsMenu(menu)
-        val edit = menu.findItem(R.id.action_bar_edit_property)
-        edit.isVisible = false
+        if(!isLandTablet) {
+            val edit = menu.findItem(R.id.action_bar_edit_property)
+            edit.isVisible = false
+            val loanSimulator = menu.findItem(R.id.action_bar_loan_simulator)
+            loanSimulator.isVisible = false
+        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -109,7 +127,7 @@ class PropertyListFragment : Fragment(), Communicator {
         val kinds = resources.getStringArray(R.array.Kind)
         val kindsAdapter = ArrayAdapter(
             requireContext(),
-            androidx.appcompat.R.layout.support_simple_spinner_dropdown_item,
+            R.layout.search_spinner_items,
             kinds
         )
         val kindSpinner = view.findViewById<Spinner>(R.id.search_dialog_kind_spinner)
@@ -117,7 +135,7 @@ class PropertyListFragment : Fragment(), Communicator {
         val photoNumber = resources.getStringArray(R.array.Photo_number)
         val photoNumberAdapter = ArrayAdapter(
             requireContext(),
-            androidx.appcompat.R.layout.support_simple_spinner_dropdown_item,
+            R.layout.search_spinner_items,
             photoNumber
         )
         val photoNumberSpinner = view.findViewById<Spinner>(R.id.search_dialog_photos_spinner)
@@ -135,7 +153,6 @@ class PropertyListFragment : Fragment(), Communicator {
         val buttonReset = view.findViewById<Button>(R.id.search_dialog_button_reset)
 
         builder.setView(view)
-        builder.setTitle(getString(R.string.looking_for))
 
         buttonOK.setOnClickListener {
             propertyListSearched.clear()
@@ -194,7 +211,6 @@ class PropertyListFragment : Fragment(), Communicator {
         if (smallSurface == "") smallSurface = "1.0"
         if (tallSurface == "") tallSurface = "500000.0"
         if (photoNumber != "None") photos = photoNumber.toInt()
-        val interestTest = interest.size
         if (interest.isNotEmpty()) interestNumber = interest.size
 
 
@@ -223,23 +239,17 @@ class PropertyListFragment : Fragment(), Communicator {
                                     if (city != "") {
                                         if (photos <= photosInt && interestNumber <= interestCounter && property.cityAddress == city) {
                                             addOrNotInSearchList(property)
-                                            //propertyListSearched.add(property)
                                         }
                                     } else {
                                         if (photos <= photosInt && interestNumber <= interestCounter) {
                                             addOrNotInSearchList(property)
-                                            //propertyListSearched.add(property)
                                         }
                                     }
-
-
 
                                     if (propertyListSearched.isEmpty()) returnNoProperty()
                                     else adapter.submitList(propertyListSearched)
                                 })
                         })
-                } else {
-                    returnNoProperty()
                 }
             }
             if (it.isEmpty()) {

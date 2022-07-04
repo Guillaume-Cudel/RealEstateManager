@@ -53,14 +53,8 @@ class PropertyListAdapter(private val listener: Communicator): ListAdapter<Prope
         holder.city.text = current.cityAddress
 
 
-        /*if(current.sold){
-            val soldDate = "Sold : $stringDate"
-            holder.date.text = soldDate
-        } else {
-            holder.soldText.isVisible = false
-            holder.date.text = stringDate
-        }*/
-
+        val propertyImage: Drawable? = AppCompatResources.getDrawable(context, property_photo)
+        holder.photo.setImageDrawable(propertyImage)
 
             if (current.photo != null) {
                 val photosString: String? = current.photo
@@ -72,15 +66,15 @@ class PropertyListAdapter(private val listener: Communicator): ListAdapter<Prope
                         .into(holder.photo)
                 //holder.photo.setImageBitmap(myBitmap)
 
-            }else{
+            }/*else{
                 val propertyImage: Drawable? = AppCompatResources.getDrawable(context, property_photo)
                 holder.photo.setImageDrawable(propertyImage)
-                    /*Glide.with(context)
+                    *//*Glide.with(context)
                         .load(R.drawable.property_photo)
                         .centerCrop()
-                        .into(holder.photo)*/
+                        .into(holder.photo)*//*
 
-        }
+        }*/
         holder.photo.setBackgroundResource(R.drawable.round_outline)
         setImageIfSold(current.sold, stringDate, holder.date, holder.soldText)
 
@@ -91,15 +85,13 @@ class PropertyListAdapter(private val listener: Communicator): ListAdapter<Prope
     }
 
     private fun setImageIfSold(sold: Boolean, stringDate: String, dateTextView: TextView, soldTextView: TextView){
+        soldTextView.isVisible = false
+        dateTextView.text = stringDate
 
         if(sold){
             val soldDate = "Sold : $stringDate"
             dateTextView.text = soldDate
-        } else {
-            //holder.soldText.isVisible = false
-            //holder.date
-                soldTextView.isVisible = false
-            dateTextView.text = stringDate
+            soldTextView.isVisible = true
         }
 
     }

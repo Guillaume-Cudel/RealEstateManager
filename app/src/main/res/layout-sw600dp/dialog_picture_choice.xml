@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="500dp"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <TextView
+        android:id="@+id/alert_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:text="@string/what_to_do"
+        android:textStyle="bold"
+        android:textSize="40sp"
+        android:textColor="@color/overlay_light_primary"/>
+
+    <ImageView
+        android:id="@+id/alert_remove_image"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/alert_title"
+        android:layout_marginTop="@dimen/margin_40_dp"
+        android:layout_marginStart="@dimen/margin_90_dp"
+        android:src="@drawable/ic_baseline_delete_24"
+        app:tint="@color/overlay_light_primaryContainer"
+        android:clickable="true"
+        android:focusable="true"/>
+
+    <TextView
+        android:id="@+id/alert_remove_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/alert_remove_image"
+        app:layout_constraintStart_toStartOf="@id/alert_remove_image"
+        app:layout_constraintEnd_toEndOf="@id/alert_remove_image"
+        android:layout_marginTop="@dimen/margin_10_dp"
+        android:text="@string/remove"
+        android:textSize="30sp"
+        android:textColor="@color/overlay_light_primary"/>
+
+    <ImageView
+        android:id="@+id/alert_gallery_image"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/alert_remove_image"
+        android:layout_marginEnd="@dimen/margin_90_dp"
+        android:src="@drawable/ic_baseline_add_photo_alternate_24"
+        app:tint="@color/overlay_light_primaryContainer"
+        android:clickable="true"
+        android:focusable="true"/>
+
+    <TextView
+        android:id="@+id/alert_gallery_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="@id/alert_remove_text"
+        app:layout_constraintStart_toStartOf="@id/alert_gallery_image"
+        app:layout_constraintEnd_toEndOf="@id/alert_gallery_image"
+        android:text="@string/add_modify"
+        android:textColor="@color/overlay_light_primary"
+        android:textSize="30sp"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

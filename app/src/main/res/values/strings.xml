@@ -90,6 +90,7 @@
     <string name="total_amount">Total amount</string>
     <string name="quit">Quit</string>
     <string name="calcul">Calcul</string>
+    <string name="loan_simulator">Loan simulator</string>
 
     <string-array name="Estate_agents">
         <item>Mickael Bordier</item>

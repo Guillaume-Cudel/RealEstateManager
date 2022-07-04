@@ -3,33 +3,60 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="app/src/main/res/drawable-xhdpi/ic_baseline_map_24.xml" value="0.1" />
+        <entry key="app/src/main/res/drawable-xxhdpi/ic_baseline_map_24.xml" value="0.1" />
+        <entry key="app/src/main/res/drawable-xxxhdpi/ic_baseline_map_24.xml" value="0.1" />
         <entry key="app/src/main/res/drawable/baseline_edit_note_24.xml" value="0.1" />
         <entry key="app/src/main/res/drawable/ic_baseline_add_24.xml" value="0.1025" />
         <entry key="app/src/main/res/drawable/ic_baseline_camera_24.xml" value="0.1575" />
         <entry key="app/src/main/res/drawable/ic_baseline_delete_24.xml" value="0.1" />
+        <entry key="app/src/main/res/drawable/ic_baseline_map_24.xml" value="0.1" />
         <entry key="app/src/main/res/drawable/ic_baseline_search.xml" value="0.1025" />
         <entry key="app/src/main/res/drawable/ic_launcher_background.xml" value="0.1345" />
         <entry key="app/src/main/res/drawable/round.xml" value="0.1595" />
         <entry key="app/src/main/res/drawable/round_outline.xml" value="0.1345" />
+        <entry key="app/src/main/res/layout-h600dp/activity_add_photo.xml" value="0.28229166666666666" />
+        <entry key="app/src/main/res/layout-h600dp/activity_add_property.xml" value="0.1" />
+        <entry key="app/src/main/res/layout-h600dp/activity_edit_property.xml" value="0.28229166666666666" />
+        <entry key="app/src/main/res/layout-h600dp/activity_main.xml" value="0.22962962962962963" />
+        <entry key="app/src/main/res/layout-h600dp/activity_property_detail.xml" value="0.1" />
+        <entry key="app/src/main/res/layout-h600dp/dialog_loan_simulator.xml" value="0.28229166666666666" />
+        <entry key="app/src/main/res/layout-h600dp/fragment_property_detail.xml" value="0.1" />
+        <entry key="app/src/main/res/layout-h600dp/item_property.xml" value="0.27794871794871795" />
+        <entry key="app/src/main/res/layout-land/activity_main.xml" value="0.2046875" />
+        <entry key="app/src/main/res/layout-sw600dp-land/activity_main.xml" value="0.18698517298187808" />
+        <entry key="app/src/main/res/layout-sw600dp-land/item_property.xml" value="0.13797364085667216" />
+        <entry key="app/src/main/res/layout-sw600dp/activity_add_photo.xml" value="0.165" />
+        <entry key="app/src/main/res/layout-sw600dp/activity_add_property.xml" value="0.22322899505766064" />
+        <entry key="app/src/main/res/layout-sw600dp/activity_main.xml" value="0.1" />
+        <entry key="app/src/main/res/layout-sw600dp/dialog_picture_choice.xml" value="0.22322899505766064" />
+        <entry key="app/src/main/res/layout-sw600dp/dialog_picture_search.xml" value="0.203125" />
+        <entry key="app/src/main/res/layout-sw600dp/estate_agent_list_items.xml" value="0.209375" />
+        <entry key="app/src/main/res/layout-sw600dp/fragment_property_detail.xml" value="0.22322899505766064" />
+        <entry key="app/src/main/res/layout-sw600dp/search_spinner_items.xml" value="0.22322899505766064" />
         <entry key="app/src/main/res/layout-sw600dp/tablet_test.xml" value="0.1" />
         <entry key="app/src/main/res/layout-v31/item_property.xml" value="0.28229166666666666" />
+        <entry key="app/src/main/res/layout-w600dp/activity_main.xml" value="0.40625" />
+        <entry key="app/src/main/res/layout-w800dp/activity_main.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_add_photo.xml" value="0.28229166666666666" />
         <entry key="app/src/main/res/layout/activity_add_property.xml" value="0.25" />
         <entry key="app/src/main/res/layout/activity_edit_property.xml" value="0.25" />
-        <entry key="app/src/main/res/layout/activity_main.xml" value="0.125" />
+        <entry key="app/src/main/res/layout/activity_main.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_maps.xml" value="0.28229166666666666" />
         <entry key="app/src/main/res/layout/activity_property_detail.xml" value="0.28229166666666666" />
         <entry key="app/src/main/res/layout/dialog_loan_simulator.xml" value="0.25" />
         <entry key="app/src/main/res/layout/dialog_picture_choice.xml" value="0.25" />
-        <entry key="app/src/main/res/layout/dialog_picture_search.xml" value="0.262037037037037" />
+        <entry key="app/src/main/res/layout/dialog_picture_search.xml" value="0.653012048192771" />
         <entry key="app/src/main/res/layout/estate_agent_list_items.xml" value="0.28229166666666666" />
         <entry key="app/src/main/res/layout/fragment_property_detail.xml" value="0.25" />
-        <entry key="app/src/main/res/layout/fragment_property_list.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/fragment_property_list.xml" value="0.165" />
         <entry key="app/src/main/res/layout/item_property.xml" value="0.1896551724137931" />
+        <entry key="app/src/main/res/layout/search_spinner_items.xml" value="0.6775" />
+        <entry key="app/src/main/res/layout/test.xml" value="0.32875" />
         <entry key="app/src/main/res/menu-v26/details_menu.xml" value="0.13148148148148148" />
         <entry key="app/src/main/res/menu-v26/menu.xml" value="0.28229166666666666" />
         <entry key="app/src/main/res/menu/details_menu.xml" value="0.10625" />
-        <entry key="app/src/main/res/menu/menu.xml" value="0.165" />
+        <entry key="app/src/main/res/menu/menu.xml" value="0.1" />
         <entry key="app/src/main/res/xml/file_paths.xml" value="0.14537037037037037" />
       </map>
     </option>
