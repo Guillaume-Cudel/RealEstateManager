@@ -24,11 +24,17 @@
         <entry key="app/src/main/res/layout-h600dp/fragment_property_detail.xml" value="0.1" />
         <entry key="app/src/main/res/layout-h600dp/item_property.xml" value="0.27794871794871795" />
         <entry key="app/src/main/res/layout-land/activity_main.xml" value="0.2046875" />
+        <entry key="app/src/main/res/layout-land/dialog_loan_simulator.xml" value="0.42277486910994766" />
+        <entry key="app/src/main/res/layout-land/dialog_picture_search.xml" value="0.955" />
+        <entry key="app/src/main/res/layout-land/item_property.xml" value="0.5252918287937743" />
+        <entry key="app/src/main/res/layout-landscape/item_property.xml" value="0.6775" />
+        <entry key="app/src/main/res/layout-sw600dp-land/activity_add_photo.xml" value="0.1330313014827018" />
         <entry key="app/src/main/res/layout-sw600dp-land/activity_main.xml" value="0.18698517298187808" />
         <entry key="app/src/main/res/layout-sw600dp-land/item_property.xml" value="0.13797364085667216" />
         <entry key="app/src/main/res/layout-sw600dp/activity_add_photo.xml" value="0.165" />
         <entry key="app/src/main/res/layout-sw600dp/activity_add_property.xml" value="0.22322899505766064" />
         <entry key="app/src/main/res/layout-sw600dp/activity_main.xml" value="0.1" />
+        <entry key="app/src/main/res/layout-sw600dp/dialog_loan_simulator.xml" value="0.22322899505766064" />
         <entry key="app/src/main/res/layout-sw600dp/dialog_picture_choice.xml" value="0.22322899505766064" />
         <entry key="app/src/main/res/layout-sw600dp/dialog_picture_search.xml" value="0.203125" />
         <entry key="app/src/main/res/layout-sw600dp/estate_agent_list_items.xml" value="0.209375" />
@@ -50,7 +56,7 @@
         <entry key="app/src/main/res/layout/estate_agent_list_items.xml" value="0.28229166666666666" />
         <entry key="app/src/main/res/layout/fragment_property_detail.xml" value="0.25" />
         <entry key="app/src/main/res/layout/fragment_property_list.xml" value="0.165" />
-        <entry key="app/src/main/res/layout/item_property.xml" value="0.1896551724137931" />
+        <entry key="app/src/main/res/layout/item_property.xml" value="0.22857142857142856" />
         <entry key="app/src/main/res/layout/search_spinner_items.xml" value="0.6775" />
         <entry key="app/src/main/res/layout/test.xml" value="0.32875" />
         <entry key="app/src/main/res/menu-v26/details_menu.xml" value="0.13148148148148148" />

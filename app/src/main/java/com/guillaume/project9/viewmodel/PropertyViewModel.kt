@@ -35,12 +35,12 @@ class PropertyViewModel(private val repository: PropertyRepository): ViewModel()
         return liveData!!
     }
 
-    fun getPointsOfInterestByProperty(propertyId: String?): LiveData<List<PointsOfInterest>>{
+    fun getPointsOfInterestByProperty(propertyId: String?): LiveData<List<PointsOfInterest>>?{
         var pointsOfInterest: LiveData<List<PointsOfInterest>>? = null
         viewModelScope.launch {
             pointsOfInterest = repository.getPointsOfInterest(propertyId).asLiveData()
         }
-        return pointsOfInterest!!
+        return pointsOfInterest
     }
 
     /*private val _listInterestLiveData = MutableLiveData<List<PointsOfInterest>>()

@@ -34,7 +34,7 @@ class EditPropertyActivity : AppCompatActivity() {
     private var interestList: List<PointsOfInterest> = listOf()
     private var stringInterestList: MutableSet<String?> = mutableSetOf()
     private var photosList: List<Photo> = listOf()
-    private var photosMutableList: MutableSet<Photo> = mutableSetOf()
+    private var photosMutableList: MutableList<Photo> = mutableListOf()
     private var cardChoosed: Int = 0
     private var sold = false
     private val propertyVM: PropertyViewModel by viewModels {
@@ -48,7 +48,7 @@ class EditPropertyActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         property = intent.extras!!.getSerializable("property_to_edit") as Property
-        propertyVM.getPointsOfInterestByProperty(property!!.propertyId).observe(this, Observer {
+        propertyVM.getPointsOfInterestByProperty(property!!.propertyId)?.observe(this, Observer {
             interestList = it
             displayInterest(interestList)
             stringInterestList = setStringInterestList(interestList)
@@ -57,7 +57,7 @@ class EditPropertyActivity : AppCompatActivity() {
 
         propertyVM.getPhotosByProperty(property!!.propertyId).observe(this, Observer {
             photosList = it
-            photosMutableList = photosList.toMutableSet()
+            //photosMutableList = it.toMutableList()
             if (photosList.isNotEmpty()) {
                 displayPhotos(photosList)
             }
@@ -142,7 +142,7 @@ class EditPropertyActivity : AppCompatActivity() {
     }
 
     private fun setStringInterestList(interestList: List<PointsOfInterest?>): MutableSet<String?> {
-        var stringList: MutableSet<String?> = mutableSetOf()
+        val stringList: MutableSet<String?> = mutableSetOf()
         for (item in interestList) {
             stringList.add(item?.pointOfInterest)
         }
@@ -254,6 +254,7 @@ class EditPropertyActivity : AppCompatActivity() {
 
         removeOldPhotoData(image, card)
         val addPhoto = Photo(property!!.propertyId, photo, photoDescription)
+
         photosMutableList.add(addPhoto)
         image.setImageBitmap(myBitmap)
     }
@@ -275,6 +276,8 @@ class EditPropertyActivity : AppCompatActivity() {
         val postalCode = binding.editPropertyAddressPostalCodeEdit.editableText?.toString()
         val city = binding.editPropertyAddressCityEdit.editableText?.toString()
         var dateFormatted = property!!.launchOrSellDate
+        var propertyPhotoDisplayed = property?.photo
+        if(photosMutableList.size >= 1) propertyPhotoDisplayed = photosMutableList[0].photos
         if (sold) {
             dateFormatted = getDate()
         }
@@ -291,7 +294,7 @@ class EditPropertyActivity : AppCompatActivity() {
                 surface!!.toDouble(),
                 rooms!!.toInt(),
                 description,
-                property?.photo,
+                propertyPhotoDisplayed,
                 address!!,
                 postalCode!!.toInt(),
                 city!!,
@@ -303,7 +306,8 @@ class EditPropertyActivity : AppCompatActivity() {
 
             propertyVM.updateProperty(property!!)
             propertyVM.deletePhotos(property!!.propertyId)
-            propertyVM.insertPhotos(photosMutableList.toList())
+            val newPhotosList: List<Photo> = photosMutableList.toList()
+            propertyVM.insertPhotos(newPhotosList)
             propertyVM.deleteInterest(property!!.propertyId)
             propertyVM.insertPointsOfInterest(newInterestList.toList())
             backToPropertyList()
@@ -345,7 +349,7 @@ class EditPropertyActivity : AppCompatActivity() {
 
     private fun convertInterestStringToClass(interest: MutableSet<String?>): MutableSet<PointsOfInterest?> {
         var point: PointsOfInterest?
-        var interestClass: MutableSet<PointsOfInterest?> = mutableSetOf()
+        val interestClass: MutableSet<PointsOfInterest?> = mutableSetOf()
         for (item in interest) {
             point = PointsOfInterest(property!!.propertyId, item)
             interestClass.add(point)

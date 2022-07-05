@@ -102,12 +102,16 @@ class PropertyListFragment : Fragment(), Communicator {
 
     override fun onPrepareOptionsMenu(menu: Menu) {
         super.onPrepareOptionsMenu(menu)
-        if(!isLandTablet) {
-            val edit = menu.findItem(R.id.action_bar_edit_property)
-            edit.isVisible = false
-            val loanSimulator = menu.findItem(R.id.action_bar_loan_simulator)
-            loanSimulator.isVisible = false
-        }
+        val add = menu.findItem(R.id.action_bar_add_property)
+        add.isVisible = true
+        val search = menu.findItem(R.id.action_bar_search_property)
+        search.isVisible = true
+        val map = menu.findItem(R.id.action_bar_map)
+        map.isVisible = true
+        val edit = menu.findItem(R.id.action_bar_edit_property)
+        edit.isVisible = false
+        val loanSimulator = menu.findItem(R.id.action_bar_loan_simulator)
+        loanSimulator.isVisible = false
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -227,7 +231,7 @@ class PropertyListFragment : Fragment(), Communicator {
                             val photosInt = photosListSaved.size
 
                             propertyVM.getPointsOfInterestByProperty(property.propertyId)
-                                .observe(requireActivity(), Observer { interestListSaved ->
+                                ?.observe(requireActivity(), Observer { interestListSaved ->
                                     var interestCounter = 0
                                     interest.map { word ->
                                         interestListSaved.map { pointOfInterest ->

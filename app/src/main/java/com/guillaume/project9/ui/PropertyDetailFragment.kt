@@ -51,7 +51,6 @@ class PropertyDetailFragment : Fragment() {
         setHasOptionsMenu(true)
 
         if(isLandTablet){
-            //todo configure it
             if(property == null){
                 propertyVM.allPropertys.observe(requireActivity(), Observer {
                     property = it[0]
@@ -81,12 +80,18 @@ class PropertyDetailFragment : Fragment() {
 
     override fun onPrepareOptionsMenu(menu: Menu) {
         super.onPrepareOptionsMenu(menu)
-        if(!isLandTablet) {
-            val add = menu.findItem(R.id.action_bar_add_property)
+        val add = menu.findItem(R.id.action_bar_add_property)
+        val search = menu.findItem(R.id.action_bar_search_property)
+        val map = menu.findItem(R.id.action_bar_map)
+
+
+        if(isLandTablet) {
+            add.isVisible = true
+            search.isVisible = true
+            map.isVisible = true
+        }else{
             add.isVisible = false
-            val search = menu.findItem(R.id.action_bar_search_property)
             search.isVisible = false
-            val map = menu.findItem(R.id.action_bar_map)
             map.isVisible = false
         }
     }
@@ -125,7 +130,7 @@ class PropertyDetailFragment : Fragment() {
         propertyVM.getPointsOfInterestByProperty(property!!.propertyId)*/
         val id = item.propertyId
 
-        propertyVM.getPointsOfInterestByProperty(id).observe(requireActivity(), Observer {
+        propertyVM.getPointsOfInterestByProperty(id)?.observe(requireActivity(), Observer {
             val interest = it
             displayInterestPoints(interest)
         })
